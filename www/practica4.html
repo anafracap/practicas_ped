@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Enunciados de las prácticas</title>
+  </head>
+  <body>
+<!-- page header -->
+
+
+<h1>Práctica 4: Cliente-Servidor mediante <em>sockets UDS</em></h1>
+
+
+<h2>Situación inicial</h2>
+
+En esta práctica se intenta realizar un sencillo sistema cliente-servidor
+utilizando <em>sockets UDS</em> (sockets locales del dominio Unix).
+
+El grupo de prácticas deberá entregar un código fuente, con su documentación
+asociada, que cumpla los requisitos que se proponen en el enunciado.
+
+
+<h2>Enunciado</h2>
+
+El grupo se comportará como un equipo de desarrollo, entregando al profesor,
+que actuará como cliente, el código fuente y los manuales de instalación y
+de usuario de dicho código.
+
+El grupo elegirá la aplicación que <strong>no</strong> realizó en la
+práctica anterior (es decir, la que realizó en la práctica 2) y la
+resolverá utilizando <em>sockets UDS</em> en vez de <em>pipes</em> o
+<em>FIFOs</em>.
+
+La aplicación deberá poderse ejecutar mediante el comando <code>make</code>.
+Los procesos cliente y servidor de la aplicación deberán contener en sus
+nombres las cadenas <code>cli4</code> y <code>serv4</code> respectivamente.
+Dichos nombres pueden comprobarse mediante el comando <code>ps</code> de Unix.
+
+
+<h2>Requisitos</h2>
+
+Los requisitos obligatorios y opcionales son exactamente los mismos que en
+la práctica anterior, excepción hecha del cambio del método de resolución,
+que pasa de <em>FIFOs</em> a <em>sockets UDS</em> y de los que se detallan
+a continuación.
+
+Todos los <em>sockets UDS</em> que se necesiten para la resolución de esta
+práctica deberán ser creados en el directorio <code>/tmp</code> y deberán ser
+personalizados de alguna forma para cada grupo de prácticas (por ejemplo
+incluyendo el número del grupo de prácticas, etc.) para evitar colisiones
+con las prácticas de otros grupos.
+
+Los siguientes requisitos pasan de opcionales a obligatorios:
+
+  *  El servidor debe permitir la conexión de más de un cliente; es decir,
+     no debe finalizar su ejecución tras atender a un cliente; el método de
+     parada del servidor deberá ser especificado por el grupo de desarrollo
+     en la documentación de usuario. Permitir la conexión de más de un cliente
+     al servidor simultáneamente sigue siendo un requisito opcional.
+
+  *  La dirección del <em>socket UDS</em> en el que el servidor atiende
+     peticiones ha de ser configurable, tanto en el cliente como en el
+     servidor, por el método que el grupo estime oportuno. Se entiende por
+     <strong>configurable</strong> el hecho de que no sea necesaria la
+     recompilación del código (ni del cliente ni del servidor) para la
+     modificación de la dirección del socket.
+
+El resto de los requisitos no varían.
+
+
+<h2><a href="entrega.html">Forma y plazo de entrega</a></h2>
+
+<!-- page footer -->
+  </body>
+</html>

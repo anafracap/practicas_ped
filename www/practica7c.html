@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Enunciados de las prácticas</title>
+  </head>
+  <body>
+<!-- page header -->
+
+
+<h1>Práctica 7. Sistema Cliente-Servidor de charlas (<em>chat</em>) mediante
+<em>sockets de Internet</em></h1>
+
+
+<h2>Situación inicial</h2>
+
+En esta práctica se intenta realizar un sistema cliente-servidor de una
+aplicación de <em>chat</em> utilizando <em>sockets de Internet</em>
+(sockets del dominio PF_INET).
+Se aconseja que se utilicen <em>sockets TCP de Internet</em> (orientados
+a conexión) para su resolución pero no es obligatorio.
+
+El grupo de prácticas deberá entregar un código fuente, con su documentación
+asociada, que cumpla los requisitos que se proponen en el enunciado.
+
+
+<h2>Enunciado</h2>
+
+El grupo se comportará como un equipo de desarrollo, entregando al profesor,
+que actuará como cliente, el código fuente y los manuales de instalación y
+de usuario de dicho código.
+
+El grupo resolverá la aplicación planteada utilizando <em>sockets de
+Internet</em>.
+
+La aplicación deberá poderse ejecutar mediante el comando <code>make</code>.
+Los procesos cliente y servidor de la aplicación deberán contener en sus
+nombres las cadenas <code>cli7</code> y <code>serv7</code> respectivamente.
+Dichos nombres pueden comprobarse mediante el comando <code>ps</code> de Unix.
+
+La aplicación consiste en un sistema de charlas on-line (<em>chat</em>),
+formado por un servidor al cual se conectan los clientes. La mecánica es
+sencilla:
+
+  *  Un cliente se identifica al servidor mediante un nombre (el <em>nick</em>).
+
+  *  Una vez autentificado y conectado un cliente, éste puede enviar mensajes
+     (líneas de texto) al servidor, que al recibirlos los reenviará a todos
+     los clientes conectados en ese momento, precediendo su envío con el
+     identificador del cliente que originó el mensaje.
+
+  *  De esta forma todos los clientes ven todos los mensajes enviados, y cada
+     uno de ellos participa enviando sus propios mensajes.
+
+  *  Por último, el cliente decide desconectarse en un momento dado y abandona
+     la conversación.
+
+
+<h2>Requisitos obligatorios</h2>
+
+  *  Cada cliente deberá identificarse al servidor de <em>chat</em> mediante
+     un nombre; el servidor forzará a que dicha identidad sea única, debiendo
+     rechazar conexiones de identidades duplicadas.
+
+  *  El servidor permanecerá arrancado, aceptando peticiones de clientes, de
+     forma continua. El sistema de parada del servidor quedará a criterio del
+     grupo de desarrollo, no teniendo que ver en ningún caso con los clientes
+     conectados.
+
+  *  Al detenerse el servidor, éste deberá informar a sus clientes para que
+     realicen la oportuna desconexión.
+
+  *  El servidor debe permitir la conexión de más de un cliente de forma
+     simultánea (esto implica que el servidor no debe terminar tras atender
+     a un cliente).
+
+  *  Cliente y servidor configurables.
+
+  *  Documentación obligatoria:
+     <ul>
+	<li>Manual de usuario</li>
+	<li>Manual de instalación</li>
+	<li>Documento de arquitectura</li>
+     </ul>
+
+
+<h2>Requisitos opcionales</h2>
+
+  *  Autentificación basada en un sistema de <em>passwords</em>, en ningún
+     caso guardadas "en texto claro" en ninguna parte.
+
+  *  Que el servidor permita la conexión de clientes de otros grupos de
+     prácticas.
+
+  *  Que el cliente sea capaz de conectarse a servidores de otros grupos
+     de prácticas.
+
+  *  Que el servidor sea un demonio según el concepto Unix, con emisión de
+     mensajes de diagnóstico al <em>syslog</em> del sistema.
+
+  *  Funcionar (tanto cliente como servidor) en otro sistema operativo que
+     disponga de <em>sockets de Internet</em>. Se valorará en particular la
+     interacción cliente-servidor entre dos sistemas operativos diferentes.
+
+  *  Funcionar (tanto cliente como servidor) usando los dos protocolos de
+     <em>sockets de Internet</em> (TCP y UDP).
+
+  *  Almacenamiento de conversaciones: al conectarse un cliente, o mediante
+     un comando, el servidor le vuelca la conversión desde un punto temporal
+     especificado de alguna forma.
+
+  *  Canales temáticos: al conectarse un cliente primero elige un canal,
+     y la conversión sólo se produce entre los clientes conectados a dicho
+     canal.
+
+  *  Moderación: comandos especiales de clientes para la creación/borrado de
+     canales, gestión del histórico de conversaciones (si lo hay),
+     desconexión de usuarios maleducados, etc.
+
+  *  Mensajes privados: un cliente envía un mensaje al servidor, pero dicho
+     mensaje sólo es para otro cliente en particular.
+
+  *  Documentación opcional:
+     <ul>
+	<li>Documento de diseño detallado</li>
+	<li>Manual de administración</li>
+     </ul>
+
+
+<h2><a href="entrega.html">Forma y plazo de entrega</a></h2>
+
+<!-- page footer -->
+  </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Enunciados de las prácticas</title>
+  </head>
+  <body>
+<!-- page header -->
+
+
+<h1>Práctica 7. Sistema Cliente-Servidor de noticias (<em>news</em>) mediante
+<em>sockets de Internet</em></h1>
+
+
+<h2>Situación inicial</h2>
+
+En esta práctica se intenta realizar un sistema cliente-servidor de una
+aplicación de <em>news</em> utilizando <em>sockets de Internet</em>
+(sockets del dominio PF_INET).
+Se aconseja que se utilicen <em>sockets TCP de Internet</em> (orientados
+a conexión) para su resolución pero no es obligatorio.
+
+El grupo de prácticas deberá entregar un código fuente, con su documentación
+asociada, que cumpla los requisitos que se proponen en el enunciado.
+
+
+<h2>Enunciado</h2>
+
+El grupo se comportará como un equipo de desarrollo, entregando al profesor,
+que actuará como cliente, el código fuente y los manuales de instalación y
+de usuario de dicho código.
+
+El grupo resolverá la aplicación planteada utilizando <em>sockets de
+Internet</em>.
+
+La aplicación deberá poderse ejecutar mediante el comando <code>make</code>.
+Los procesos cliente y servidor de la aplicación deberán contener en sus
+nombres las cadenas <code>cli7</code> y <code>serv7</code> respectivamente.
+Dichos nombres pueden comprobarse mediante el comando <code>ps</code> de Unix.
+
+La aplicación consiste en un sistema de publicaciún de noticias
+(<em>news</em>), formado por un servidor al cual se conectan los clientes.
+La mecánica es sencilla:
+
+  *  Un cliente se identifica al servidor mediante un nombre (el <em>nick</em>).
+
+  *  Una vez autentificado y conectado un cliente, éste puede pedir las
+     noticias publicadas por todos los clientes en los últimos N días,
+     o bien publicar un nuevo artículo en el servidor.
+
+  *  Para publicar un artículo, basta con que el cliente envíe una línea de
+     texto conteniendo el asunto del artículo, y el texto (que puede tener
+     mús de una línea de texto) a continuaciún. La delimitaciún de ambos
+     campos queda a criterio del equipo de desarrollo, pero deberú estar
+     perfectamente documentada.
+
+  *  El servidor, al recibir un artículo nuevo, lo publicarú a todos los
+     clientes conectados en ese momento, precediendo su envío con la
+     identificaciún del cliente que originú el mensaje.
+
+  *  De esta forma todos los clientes ven todos los artículos publicados, y
+     cada uno de ellos participa publicando sus propios artículos.
+
+  *  Por último, el cliente decide desconectarse en un momento dado y
+     abandona la conexión.
+
+
+<h2>Requisitos obligatorios</h2>
+
+  *  Cada cliente deberá identificarse al servidor de <em>chat</em> mediante
+     un nombre; el servidor forzará a que dicha identidad sea única, debiendo
+     rechazar conexiones de identidades duplicadas.
+
+  *  El servidor permanecerá arrancado, aceptando peticiones de clientes, de
+     forma continua. El sistema de parada del servidor quedará a criterio del
+     grupo de desarrollo, no teniendo que ver en ningún caso con los clientes
+     conectados.
+
+  *  Al detenerse el servidor, éste deberá informar a sus clientes para que
+     realicen la oportuna desconexión.
+
+  *  El servidor debe permitir la conexión de más de un cliente de forma
+     simultánea (esto implica que el servidor no debe terminar tras atender
+     a un cliente).
+
+  *  El servidor debe guardar todos los artículos publicados por sus clientes,
+     convenientemente identificados, en un plazo mínimo de 4 días.
+
+  *  Cliente y servidor configurables.
+
+  *  Documentación obligatoria:
+     <ul>
+	<li>Manual de usuario</li>
+	<li>Manual de instalación</li>
+	<li>Documento de arquitectura</li>
+     </ul>
+
+
+<h2>Requisitos opcionales</h2>
+
+  *  Autentificación basada en un sistema de <em>passwords</em>, en ningún
+     caso guardadas "en texto claro" en ninguna parte.
+
+  *  Que el servidor permita la conexión de clientes de otros grupos de
+     prácticas.
+
+  *  Que el cliente sea capaz de conectarse a servidores de otros grupos
+     de prácticas.
+
+  *  Que el servidor sea un demonio según el concepto Unix, con emisión de
+     mensajes de diagnóstico al <em>syslog</em> del sistema.
+
+  *  Funcionar (tanto cliente como servidor) en otro sistema operativo que
+     disponga de <em>sockets de Internet</em>. Se valorará en particular la
+     interacción cliente-servidor entre dos sistemas operativos diferentes.
+
+  *  Funcionar (tanto cliente como servidor) usando los dos protocolos de
+     <em>sockets de Internet</em> (TCP y UDP).
+
+  *  Almacenamiento de noticias: mayor de los 4 días mínimos.
+
+  *  Grupos de noticias temáticos: al conectarse un cliente primero elige un
+     grupo, y la lectura o publicación de artículo sólo se produce entre los
+     clientes conectados a dicho grupo.
+
+  *  Moderación: comandos especiales de clientes para la creación/borrado de
+     grupos, gestión del histórico de noticias, desconexión de usuarios
+     maleducados, etc.
+
+  *  Contenidos multimedia: permitir mensajes con contenidos que no sean súlo
+     de texto.
+
+  *  Documentación opcional:
+     <ul>
+	<li>Documento de diseño detallado</li>
+	<li>Manual de administración</li>
+     </ul>
+
+
+<h2><a href="entrega.html">Forma y plazo de entrega</a></h2>
+
+<!-- page footer -->
+  </body>
+</html>

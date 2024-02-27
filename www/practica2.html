@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Enunciados de las prácticas</title>
+  </head>
+  <body>
+<!-- page header -->
+
+
+<h1>Práctica 2: Cliente-Servidor mediante <em>pipes</em></h1>
+
+
+<h2>Situación inicial</h2>
+
+En esta práctica se intenta realizar un sencillo sistema cliente-servidor
+utilizando <em>pipes</em> (tuberías) de Unix.
+
+El grupo de prácticas deberá entregar un código fuente, con su documentación
+asociada, que cumpla los requisitos que se proponen en el enunciado.
+
+
+<h2>Enunciado</h2>
+
+El grupo se comportará como un equipo de desarrollo, entregando al profesor,
+que actuará como cliente, el código fuente y los manuales de instalación y
+de usuario de dicho código.
+
+El grupo podrá elegir uno de los dos posibles aplicaciones que se muestran
+a continuación. Sea cual sea la aplicación elegida, deberá poderse ejecutar
+mediante el comando <code>make</code>. Los procesos cliente y servidor de
+la aplicación deberán contener en sus nombres las cadenas <code>cli2</code>
+y <code>serv2</code> respectivamente. Dichos nombres pueden comprobarse
+mediante el comando <code>ps</code> de Unix.
+En el caso de que la aplicación se realice mediante un único ejecutable,
+éste se llamará <code>cliserv2</code> pero deberá generar un mínimo de dos
+procesos cuyos nombre deberían ser <code>cli2</code> y <code>serv2</code>.
+
+<h3>Aplicación 1: cliente-servidor de ficheros</h3>
+
+Se trata de realizar una sencillo caso de aplicación cliente-servidor
+de ficheros.
+
+El cliente se conectará al servidor mediante una tubería (<em>pipe</em>)
+y le enviará el <em>path</em> completo de un fichero.
+El servidor responderá con los contenidos de dicho fichero, o un mensaje de
+error si no pudiera proporcionárselos.
+El cliente mostrará la respuesta recibida por el servidor en su salida
+standard.
+
+<h3>Aplicación 2: cliente-servidor de fecha y hora</h3>
+
+De nuevo un caso sencillo de aplicación cliente-servidor.
+
+El cliente se conectará al servidor mediante una tubería (<em>pipe</em>),
+momento en el cual el servidor le contestará con una cadena de caracteres
+que represente la fecha y la hora (con precisión mínima de 1 segundo) en el
+formato standard internacional asociado a la localización geográfica (país
+y zona horaria) del sistema en el que se ejecuta el servidor.
+El cliente mostrará la respuesta recibida por el servidor en su salida
+standard.
+
+
+<h2>Requisitos obligatorios</h2>
+
+  *  En las dos aplicaciones ambos procesos terminarán una vez realizada
+     una interacción básica; no es necesario que se ejecuten en bucle.
+
+  *  Tampoco es necesario que sean capaces de atender a más de un cliente
+     simultáneamente.
+
+
+<h2>Requisitos opcionales</h2>
+
+  *  Permitir la conexión de más de un cliente al servidor simultáneamente
+     (implica que el servidor no debe terminar tras atender a un cliente).
+
+  *  Que el servidor permita la conexión de clientes de otros grupos de
+     prácticas.
+
+  *  Que el cliente sea capaz de conectarse a servidores de otros grupos de
+     prácticas.
+
+  *  Funcionar en otro sistema operativo que disponga de pipes.
+
+  *  Que tanto el cliente como el servidor sean configurables, en particular
+     en lo tocante al nombrado necesario para las primitivas de comunicación
+     entre procesos.
+
+  *  Documentación opcional:
+     <ul>
+	<li>Documento de arquitectura</li>
+	<li>Documento de diseño</li>
+	<li>Manual de administración</li>
+     </ul>
+
+  *  Realización de las dos aplicaciones.
+
+
+<h2><a href="entrega.html">Forma y plazo de entrega</a></h2>
+
+<!-- page footer -->
+  </body>
+</html>
