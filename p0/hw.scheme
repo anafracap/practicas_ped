@@ -1,4 +1,0 @@
-; Hello World in Scheme
-
-(display "Hello, world!")
-(newline)
