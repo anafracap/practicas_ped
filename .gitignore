@@ -6,6 +6,9 @@ dist/
 # Compiled Java class files
 *.class
 
+# Environments
+ped/
+
 # Compiled Python bytecode
 *.py[cod]
 
