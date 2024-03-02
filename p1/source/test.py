@@ -17,3 +17,10 @@ class TestClass(unittest.TestCase):
         partida.jugar_ronda()
         self.assertTrue(partida.esta_terminada_la_partida())
 
+    def test_partida_no_terminada(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        self.assertFalse(partida.esta_terminada_la_partida())
+
