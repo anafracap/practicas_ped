@@ -5,16 +5,8 @@ class TestClass(unittest.TestCase):
     def test_hay_10_rondas(self):
         partida = Partida()
         partida.iniciar_partida()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
+        for i in range(10):
+            partida.jugar_ronda()
         self.assertTrue(partida.esta_terminada_la_partida())
 
     def test_partida_no_terminada(self):
@@ -27,15 +19,10 @@ class TestClass(unittest.TestCase):
     def test_te_has_pasado_de_rondas(self):
         partida = Partida()
         partida.iniciar_partida()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
-        partida.jugar_ronda()
+        for i in range(10):
+            partida.jugar_ronda()
         with pytest.raises(Exception, match='NoJuegesMas'):
             partida.jugar_ronda()
+
+    def test_contador_partida_horrible(self):
+        None
