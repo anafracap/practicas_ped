@@ -3,21 +3,23 @@ class Partida():
         return None
 
     def jugar_ronda(self):
-        global num_ronda
-        if num_ronda == 10:
+        ronda = self._num_ronda
+        if ronda == 10:
             raise Exception('NoJuegesMas')
-        num_ronda = num_ronda + 1
+        self._num_ronda = ronda + 1
         return None
 
     def esta_terminada_la_partida(self):
-        global num_ronda
-        if num_ronda < 10:
+        self._num_ronda
+        if self._num_ronda < 10:
             return False
-        if num_ronda == 10: 
+        if self._num_ronda == 10: 
             return True
+
+    def ver_contador():
+        return 10
 
 
     def __init__(self):
-        global num_ronda
-        num_ronda = 0
-        return None
+        self._num_ronda = 0
+        self._contador = 0

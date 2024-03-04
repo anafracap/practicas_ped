@@ -23,6 +23,11 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda()
         with pytest.raises(Exception, match='NoJuegesMas'):
             partida.jugar_ronda()
-
-    def test_contador_partida_horrible(self):
-        None
+'''
+    def test_contador_ronda_abierta(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        for i in range(10):
+            partida.jugar_ronda(0,1)
+        self.assertEquals(partida.ver_contador(), 10)
+'''
