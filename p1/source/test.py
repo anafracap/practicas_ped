@@ -24,3 +24,18 @@ class TestClass(unittest.TestCase):
         partida.jugar_ronda()
         self.assertFalse(partida.esta_terminada_la_partida())
 
+    def test_te_has_pasado_de_rondas(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        partida.jugar_ronda()
+        with pytest.raises(Exception, match='NoJuegesMas'):
+            partida.jugar_ronda()

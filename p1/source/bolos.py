@@ -1,11 +1,12 @@
 class Partida():
     global contador
-    contador = 0
     def iniciar_partida(self):
         return None
 
     def jugar_ronda(self):
         global contador
+        if contador == 10:
+            raise Exception('NoJuegesMas')
         contador = contador + 1
         return None
 
@@ -18,4 +19,6 @@ class Partida():
 
 
     def __init__(self):
+        global contador
+        contador = 0
         return None
