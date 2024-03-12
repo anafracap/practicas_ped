@@ -2,11 +2,13 @@ class Partida():
     def iniciar_partida(self):
         return None
 
-    def jugar_ronda(self, turno1, turno2 = None):
+    def jugar_ronda(self, turno1, turno2 = 0):
         ronda = self._num_ronda
         if ronda == 10:
             raise Exception('NoJuegesMas')
         if self._tiradas_a_sumar > 0:
+            if isinstance(turno1, str):
+                turno1 = 10
             self._sumar_bonus(turno1)
         if self._tiradas_a_sumar > 0:
             self._sumar_bonus(turno2)

@@ -54,4 +54,14 @@ class TestClass(unittest.TestCase):
         for i in range(8):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 16)
+    
+    def test_pleno_tras_otro_pleno(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda('X')
+        partida.jugar_ronda('X')
+        for i in range(8):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 30)
 
+    #def test_tres_plenos_seguidos(self):
