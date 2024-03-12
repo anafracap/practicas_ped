@@ -11,7 +11,8 @@ class Partida():
             if isinstance(turno2, str):
                 turno2 = 10 - turno1
                 self._ronda_semi(turno2)
-            self._tirar_ronda(turno2)
+            else:
+                self._tirar_ronda(turno2)
         self._num_ronda = ronda + 1
        
 
@@ -48,11 +49,9 @@ class Partida():
             else:
                 self._tiradas_a_sumar = self._tiradas_a_sumar + 2
             self._contador = self._contador + 10
-            return None
-        elif turno == '/':
+        elif isinstance(turno, int):
             self._tiradas_a_sumar = self._tiradas_a_sumar + 1
-            self._contador = self._contador + 10
-            return None
+            self._contador = self._contador + turno
 
     def esta_terminada_la_partida(self):
         if self._num_ronda < 10:

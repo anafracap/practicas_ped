@@ -100,3 +100,12 @@ class TestClass(unittest.TestCase):
         for i in range(9):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 10)
+
+    def test_semiplepleno_y_ronda_abierta(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda(3, '/')
+        partida.jugar_ronda(1,0)
+        for i in range(8):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 12)
