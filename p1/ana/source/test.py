@@ -128,3 +128,12 @@ class TestClass(unittest.TestCase):
         for i in range(7):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 29)
+
+    def test_pleno_y_semi(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda('X') # 10 +10 
+        partida.jugar_ronda(3, '/') #10
+        for i in range(8):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 30)
