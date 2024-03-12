@@ -46,3 +46,12 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 10)
 
+    def test_pleno_mas_ronda_abierta(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda('X')
+        partida.jugar_ronda(1,2)
+        for i in range(8):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 16)
+
