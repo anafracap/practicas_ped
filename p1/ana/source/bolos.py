@@ -13,10 +13,13 @@ class Partida():
        
 
     def _tirar_ronda(self, turno):
+        print('tiradas: ', self._tiradas_a_sumar)
+        print('----------------resultado: ', turno, self._contador)
         if self._tiradas_a_sumar > 0:
-            if turno == 'X':
-                turno = 10
-            self._sumar_bonus(turno)
+            t = turno
+            if t == 'X':
+                t = 10
+            self._sumar_bonus(t)
         if isinstance(turno, str):
             self._calcular_tiradas_raras(turno)
         else:
@@ -28,11 +31,12 @@ class Partida():
 
     def _calcular_tiradas_raras(self, turno):
         if turno == 'X':
-            self._tiradas_a_sumar = 2
+            self._tiradas_a_sumar = self._tiradas_a_sumar + 2
+            print('-------------------------------------------------HOLA')
             self._contador = self._contador + 10
             return None
-        if turno == '/':
-            self._tiradas_a_sumar = 1
+        elif turno == '/':
+            self._tiradas_a_sumar = self._tiradas_a_sumar + 1
             self._contador = self._contador + 10
             return None
 

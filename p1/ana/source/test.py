@@ -58,10 +58,20 @@ class TestClass(unittest.TestCase):
     def test_pleno_tras_otro_pleno(self):
         partida = Partida()
         partida.iniciar_partida()
-        partida.jugar_ronda('X')
-        partida.jugar_ronda('X')
+        partida.jugar_ronda('X') #10+10
+        partida.jugar_ronda('X') #10
         for i in range(8):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 30)
+
+    def test_pleno_pleno_ronda_abierta(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda('X') # 10+10+5
+        partida.jugar_ronda('X') # 10+5
+        partida.jugar_ronda(5,0) # 5
+        for i in range(7):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 45)
 
     #def test_tres_plenos_seguidos(self):
