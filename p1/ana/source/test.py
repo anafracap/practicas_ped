@@ -167,6 +167,14 @@ class TestClass(unittest.TestCase):
         partida.jugar_ronda('X', 7, 2) # 10 + 9 + 9
         self.assertTrue(partida.ver_contador(), 28)
 
+    def test_pleno_ronda_10_son_3_turnos_otro_pleno(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        partida.jugar_ronda('X', 'X', 2) # 10 + 10 + 9 + 9
+        self.assertTrue(partida.ver_contador(), 38)
+
 
 
     #def test_no_puedes_tirar_mas_de_10_bolos_por_ronda(self):

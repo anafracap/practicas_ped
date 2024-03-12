@@ -8,9 +8,11 @@ class Partida():
             raise Exception('NoJuegesMas')
         self._tirar_ronda(turno1)
         if turno2 != None:
-            if isinstance(turno2, str):
+            if turno2 == '/':
                 turno2 = 10 - turno1
                 self._ronda_semi(turno2)
+            elif turno2 == 'X':
+                self._tirar_ronda(turno2)
             else:
                 self._tirar_ronda(turno2)
         if turno3 != None:
