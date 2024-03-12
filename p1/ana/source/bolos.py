@@ -8,6 +8,9 @@ class Partida():
             raise Exception('NoJuegesMas')
         self._tirar_ronda(turno1)
         if turno2 != None:
+            if isinstance(turno2, str):
+                turno2 = 10 - turno1
+                self._ronda_semi(turno2)
             self._tirar_ronda(turno2)
         self._num_ronda = ronda + 1
        
@@ -25,6 +28,11 @@ class Partida():
         else:
             self._contador = self._contador + turno
 
+    def _ronda_semi(self, turno):
+        if self._tiradas_a_sumar > 0 or self._tirada_bonus_2 > 0:
+            self._sumar_bonus(turno)
+        self._calcular_tiradas_raras(turno)
+
     def _sumar_bonus(self, turno):
         if self._tiradas_a_sumar > 0:
             self._tiradas_a_sumar = self._tiradas_a_sumar - 1   
@@ -39,7 +47,6 @@ class Partida():
                 self._tirada_bonus_2 = self._tirada_bonus_2 +2
             else:
                 self._tiradas_a_sumar = self._tiradas_a_sumar + 2
-            print('-------------------------------------------------HOLA')
             self._contador = self._contador + 10
             return None
         elif turno == '/':
