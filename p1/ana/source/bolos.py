@@ -12,14 +12,13 @@ class Partida():
             return None
 
     def esta_terminada_la_partida(self):
-        self._num_ronda
         if self._num_ronda < 10:
             return False
         if self._num_ronda == 10: 
             return True
 
     def ver_contador(self):
-        return sel._contador
+        return self._contador
 
 
     def __init__(self):
