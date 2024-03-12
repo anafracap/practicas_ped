@@ -74,4 +74,13 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 45)
 
-    #def test_tres_plenos_seguidos(self):
+    def test_tres_plenos_seguidos(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda('X') # 10A+10B+10C
+        partida.jugar_ronda('X') # 10B+10C+1D
+        partida.jugar_ronda('X') # 10+1+4
+        partida.jugar_ronda(1,4) # 1+4
+        for i in range(6):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 71)
