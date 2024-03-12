@@ -84,3 +84,11 @@ class TestClass(unittest.TestCase):
         for i in range(6):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 71)
+
+    def test_semiplepleno_primera_ronda(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda(0, '/')
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 10)
