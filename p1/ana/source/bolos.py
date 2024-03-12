@@ -6,6 +6,9 @@ class Partida():
         ronda = self._num_ronda
         if ronda == 10:
             raise Exception('NoJuegesMas')
+        elif isinstance(turno1, str):
+            self._contador = 10
+            return None
         else:
             self._num_ronda = ronda + 1
             self._contador = self._contador + turno1 + turno2
