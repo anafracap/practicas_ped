@@ -147,3 +147,14 @@ class TestClass(unittest.TestCase):
         for i in range(7):
             partida.jugar_ronda(0,0)
         self.assertEqual(partida.ver_contador(), 36)
+
+    def test_semi_pleno_semi(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        partida.jugar_ronda(3, '/') # 10 +10
+        partida.jugar_ronda('X') # 10 + 10 
+        partida.jugar_ronda(3, '/') #10 +3
+        partida.jugar_ronda(3, 0) # 3
+        for i in range(6):
+            partida.jugar_ronda(0,0)
+        self.assertEqual(partida.ver_contador(), 56)
