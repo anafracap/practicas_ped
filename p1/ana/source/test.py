@@ -185,14 +185,14 @@ class TestClass(unittest.TestCase):
     
 
     
-    def test_no_puedes_tirar_mas_de_10_bolos_por_ronda(self):
+    def test_no_puedes_tirar_mas_de_10_bolos_por_ronda_normal(self):
         partida = Partida()
         partida.iniciar_partida()
         with pytest.raises(Exception, match='DemasiadosBolos'):
             partida.jugar_ronda(9,2)
     
     
-    #def test_no_puedes_tirar_pleno_segundo_tiro(self):
+    #def test_no_puedes_tirar_pleno_segundo_tiro_en_ronda_1_a_9(self):
     #def test_no_puedes_tirar_semi_primer_tiro(self):
     #def test_no_puedes_tirar_menos_de_0_bolos_por_ronda(self):
-    #def test_no_puedes_tirar_pleno_y_semi_misma_ronda(self):
+    #def test_no_puedes_tirar_semi_tras_pleno(self):

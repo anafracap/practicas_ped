@@ -4,15 +4,13 @@ class Partida():
 
     def jugar_ronda(self, turno1, turno2 = None, turno3 = None):
         ronda = self._num_ronda
-        if ronda == 10:
+        if self.esta_terminada_la_partida():
             raise Exception('NoJuegesMas')
         self._tirar_ronda(turno1)
         if turno2 != None:
             if turno2 == '/':
                 turno2 = 10 - turno1
                 self._ronda_semi(turno2)
-            elif turno2 == 'X':
-                self._tirar_ronda(turno2)
             elif isinstance(turno1, int) and (turno1 + turno2) > 10:
                 raise Exception('DemasiadosBolos')
             else:
