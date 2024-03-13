@@ -165,20 +165,36 @@ class TestClass(unittest.TestCase):
         for i in range(9):
             partida.jugar_ronda(0,0)
         partida.jugar_ronda('X', 7, 2) # 10 + 9 + 9
-        self.assertTrue(partida.ver_contador(), 28)
-
+        self.assertEqual(partida.ver_contador(), 28)
+'''
     def test_pleno_ronda_10_son_3_turnos_otro_pleno(self):
         partida = Partida()
         partida.iniciar_partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
-        partida.jugar_ronda('X', 'X', 2) # 10 + 10 + 9 + 9
-        self.assertTrue(partida.ver_contador(), 38)
+        partida.jugar_ronda('X', 'X', 9) # 10 + 10 + 9 +10 + 9 +9
+        self.assertEqual(partida.ver_contador(), 57)
 
+    def test_semi_ronda_10_son_3_turnos(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        partida.jugar_ronda(7, '/', 2) # 10 + 9 + 9
+        self.assertTrue(partida.ver_contador(), 28)
+    
 
-
+    
     #def test_no_puedes_tirar_mas_de_10_bolos_por_ronda(self):
+    #    partida = Partida()
+    #    partida.iniciar_partida()
+    #    with pytest.raises(Exception, match='DemasiadosBolos'):
+    #        partida.jugar_ronda(9,2)
+    
+    
     #def test_no_puedes_tirar_pleno_segundo_tiro(self):
     #def test_no_puedes_tirar_semi_primer_tiro(self):
     #def test_no_puedes_tirar_menos_de_0_bolos_por_ronda(self):
     #def test_no_puedes_tirar_pleno_y_semi_misma_ronda(self):
+
+'''
