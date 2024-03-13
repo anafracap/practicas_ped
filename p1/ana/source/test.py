@@ -166,7 +166,7 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda(0,0)
         partida.jugar_ronda('X', 7, 2) # 10 + 9 + 9
         self.assertEqual(partida.ver_contador(), 28)
-'''
+
     def test_pleno_ronda_10_son_3_turnos_otro_pleno(self):
         partida = Partida()
         partida.iniciar_partida()
@@ -180,8 +180,8 @@ class TestClass(unittest.TestCase):
         partida.iniciar_partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
-        partida.jugar_ronda(7, '/', 2) # 10 + 9 + 9
-        self.assertTrue(partida.ver_contador(), 28)
+        partida.jugar_ronda(7, '/', 2) # 10 + 2  +2
+        self.assertEqual(partida.ver_contador(), 14)
     
 
     
@@ -197,4 +197,3 @@ class TestClass(unittest.TestCase):
     #def test_no_puedes_tirar_menos_de_0_bolos_por_ronda(self):
     #def test_no_puedes_tirar_pleno_y_semi_misma_ronda(self):
 
-'''
