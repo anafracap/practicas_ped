@@ -13,6 +13,8 @@ class Partida():
                 self._ronda_semi(turno2)
             elif turno2 == 'X':
                 self._tirar_ronda(turno2)
+            elif isinstance(turno1, int) and (turno1 + turno2) > 10:
+                raise Exception('DemasiadosBolos')
             else:
                 self._tirar_ronda(turno2)
         if turno3 != None:
