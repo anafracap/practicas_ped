@@ -6,6 +6,8 @@ class Partida():
         ronda = self._num_ronda
         if self.esta_terminada_la_partida():
             raise Exception('NoJuegesMas')
+        elif ronda < 9 and turno3:
+            raise Exception('DemasiadasBolasLanzadas')
         self._tirar_ronda(turno1)
         if turno2 != None:
             if turno2 == '/':
