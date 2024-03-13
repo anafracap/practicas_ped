@@ -16,6 +16,8 @@ class Partida():
             else:
                 self._tirar_ronda(turno2)
         if turno3 != None:
+            if isinstance(turno2, int) and (turno2 + turno3) > 10:
+                raise Exception('DemasiadosBolos')
             self._tirar_ronda(turno3)
         self._num_ronda = ronda + 1
        
