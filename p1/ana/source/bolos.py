@@ -10,7 +10,9 @@ class Partida():
             raise Exception('DemasiadasBolasLanzadas')
         self._tirar_ronda(turno1)
         if turno2 != None:
-            if turno2 == '/':
+            if ronda < 9 and turno2 == 'X':
+                raise Exception('PlenoExtraviado')
+            elif turno2 == '/':
                 turno2 = 10 - turno1
                 self._ronda_semi(turno2)
             elif isinstance(turno1, int) and (turno1 + turno2) > 10:
