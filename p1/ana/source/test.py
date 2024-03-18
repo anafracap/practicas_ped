@@ -215,5 +215,24 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='SemiExtraviado'):
             partida.jugar_ronda('/', 1)
 
-    #def test_no_puedes_tirar_menos_de_0_bolos_por_ronda(self):
+    def test_no_puedes_tirar_menos_de_0_bolos_por_ronda_tiro1(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        with pytest.raises(Exception, match='NoTrampasNegativas'):
+            partida.jugar_ronda(-1, 1)
+'''
+    def test_no_puedes_tirar_menos_de_0_bolos_por_ronda_tiro2(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        with pytest.raises(Exception, match='NoTrampasNegativas'):
+            partida.jugar_ronda(1, -1)
+
+    def test_no_puedes_tirar_menos_de_0_bolos_por_ronda_tiro3(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        with pytest.raises(Exception, match='NoTrampasNegativas'):
+            partida.jugar_ronda('X', 1, -1)
+   '''
     #def test_no_puedes_tirar_semi_tras_pleno(self):
