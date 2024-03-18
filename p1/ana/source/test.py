@@ -226,7 +226,7 @@ class TestClass(unittest.TestCase):
         partida.iniciar_partida()
         with pytest.raises(Exception, match='NoTrampasNegativas'):
             partida.jugar_ronda(1, -1)
-'''
+
     def test_no_puedes_tirar_menos_de_0_bolos_por_ronda_tiro3(self):
         partida = Partida()
         partida.iniciar_partida()
@@ -234,5 +234,5 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda(0,0)
         with pytest.raises(Exception, match='NoTrampasNegativas'):
             partida.jugar_ronda('X', 1, -1)
-   '''
+
     #def test_no_puedes_tirar_semi_tras_pleno(self):
