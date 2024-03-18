@@ -235,4 +235,8 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='NoTrampasNegativas'):
             partida.jugar_ronda('X', 1, -1)
 
-    #def test_no_puedes_tirar_semi_tras_pleno(self):
+    def test_no_puedes_tirar_semi_tras_pleno(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        with pytest.raises(Exception, match='SemiExtraviado'):
+            partida.jugar_ronda('X', '/')

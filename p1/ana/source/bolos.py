@@ -16,6 +16,8 @@ class Partida():
         self._tirar_ronda(turno1)
         if turno2 != None:
             if turno2 == '/':
+                if turno1 == 'X':
+                    raise Exception('SemiExtraviado')
                 turno2 = 10 - turno1
                 self._ronda_semi(turno2)
             elif isinstance(turno1, int) and (turno1 + turno2) > 10:
