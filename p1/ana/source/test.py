@@ -209,7 +209,11 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='PlenoExtraviado'):
             partida.jugar_ronda(1, 'X')
 
+    def test_no_puedes_tirar_semi_primer_tiro(self):
+        partida = Partida()
+        partida.iniciar_partida()
+        with pytest.raises(Exception, match='SemiExtraviado'):
+            partida.jugar_ronda('/', 1)
 
-    #def test_no_puedes_tirar_semi_primer_tiro(self):
     #def test_no_puedes_tirar_menos_de_0_bolos_por_ronda(self):
     #def test_no_puedes_tirar_semi_tras_pleno(self):
