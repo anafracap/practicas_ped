@@ -224,6 +224,12 @@ class TestClass(unittest.TestCase):
         partida.jugar_ronda('X') # No se debería saber la puntuación
         self.assertEqual(partida.ver_contador(), "Todavía no se sabe")
 
+    def test_partida_no_terminada_semi_esperando_bonus(self):
+        partida = Partida()
+        partida.jugar_ronda(1,3)
+        partida.jugar_ronda(1,'/') # No se debería saber la puntuación
+        self.assertEqual(partida.ver_contador(), "Todavía no se sabe")
+
     #def test_bolos_o_int_o_X_o_/(self)
     #def test_bolos_menos_10_una_sola_bola(selfs)
     

@@ -68,6 +68,7 @@ class Partida():
         elif isinstance(turno, int):
             self._tiradas_a_sumar = self._tiradas_a_sumar + 1
             self._contador = self._contador + turno
+            self._esperando_bonus_semi = 1
 
     def esta_terminada_la_partida(self):
         if self._num_ronda < 10:
@@ -76,7 +77,7 @@ class Partida():
             return True
 
     def ver_contador(self):
-        if self._esperando_bonus_pleno == 0:
+        if self._esperando_bonus_pleno == 0 and self._esperando_bonus_semi == 0:
             return self._contador
         elif self._num_ronda < 10:
             return "Todavía no se sabe"
