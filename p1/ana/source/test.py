@@ -4,21 +4,18 @@ from bolos import Partida
 class TestClass(unittest.TestCase):
     def test_hay_10_rondas(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(10):
             partida.jugar_ronda(0,0)
         self.assertTrue(partida.esta_terminada_la_partida())
 
     def test_partida_no_terminada(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda(0,0)
         partida.jugar_ronda(0,0)
         self.assertFalse(partida.esta_terminada_la_partida())
 
     def test_te_has_pasado_de_rondas(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(10):
             partida.jugar_ronda(0,0)
         with pytest.raises(Exception, match='NoJuegesMas'):
@@ -26,21 +23,18 @@ class TestClass(unittest.TestCase):
 
     def test_contador_ronda_abierta(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(10):
             partida.jugar_ronda(0,1)
         self.assertEqual(partida.ver_contador(), 10)
 
     def test_contador_ronda_abierta_mejor(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(10):
             partida.jugar_ronda(2,0)
         self.assertEqual(partida.ver_contador(), 20)
 
     def test_pleno_primera_tirada(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda('X')
         for i in range(9):
             partida.jugar_ronda(0,0)
@@ -48,7 +42,6 @@ class TestClass(unittest.TestCase):
 
     def test_pleno_mas_ronda_abierta(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda('X')
         partida.jugar_ronda(1,2)
         for i in range(8):
@@ -57,7 +50,6 @@ class TestClass(unittest.TestCase):
     
     def test_pleno_tras_otro_pleno(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda('X') #10+10
         partida.jugar_ronda('X') #10
         for i in range(8):
@@ -66,7 +58,6 @@ class TestClass(unittest.TestCase):
 
     def test_pleno_pleno_ronda_abierta(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda('X') # 10+10+5
         partida.jugar_ronda('X') # 10+5
         partida.jugar_ronda(5,0) # 5
@@ -76,7 +67,6 @@ class TestClass(unittest.TestCase):
 
     def test_tres_plenos_seguidos(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda('X') # 10A+10B+10C
         partida.jugar_ronda('X') # 10B+10C+1D
         partida.jugar_ronda('X') # 10+1+4
@@ -87,7 +77,6 @@ class TestClass(unittest.TestCase):
 
     def test_semiplepleno_primera_ronda(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda(0, '/')
         for i in range(9):
             partida.jugar_ronda(0,0)
@@ -95,7 +84,6 @@ class TestClass(unittest.TestCase):
 
     def test_semiplepleno_bolos_repartidos(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda(3, '/')
         for i in range(9):
             partida.jugar_ronda(0,0)
@@ -103,7 +91,6 @@ class TestClass(unittest.TestCase):
 
     def test_semiplepleno_y_ronda_abierta(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda(3, '/')
         partida.jugar_ronda(1,0)
         for i in range(8):
@@ -112,7 +99,6 @@ class TestClass(unittest.TestCase):
 
     def test_semi_tras_otro_semi(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda(3, '/') #10+3
         partida.jugar_ronda(3, '/') #10
         for i in range(8):
@@ -121,7 +107,6 @@ class TestClass(unittest.TestCase):
 
     def test_semi_semi_ronda_abierta(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda(3, '/') #10 + 3
         partida.jugar_ronda(3, '/') #10 + 3
         partida.jugar_ronda(3, 0) # 3
@@ -131,7 +116,6 @@ class TestClass(unittest.TestCase):
 
     def test_pleno_y_semi(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda('X') # 10 +10 
         partida.jugar_ronda(3, '/') #10
         for i in range(8):
@@ -140,7 +124,6 @@ class TestClass(unittest.TestCase):
 
     def test_pleno_semi_ronda_abierta(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda('X') # 10 +10 
         partida.jugar_ronda(3, '/') #10 +3
         partida.jugar_ronda(3, 0) # 3
@@ -150,7 +133,6 @@ class TestClass(unittest.TestCase):
 
     def test_semi_pleno_semi(self):
         partida = Partida()
-        partida.iniciar_partida()
         partida.jugar_ronda(3, '/') # 10 +10
         partida.jugar_ronda('X') # 10 + 10 
         partida.jugar_ronda(3, '/') #10 +3
@@ -161,7 +143,6 @@ class TestClass(unittest.TestCase):
 
     def test_pleno_ronda_10_son_3_turnos(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
         partida.jugar_ronda('X', 7, 2) # 10 + 9 + 9
@@ -169,7 +150,6 @@ class TestClass(unittest.TestCase):
 
     def test_pleno_ronda_10_son_3_turnos_otro_pleno(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
         partida.jugar_ronda('X', 'X', 9) # 10 + 10 + 9 +10 + 9 +9
@@ -177,7 +157,6 @@ class TestClass(unittest.TestCase):
 
     def test_semi_ronda_10_son_3_turnos(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
         partida.jugar_ronda(7, '/', 2) # 10 + 2  +2
@@ -185,13 +164,12 @@ class TestClass(unittest.TestCase):
     
     def test_no_puedes_tirar_mas_de_10_bolos_por_ronda_normal(self):
         partida = Partida()
-        partida.iniciar_partida()
         with pytest.raises(Exception, match='DemasiadosBolos'):
             partida.jugar_ronda(9,2)
-            
+
+    # Se asume que no se renuevan los bolos en caso de rondas de bonus       
     def test_no_puedes_tirar_mas_de_10_bolos_turno2_3(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
         with pytest.raises(Exception, match='DemasiadosBolos'):
@@ -199,37 +177,31 @@ class TestClass(unittest.TestCase):
 
     def test_no_puedes_tirar_mas_de_10_bolos_turno3_ronda_1_a_9(self):
         partida = Partida()
-        partida.iniciar_partida()
         with pytest.raises(Exception, match='DemasiadasBolasLanzadas'):
             partida.jugar_ronda(1, 2, 3)
 
     def test_no_puedes_tirar_pleno_segundo_tiro_en_ronda_1_a_9(self):
         partida = Partida()
-        partida.iniciar_partida()
         with pytest.raises(Exception, match='PlenoExtraviado'):
             partida.jugar_ronda(1, 'X')
 
     def test_no_puedes_tirar_semi_primer_tiro(self):
         partida = Partida()
-        partida.iniciar_partida()
         with pytest.raises(Exception, match='SemiExtraviado'):
             partida.jugar_ronda('/', 1)
 
     def test_no_puedes_tirar_menos_de_0_bolos_por_ronda_tiro1(self):
         partida = Partida()
-        partida.iniciar_partida()
         with pytest.raises(Exception, match='NoTrampasNegativas'):
             partida.jugar_ronda(-1, 1)
 
     def test_no_puedes_tirar_menos_de_0_bolos_por_ronda_tiro2(self):
         partida = Partida()
-        partida.iniciar_partida()
         with pytest.raises(Exception, match='NoTrampasNegativas'):
             partida.jugar_ronda(1, -1)
 
     def test_no_puedes_tirar_menos_de_0_bolos_por_ronda_tiro3(self):
         partida = Partida()
-        partida.iniciar_partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
         with pytest.raises(Exception, match='NoTrampasNegativas'):
@@ -237,6 +209,23 @@ class TestClass(unittest.TestCase):
 
     def test_no_puedes_tirar_semi_tras_pleno(self):
         partida = Partida()
-        partida.iniciar_partida()
         with pytest.raises(Exception, match='SemiExtraviado'):
             partida.jugar_ronda('X', '/')
+
+    def test_partida_no_terminada_2(self):
+        partida = Partida()
+        partida.jugar_ronda(1,3)
+        partida.jugar_ronda(2,1)
+        self.assertEqual(partida.ver_contador(), 7)
+
+    def test_partida_no_terminada_pleno_esperando_bonus(self):
+        partida = Partida()
+        partida.jugar_ronda(1,3)
+        partida.jugar_ronda('X') # No se debería saber la puntuación
+        self.assertEqual(partida.ver_contador(), "Todavía no se sabe")
+
+    #def test_bolos_o_int_o_X_o_/(self)
+    #def test_bolos_menos_10_una_sola_bola(selfs)
+    
+    #TEST PARA OTRO ARCHIVO:    def test_partida_varios_jugadores
+    

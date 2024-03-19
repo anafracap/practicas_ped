@@ -1,7 +1,4 @@
 class Partida():
-    def iniciar_partida(self):
-        return None
-
     def jugar_ronda(self, turno1, turno2 = None, turno3 = None):
         ronda = self._num_ronda
         if self.esta_terminada_la_partida():
@@ -58,6 +55,7 @@ class Partida():
         if self._tirada_bonus_2 > 0:
             self._tirada_bonus_2 = self._tirada_bonus_2 - 1
             self._contador = self._contador + turno
+        self._esperando_bonus_pleno = self._esperando_bonus_pleno - 1
 
     def _calcular_tiradas_raras(self, turno):
         if turno == 'X':
@@ -65,6 +63,7 @@ class Partida():
                 self._tirada_bonus_2 = self._tirada_bonus_2 +2
             else:
                 self._tiradas_a_sumar = self._tiradas_a_sumar + 2
+            self._esperando_bonus_pleno = 2
             self._contador = self._contador + 10
         elif isinstance(turno, int):
             self._tiradas_a_sumar = self._tiradas_a_sumar + 1
@@ -77,7 +76,11 @@ class Partida():
             return True
 
     def ver_contador(self):
-        return self._contador
+        if self._esperando_bonus_pleno == 0:
+            return self._contador
+        elif self._num_ronda < 10:
+            return "Todavía no se sabe"
+        else: return self._contador
 
 
     def __init__(self):
@@ -85,3 +88,5 @@ class Partida():
         self._contador = 0
         self._tiradas_a_sumar = 0
         self._tirada_bonus_2 = 0
+        self._esperando_bonus_pleno = 0
+        self._esperando_bonus_semi = 0
