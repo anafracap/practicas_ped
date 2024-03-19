@@ -22,9 +22,12 @@ class Partida():
             else:
                 self._tirar_ronda(turno2)
         if turno3 != None:
-            if isinstance(turno2, int) and (turno2 + turno3) > 10:
+            if turno3 == '/':
+                turno3 = 10 - turno2
+                self._ronda_semi(turno3)
+            elif isinstance(turno2, int) and (turno2 + turno3) > 10:
                 raise Exception('DemasiadosBolos')
-            self._tirar_ronda(turno3)
+            else: self._tirar_ronda(turno3)
         self._num_ronda = ronda + 1
        
 
@@ -56,6 +59,7 @@ class Partida():
             self._tirada_bonus_2 = self._tirada_bonus_2 - 1
             self._contador = self._contador + turno
         self._esperando_bonus_pleno = self._esperando_bonus_pleno - 1
+        self._esperando_bonus_semi = self._esperando_bonus_semi - 1
 
     def _calcular_tiradas_raras(self, turno):
         if turno == 'X':
@@ -77,7 +81,7 @@ class Partida():
             return True
 
     def ver_contador(self):
-        if self._esperando_bonus_pleno == 0 and self._esperando_bonus_semi == 0:
+        if self._esperando_bonus_pleno < 1 and self._esperando_bonus_semi < 1:
             return self._contador
         elif self._num_ronda < 10:
             return "Todavía no se sabe"

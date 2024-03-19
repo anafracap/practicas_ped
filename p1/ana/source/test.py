@@ -230,6 +230,14 @@ class TestClass(unittest.TestCase):
         partida.jugar_ronda(1,'/') # No se debería saber la puntuación
         self.assertEqual(partida.ver_contador(), "Todavía no se sabe")
 
+    # Se asume que no se renuevan los bolos en caso de rondas de bonus       
+    def test_partida_termina_en_semi(self):
+        partida = Partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        partida.jugar_ronda('X', 9, '/')
+        self.assertEqual(partida.ver_contador(), 30)
+
     #def test_bolos_o_int_o_X_o_/(self)
     #def test_bolos_menos_10_una_sola_bola(selfs)
     
