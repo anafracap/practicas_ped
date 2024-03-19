@@ -152,8 +152,8 @@ class TestClass(unittest.TestCase):
         partida = Partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
-        partida.jugar_ronda('X', 'X', 9) # 10 + 10 + 9 +10 + 9 +9
-        self.assertEqual(partida.ver_contador(), 57)
+        partida.jugar_ronda('X', 'X', 9) # 10 + 10 + 9, +9
+        self.assertEqual(partida.ver_contador(), 38)
 
     def test_semi_ronda_10_son_3_turnos(self):
         partida = Partida()
@@ -237,6 +237,13 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda(0,0)
         partida.jugar_ronda('X', 9, '/')
         self.assertEqual(partida.ver_contador(), 30)
+    # Se asume que no se renuevan los bolos en caso de rondas de bonus       
+    def test_partida_ideal(self):
+        partida = Partida()
+        for i in range(9):
+            partida.jugar_ronda('X') # 9*30 = 270
+        partida.jugar_ronda('X', 'X', 'X') # 10 +10 +10 , 10+10
+        self.assertEqual(partida.ver_contador(), 300)
 
     #def test_bolos_o_int_o_X_o_/(self)
     #def test_bolos_menos_10_una_sola_bola(selfs)

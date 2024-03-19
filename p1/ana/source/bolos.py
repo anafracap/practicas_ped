@@ -17,6 +17,8 @@ class Partida():
                     raise Exception('SemiExtraviado')
                 turno2 = 10 - turno1
                 self._ronda_semi(turno2)
+            elif turno2 == 'X':
+                self._sumar_bonus(10)
             elif isinstance(turno1, int) and (turno1 + turno2) > 10:
                 raise Exception('DemasiadosBolos')
             else:
@@ -25,6 +27,8 @@ class Partida():
             if turno3 == '/':
                 turno3 = 10 - turno2
                 self._ronda_semi(turno3)
+            elif turno3 == 'X':
+                self._sumar_bonus(10)
             elif isinstance(turno2, int) and (turno2 + turno3) > 10:
                 raise Exception('DemasiadosBolos')
             else: self._tirar_ronda(turno3)
@@ -32,8 +36,6 @@ class Partida():
        
 
     def _tirar_ronda(self, turno):
-        print('tiradas: ', self._tiradas_a_sumar)
-        print('----------------resultado: ', turno, self._contador)
         if self._tiradas_a_sumar > 0 or self._tirada_bonus_2 > 0:
             t = turno
             if t == 'X':
