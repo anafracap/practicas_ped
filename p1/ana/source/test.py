@@ -237,6 +237,7 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda(0,0)
         partida.jugar_ronda('X', 9, '/')
         self.assertEqual(partida.ver_contador(), 30)
+   
     # Se asume que no se renuevan los bolos en caso de rondas de bonus       
     def test_partida_ideal(self):
         partida = Partida()
@@ -244,9 +245,14 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda('X') # 9*30 = 270
         partida.jugar_ronda('X', 'X', 'X') # 10 +10 +10 , 10+10
         self.assertEqual(partida.ver_contador(), 300)
-
+'''
+    def test_bolos_menos_10_una_sola_bola(selfs):
+        partida = Partida()
+        with pytest.raises(Exception, match='NoUnaBolaSuelta'):
+            partida.jugar_ronda(9)
+'''
     #def test_bolos_o_int_o_X_o_/(self)
-    #def test_bolos_menos_10_una_sola_bola(selfs)
+    
     
     #TEST PARA OTRO ARCHIVO:    def test_partida_varios_jugadores
     
