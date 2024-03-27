@@ -1,10 +1,13 @@
 class Partida():
-    def jugar_ronda(self, turno1, turno2 = None, turno3 = None):
+    def jugar_ronda(self, turno1 = None, turno2 = None, turno3 = None):
         ronda = self._num_ronda
         if self.esta_terminada_la_partida():
             raise Exception('NoJuegesMas')
         elif not isinstance(turno1, int) and turno1 != '/' and turno1 != 'X':
-            raise Exception('NomenclaturaIncorrecta')
+            if turno2 == None and turno3 == None:
+                raise Exception('LanceUnaBola')
+            else:
+                raise Exception('NomenclaturaIncorrecta')
         elif isinstance(turno1, int) and turno2 == None and turno3 == None:
             raise Exception('NoUnaBolaSuelta')
         elif isinstance(turno1, int) and turno1 > 9:

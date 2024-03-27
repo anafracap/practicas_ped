@@ -307,6 +307,13 @@ class TestClass(unittest.TestCase):
         partida = Partida()
         with pytest.raises(Exception, match='BolosExtraviados'):
             partida.jugar_ronda('X', 9)
+
+    def test_turno1_vacio (self):
+        partida = Partida()
+        with pytest.raises(Exception, match='LanceUnaBola'):
+            partida.jugar_ronda()
+
+   # def test_turno2_vacio_con_turno3_completo (self)
     
     
     #TEST PARA OTRO ARCHIVO:    def test_partida_varios_jugadores
