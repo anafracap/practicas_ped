@@ -256,13 +256,13 @@ class TestClass(unittest.TestCase):
     # test_bolos_solo_int_o_X_o_/
     def test_bolos_no_letras_raras_turno1(self):
         partida = Partida()
-        with pytest.raises(Exception, match='CaracteresErroneos'):
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
             partida.jugar_ronda('a',0)
     
     # test_bolos_solo_int_o_X_o_/
     def test_bolos_no_letras_raras_turno2(self):
         partida = Partida()
-        with pytest.raises(Exception, match='CaracteresErroneos'):
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
             partida.jugar_ronda(0,'a')
 
     # test_bolos_solo_int_o_X_o_/
@@ -270,13 +270,13 @@ class TestClass(unittest.TestCase):
         partida = Partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
-        with pytest.raises(Exception, match='CaracteresErroneos'):
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
             partida.jugar_ronda(9, '/', 'a')
 
     # test_bolos_solo_int_o_X_o_/
     def test_bolos_no_letras_raras_turno1_none(self):
         partida = Partida()
-        with pytest.raises(Exception, match='CaracteresErroneos'):
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
             partida.jugar_ronda(None,0)
            
     def test_bolos_menos_10_una_sola_bola(selfs):
@@ -284,6 +284,10 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='NoUnaBolaSuelta'):
             partida.jugar_ronda(9)
 
+    def test_bolos_mas_10_una_sola_bola(selfs):
+        partida = Partida()
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
+            partida.jugar_ronda(0, 10)
 
     #def test_pleno_con_otra_bola_detras (self)
     
