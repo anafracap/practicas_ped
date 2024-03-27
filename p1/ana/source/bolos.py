@@ -3,6 +3,8 @@ class Partida():
         ronda = self._num_ronda
         if self.esta_terminada_la_partida():
             raise Exception('NoJuegesMas')
+        elif not isinstance(turno1, int) and turno1 != '/' and turno1 != 'X':
+            raise Exception('CaracteresErroneos')
         elif ronda < 9:  # Excepciones normales
             if turno3:
                 raise Exception('DemasiadasBolasLanzadas')
