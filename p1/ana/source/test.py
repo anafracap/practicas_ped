@@ -265,12 +265,20 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='CaracteresErroneos'):
             partida.jugar_ronda(0,'a')
 
+    # test_bolos_solo_int_o_X_o_/
     def test_bolos_no_letras_raras_turno3(self):
         partida = Partida()
         for i in range(9):
             partida.jugar_ronda(0,0)
         with pytest.raises(Exception, match='CaracteresErroneos'):
             partida.jugar_ronda(9, '/', 'a')
+
+    # test_bolos_solo_int_o_X_o_/
+    def test_bolos_no_letras_raras_turno1_none(self):
+        partida = Partida()
+        with pytest.raises(Exception, match='CaracteresErroneos'):
+            partida.jugar_ronda(None,0)
+    
 
 '''            
     def test_bolos_menos_10_una_sola_bola(selfs):
