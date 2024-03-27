@@ -5,10 +5,6 @@ class Partida():
             raise Exception('NoJuegesMas')
         elif not isinstance(turno1, int) and turno1 != '/' and turno1 != 'X':
             raise Exception('CaracteresErroneos')
-        elif turno2 != None and not isinstance(turno2, int) and turno2 != '/' and turno2 != 'X':
-            raise Exception('CaracteresErroneos')
-        elif turno3 != None and not isinstance(turno3, int) and turno3 != '/' and turno3 != 'X':
-            raise Exception('CaracteresErroneos')
         elif ronda < 9:  # Excepciones normales
             if turno3:
                 raise Exception('DemasiadasBolasLanzadas')
@@ -27,6 +23,8 @@ class Partida():
                 if isinstance(turno1, int):
                     raise Exception('PlenoExtraviado')
                 self._sumar_bonus(10)
+            elif not isinstance(turno2, int):
+                raise Exception('CaracteresErroneos')
             elif isinstance(turno1, int) and (turno1 + turno2) > 10:
                 raise Exception('DemasiadosBolos')
             else:
@@ -37,6 +35,8 @@ class Partida():
                 self._ronda_semi(turno3)
             elif turno3 == 'X':
                 self._sumar_bonus(10)
+            elif not isinstance(turno3, int):
+                raise Exception('CaracteresErroneos')
             elif isinstance(turno2, int) and (turno2 + turno3) > 10:
                 raise Exception('DemasiadosBolos')
             else: self._tirar_ronda(turno3)
