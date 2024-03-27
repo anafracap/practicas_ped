@@ -41,7 +41,9 @@ class Partida():
             else:
                 self._tirar_ronda(turno2)
         if turno3 != None:
-            if turno3 == '/':
+            if turno2 == None:
+                raise Exception('NomenclaturaIncorrecta')
+            elif turno3 == '/':
                 turno3 = 10 - turno2
                 self._ronda_semi(turno3)
             elif turno3 == 'X':

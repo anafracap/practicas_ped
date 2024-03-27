@@ -313,8 +313,12 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='LanceUnaBola'):
             partida.jugar_ronda()
 
-   # def test_turno2_vacio_con_turno3_completo (self)
-    
+    def test_turno2_vacio_con_turno3_completo (self):
+        partida = Partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
+            partida.jugar_ronda('X', None, 'X')
     
     #TEST PARA OTRO ARCHIVO:    def test_partida_varios_jugadores
     
