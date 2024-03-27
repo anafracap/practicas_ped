@@ -3,7 +3,7 @@ class Partida():
         ronda = self._num_ronda
         if self.esta_terminada_la_partida():
             raise Exception('NoJuegesMas')
-        elif ronda < 9:
+        elif ronda < 9:  # Excepciones normales
             if turno3:
                 raise Exception('DemasiadasBolasLanzadas')
             elif turno1 == '/':
@@ -18,6 +18,8 @@ class Partida():
                 turno2 = 10 - turno1
                 self._ronda_semi(turno2)
             elif turno2 == 'X':
+                if isinstance(turno1, int):
+                    raise Exception('PlenoExtraviado')
                 self._sumar_bonus(10)
             elif isinstance(turno1, int) and (turno1 + turno2) > 10:
                 raise Exception('DemasiadosBolos')

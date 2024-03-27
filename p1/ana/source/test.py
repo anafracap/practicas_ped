@@ -245,13 +245,22 @@ class TestClass(unittest.TestCase):
             partida.jugar_ronda('X') # 9*30 = 270
         partida.jugar_ronda('X', 'X', 'X') # 10 +10 +10 , 10+10
         self.assertEqual(partida.ver_contador(), 300)
-'''
+
+    def test_pleno_tras_bola_uno_diferente_a_pleno(self):
+        partida = Partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        with pytest.raises(Exception, match='PlenoExtraviado'):
+            partida.jugar_ronda(9, 'X')
+
+'''            
     def test_bolos_menos_10_una_sola_bola(selfs):
         partida = Partida()
         with pytest.raises(Exception, match='NoUnaBolaSuelta'):
             partida.jugar_ronda(9)
 '''
-    #def test_bolos_o_int_o_X_o_/(self)
+    #def test_bolos_solo_int_o_X_o_/(self)
+    #def test_pleno_con_otra_bola_detras (self)
     
     
     #TEST PARA OTRO ARCHIVO:    def test_partida_varios_jugadores
