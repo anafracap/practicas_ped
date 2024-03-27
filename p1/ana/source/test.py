@@ -284,10 +284,24 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='NoUnaBolaSuelta'):
             partida.jugar_ronda(9)
 
-    def test_bolos_mas_10_una_sola_bola(selfs):
+    def test_bolos_mas_10_una_sola_bola_turno2(selfs):
         partida = Partida()
         with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
             partida.jugar_ronda(0, 10)
+
+    def test_bolos_mas_10_una_sola_bola_turno1(selfs):
+        partida = Partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
+            partida.jugar_ronda(10, 0, 0)
+
+    def test_bolos_mas_10_una_sola_bola_turno3(selfs):
+        partida = Partida()
+        for i in range(9):
+            partida.jugar_ronda(0,0)
+        with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
+            partida.jugar_ronda('X', 0, 10)
 
     #def test_pleno_con_otra_bola_detras (self)
     

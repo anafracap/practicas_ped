@@ -7,6 +7,8 @@ class Partida():
             raise Exception('NomenclaturaIncorrecta')
         elif isinstance(turno1, int) and turno2 == None and turno3 == None:
             raise Exception('NoUnaBolaSuelta')
+        elif isinstance(turno1, int) and turno1 > 9:
+            raise Exception('NomenclaturaIncorrecta')
         elif ronda < 9:  # Excepciones normales
             if turno3:
                 raise Exception('DemasiadasBolasLanzadas')
@@ -29,7 +31,7 @@ class Partida():
                 raise Exception('NomenclaturaIncorrecta')
             elif isinstance(turno1, int) and (turno1 + turno2) > 10:
                 raise Exception('DemasiadosBolos')
-            elif isinstance(turno1, int) and (turno1 + turno2) > 9:
+            elif turno2 > 9:
                 raise Exception('NomenclaturaIncorrecta')
             else:
                 self._tirar_ronda(turno2)
@@ -43,6 +45,8 @@ class Partida():
                 raise Exception('NomenclaturaIncorrecta')
             elif isinstance(turno2, int) and (turno2 + turno3) > 10:
                 raise Exception('DemasiadosBolos')
+            elif turno3 > 9:
+                raise Exception('NomenclaturaIncorrecta')
             else: self._tirar_ronda(turno3)
         self._num_ronda = ronda + 1
        
