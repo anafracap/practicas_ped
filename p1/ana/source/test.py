@@ -303,7 +303,10 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
             partida.jugar_ronda('X', 0, 10)
 
-    #def test_pleno_con_otra_bola_detras (self)
+    def test_pleno_con_otra_bola_detras_ronda_1_a_9 (self):
+        partida = Partida()
+        with pytest.raises(Exception, match='BolosExtraviados'):
+            partida.jugar_ronda('X', 9)
     
     
     #TEST PARA OTRO ARCHIVO:    def test_partida_varios_jugadores

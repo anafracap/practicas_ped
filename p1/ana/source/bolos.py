@@ -16,6 +16,8 @@ class Partida():
                 raise Exception('SemiExtraviado')
             elif turno2 == 'X':
                 raise Exception('PlenoExtraviado')
+            elif turno1 == 'X' and isinstance(turno2, int):
+                raise Exception('BolosExtraviados')
         self._tirar_ronda(turno1)
         if turno2 != None:
             if turno2 == '/':
