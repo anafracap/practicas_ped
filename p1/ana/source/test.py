@@ -278,15 +278,13 @@ class TestClass(unittest.TestCase):
         partida = Partida()
         with pytest.raises(Exception, match='CaracteresErroneos'):
             partida.jugar_ronda(None,0)
-    
-
-'''            
+           
     def test_bolos_menos_10_una_sola_bola(selfs):
         partida = Partida()
         with pytest.raises(Exception, match='NoUnaBolaSuelta'):
             partida.jugar_ronda(9)
-'''
-    #def test_bolos_solo_int_o_X_o_/(self)
+
+
     #def test_pleno_con_otra_bola_detras (self)
     
     

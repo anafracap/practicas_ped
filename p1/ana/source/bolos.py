@@ -5,6 +5,8 @@ class Partida():
             raise Exception('NoJuegesMas')
         elif not isinstance(turno1, int) and turno1 != '/' and turno1 != 'X':
             raise Exception('CaracteresErroneos')
+        elif isinstance(turno1, int) and turno2 == None and turno3 == None:
+            raise Exception('NoUnaBolaSuelta')
         elif ronda < 9:  # Excepciones normales
             if turno3:
                 raise Exception('DemasiadasBolasLanzadas')
