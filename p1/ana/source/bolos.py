@@ -126,12 +126,16 @@ class Juego():
     def ver_jugadores(self):
         return self._jugadores
 
-    def esta_terminada_la_partida(self, jugador):
-        return False
+    def jugar_ronda(self, jugador, turno1, turno2):
+        return self.jugador.jugar_ronda(turno1, turno2)
+
+    def esta_terminada_la_partida(self, jugadores):
+        for jugador in jugadores:
+            return self.jugador.esta_terminada_la_partida()
 
     def __init__(self, jugadores):
         if not jugadores:
             raise Exception('NecesitoJugadores')
         self._jugadores = jugadores
-        #for jugador in jugadores:
-        #    jugador = Partida(jugador)
+        for jugador in jugadores:
+            self.jugador = Partida(jugador)

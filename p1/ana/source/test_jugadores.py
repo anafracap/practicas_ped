@@ -21,3 +21,17 @@ class TestClass(unittest.TestCase):
         jugadores = ['Pepe']
         juego = Juego(jugadores)
         self.assertFalse(juego.esta_terminada_la_partida('Pepe'))
+
+    def test_primera_partida_un_jugador_todo_0 (self):
+        jugadores = ['Pepe']
+        juego = Juego(jugadores)
+        for i in range(10):
+            juego.jugar_ronda('Pepe', 0, 0)
+        self.assertTrue(juego.esta_terminada_la_partida('Pepe'))
+
+'''
+    def test_partida_terminada_un_jugador (self):
+        jugadores = ['Pepe']
+        juego = Juego(jugadores)
+        self.assertTrue(juego.esta_terminada_la_partida('Pepe'))
+'''
