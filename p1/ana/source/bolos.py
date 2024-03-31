@@ -124,8 +124,9 @@ class Partida():
 
 class Juego():
     def ver_jugadores(self):
-        return ['Pepe']
+        return self._jugadores
 
     def __init__(self, jugadores):
-        for jugador in jugadores:
-            jugador = Partida(jugador)
+        self._jugadores = jugadores
+        #for jugador in jugadores:
+        #    jugador = Partida(jugador)
