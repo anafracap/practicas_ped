@@ -35,3 +35,10 @@ class TestClass(unittest.TestCase):
         for i in range(10):
             juego.jugar_ronda('Pepe', 0, 0)
         self.assertEqual(juego.ver_contador('Pepe'), 0)
+
+    def test_segunda_partida_un_jugador_contador (self):
+        jugadores = ['Pepe']
+        juego = Juego(jugadores)
+        for i in range(10):
+            juego.jugar_ronda('Pepe', 1, 0)
+        self.assertEqual(juego.ver_contador('Pepe'), 10)
