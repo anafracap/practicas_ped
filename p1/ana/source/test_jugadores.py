@@ -42,3 +42,11 @@ class TestClass(unittest.TestCase):
         for i in range(10):
             juego.jugar_ronda('Pepe', 1, 0)
         self.assertEqual(juego.ver_contador('Pepe'), 10)
+
+    def test_partida_varios_jugadores_contador_diferente (self):
+        jugadores = ['Pepe', 'Paco']
+        juego = Juego(jugadores)
+        for i in range(10):
+            juego.jugar_ronda('Pepe', 1, 0)
+            juego.jugar_ronda('Paco', 0, 0)
+        self.assertEqual(juego.ver_contador(jugadores), [10,0])

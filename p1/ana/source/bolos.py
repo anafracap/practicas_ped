@@ -126,19 +126,40 @@ class Juego():
     def ver_jugadores(self):
         return self._jugadores
 
-    def jugar_ronda(self, jugador, turno1, turno2):
-        return self.jugador.jugar_ronda(turno1, turno2)
+    def jugar_ronda(self, jugadores, turno1, turno2):
+        if isinstance(jugadores, str):
+            index = self._jugadores.index(jugadores)
+            return self._partidas[index].jugar_ronda(turno1, turno2)
+        else:
+            for jugador in jugadores:
+                index = self._jugadores.index(jugador)
+                return self._partidas[index].jugar_ronda(turno1, turno2)
     
-    def ver_contador(self, jugador):
-        return self.jugador.ver_contador()
+    def ver_contador(self, jugadores):
+        if isinstance(jugadores, str):
+            index = self._jugadores.index(jugadores)
+            return self._partidas[index].ver_contador()
+        else:
+            contadores = []
+            for jugador in jugadores:
+                index = self._jugadores.index(jugador)
+                contadores.append(self._partidas[index].ver_contador())
+            return contadores
 
     def esta_terminada_la_partida(self, jugadores):
-        for jugador in jugadores:
-            return self.jugador.esta_terminada_la_partida()
+        if isinstance(jugadores, str):
+            index = self._jugadores.index(jugadores)
+            return self._partidas[index].esta_terminada_la_partida()
+        else:
+            for jugador in jugadores:
+                index = self._jugadores.index(jugador)
+                return self._partidas[index].esta_terminada_la_partida()
 
     def __init__(self, jugadores):
         if not jugadores:
             raise Exception('NecesitoJugadores')
         self._jugadores = jugadores
+        self._partidas = []
         for jugador in jugadores:
-            self.jugador = Partida(jugador)
+            partida = Partida(jugador)
+            self._partidas.append(partida)
