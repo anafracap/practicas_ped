@@ -128,6 +128,9 @@ class Juego():
 
     def jugar_ronda(self, jugador, turno1, turno2):
         return self.jugador.jugar_ronda(turno1, turno2)
+    
+    def ver_contador(self, jugador):
+        return self.jugador.ver_contador()
 
     def esta_terminada_la_partida(self, jugadores):
         for jugador in jugadores:

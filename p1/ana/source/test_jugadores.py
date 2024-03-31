@@ -29,9 +29,9 @@ class TestClass(unittest.TestCase):
             juego.jugar_ronda('Pepe', 0, 0)
         self.assertTrue(juego.esta_terminada_la_partida('Pepe'))
 
-'''
-    def test_partida_terminada_un_jugador (self):
+    def test_primera_partida_un_jugador_todo_0_contador (self):
         jugadores = ['Pepe']
         juego = Juego(jugadores)
-        self.assertTrue(juego.esta_terminada_la_partida('Pepe'))
-'''
+        for i in range(10):
+            juego.jugar_ronda('Pepe', 0, 0)
+        self.assertEqual(juego.ver_contador('Pepe'), 0)
