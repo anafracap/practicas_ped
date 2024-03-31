@@ -34,14 +34,14 @@ class TestClass(unittest.TestCase):
         juego = Juego(jugadores)
         for i in range(10):
             juego.jugar_ronda('Pepe', 0, 0)
-        self.assertEqual(juego.ver_contador('Pepe'), 0)
+        self.assertEqual(juego.ver_contador('Pepe'), [0])
 
     def test_segunda_partida_un_jugador_contador (self):
         jugadores = ['Pepe']
         juego = Juego(jugadores)
         for i in range(10):
             juego.jugar_ronda('Pepe', 1, 0)
-        self.assertEqual(juego.ver_contador('Pepe'), 10)
+        self.assertEqual(juego.ver_contador('Pepe'), [10])
 
     def test_partida_varios_jugadores_contador_diferente (self):
         jugadores = ['Pepe', 'Paco']
@@ -50,3 +50,11 @@ class TestClass(unittest.TestCase):
             juego.jugar_ronda('Pepe', 1, 0)
             juego.jugar_ronda('Paco', 0, 0)
         self.assertEqual(juego.ver_contador(jugadores), [10,0])
+
+    def test_partida_varios_jugadores_un_solo_contador (self):
+        jugadores = ['Pepe', 'Paco']
+        juego = Juego(jugadores)
+        for i in range(10):
+            juego.jugar_ronda('Pepe', 1, 0)
+            juego.jugar_ronda('Paco', 0, 0)
+        self.assertEqual(juego.ver_contador('Paco'), [0])

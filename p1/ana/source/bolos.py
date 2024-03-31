@@ -136,15 +136,15 @@ class Juego():
                 return self._partidas[index].jugar_ronda(turno1, turno2)
     
     def ver_contador(self, jugadores):
+        contadores = []
         if isinstance(jugadores, str):
             index = self._jugadores.index(jugadores)
-            return self._partidas[index].ver_contador()
+            contadores.append(self._partidas[index].ver_contador())
         else:
-            contadores = []
             for jugador in jugadores:
                 index = self._jugadores.index(jugador)
                 contadores.append(self._partidas[index].ver_contador())
-            return contadores
+        return contadores
 
     def esta_terminada_la_partida(self, jugadores):
         if isinstance(jugadores, str):
