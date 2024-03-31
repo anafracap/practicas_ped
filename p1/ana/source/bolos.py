@@ -126,6 +126,9 @@ class Juego():
     def ver_jugadores(self):
         return self._jugadores
 
+    def esta_terminada_la_partida(self, jugador):
+        return False
+
     def __init__(self, jugadores):
         if not jugadores:
             raise Exception('NecesitoJugadores')

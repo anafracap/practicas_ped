@@ -16,3 +16,8 @@ class TestClass(unittest.TestCase):
         jugadores = []
         with pytest.raises(Exception, match='NecesitoJugadores'):
             juego = Juego(jugadores)
+
+    def test_partida_no_terminada_un_jugador (self):
+        jugadores = ['Pepe']
+        juego = Juego(jugadores)
+        self.assertFalse(juego.esta_terminada_la_partida('Pepe'))
