@@ -113,10 +113,19 @@ class Partida():
         else: return self._contador
 
 
-    def __init__(self):
+    def __init__(self, jugador = None):
         self._num_ronda = 0
         self._contador = 0
         self._tiradas_a_sumar = 0
         self._tirada_bonus_2 = 0
         self._esperando_bonus_pleno = 0
         self._esperando_bonus_semi = 0
+        self._jugador = jugador
+
+class Juego():
+    def ver_jugadores(self):
+        return ['Pepe']
+
+    def __init__(self, jugadores):
+        for jugador in jugadores:
+            jugador = Partida(jugador)
