@@ -127,6 +127,8 @@ class Juego():
         return self._jugadores
 
     def __init__(self, jugadores):
+        if not jugadores:
+            raise Exception('NecesitoJugadores')
         self._jugadores = jugadores
         #for jugador in jugadores:
         #    jugador = Partida(jugador)

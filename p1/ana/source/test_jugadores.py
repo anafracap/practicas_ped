@@ -11,3 +11,8 @@ class TestClass(unittest.TestCase):
         jugadores = ['Pepe', 'Paco']
         juego = Juego(jugadores)
         self.assertEqual(juego.ver_jugadores(), jugadores)
+
+    def test_partida_sin_jugadores (self):
+        jugadores = []
+        with pytest.raises(Exception, match='NecesitoJugadores'):
+            juego = Juego(jugadores)
