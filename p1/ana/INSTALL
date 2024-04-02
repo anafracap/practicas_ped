@@ -1,0 +1,11 @@
+Se recomienda crear un 'virtual environment', para aislar las posibles instalaciones de librerías a un determinado proyecto.
+Para crear el entorno introducir en la terminal, generando el venv en un directorio superior al de trabajo:
+python -m venv /path/to/new/virtual/environment
+
+Posteriormente se activará ese entorno virtual con:
+source /path/to/venv/bin/activate
+
+Una vez activado el entorno, se podrán instalar las librerias utilizadas con:
+pip install -r requirements.txt
+
+Tras esto, ya será posible ejecutar los tests, con: 'make test'
