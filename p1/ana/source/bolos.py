@@ -126,14 +126,12 @@ class Juego():
     def ver_jugadores(self):
         return self._jugadores
 
-    def jugar_ronda(self, jugadores, turno1, turno2):
-        if isinstance(jugadores, str):
-            index = self._jugadores.index(jugadores)
-            return self._partidas[index].jugar_ronda(turno1, turno2)
+    def jugar_ronda(self, jugador, turno1, turno2):
+        index = self._jugadores.index(jugador)
+        if index != self._a_quien_le_toca:
+            raise Exception('NoEsTuTurno')
         else:
-            for jugador in jugadores:
-                index = self._jugadores.index(jugador)
-                return self._partidas[index].jugar_ronda(turno1, turno2)
+            return self._partidas[index].jugar_ronda(turno1, turno2)
     
     def ver_contador(self, jugadores):
         contadores = []
@@ -163,3 +161,4 @@ class Juego():
         for jugador in jugadores:
             partida = Partida(jugador)
             self._partidas.append(partida)
+        self._a_quien_le_toca = 0
