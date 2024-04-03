@@ -73,3 +73,9 @@ class TestClass(unittest.TestCase):
             juego.jugar_ronda('Paco', 0, 0)
         with pytest.raises(Exception, match='NoEsTuTurno'):
             juego.jugar_ronda('Paco', 0, 0)
+        
+    def test_jugador_no_en_partida (self):
+        jugadores = ['Pepe', 'Paco']
+        juego = Juego(jugadores)
+        with pytest.raises(Exception, match='NoEstasEnLaPartida'):
+            juego.jugar_ronda('Pedro', 0, 0)
