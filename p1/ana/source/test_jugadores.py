@@ -64,3 +64,12 @@ class TestClass(unittest.TestCase):
         juego = Juego(jugadores)
         with pytest.raises(Exception, match='NoEsTuTurno'):
             juego.jugar_ronda('Paco', 0, 0)
+
+    def test_manterner_el_orden_de_jugadas_en_medio_de_la_partida (self):
+        jugadores = ['Pepe', 'Paco']
+        juego = Juego(jugadores)
+        for i in range(5):
+            juego.jugar_ronda('Pepe', 1, 0)
+            juego.jugar_ronda('Paco', 0, 0)
+        with pytest.raises(Exception, match='NoEsTuTurno'):
+            juego.jugar_ronda('Paco', 0, 0)
