@@ -1,1 +1,21 @@
-Ejemplos de Hello world en diferentes lenguajes.
+## Pasos de realización de la práctica
+
+> Para la realización completa de la práctica 0 de la asignatura Programación de Entornos Distribuidos se han seguido los siguientes pasos en base al guion de práticas proporcionado por el profesor de la asignatura.
+>
+>> Paso 1: El grupo accederá al repositorio de código adecuado, situado en la dirección
+<code>http://git.eps.ceu.es/ped/pedN</code> (siendo N su número de grupo,
+que le será facilitado por el profesor); para ello necesitará unas
+credenciales (usuario y contraseña) que también le facilitará el
+profesor de la asignatura.
+>>Paso 2: En dicho repositorio encontrará una aplicación tipo "<em>Hello World</em>"
+realizada en muchos lenguajes de programación. Simplemente deberá elegir un
+lenguaje, eliminar todos los demás, cambiar la cadena
+"<code>Hello World</code>" a "<code>Hola Mundo</code>",
+rellenar brevemente los manuales de usuario (<code>README</code>)
+y de instalación (<code>INSTALL</code>),
+modificar el fichero <code>Makefile</code> para que sólo se ejecute la
+aplicación en el lenguaje elegido,
+y realizar una entrega en el repositorio de forma que se compruebe el
+correcto funcionamiento de un ciclo de desarrollo y entrega, con una
+pérdida mínima de tiempo.
+>>Paso 3: Se han realizado los cambios especificados en el guion de prácticas empleando el lenguaje de programación python.
