@@ -11,7 +11,7 @@ if pid:                   # padre - servidor
     rc.close()
     wc.close() 
     print (pid)
-    data = rs.readline()  # recibe el path completo
+    data = rs.read()  # recibe el path completo
     file = open(data.decode('utf8').strip(), 'r')
     print (file)
     content = file.read()
@@ -23,7 +23,9 @@ else:                     # hijo - cliente
     rs.close() 
     ws.close()
     print(pid)
-    message = "/path/to/file/ejemplo.txt"
+    message = "/Users/anafraile/Clases/uni-clases/23-24/sem2/ped/practicas/p2/ana/aplicacion1/ejemplo.txt"
+    #message = "/etc/services"
     wc.write(message.encode('utf8')) 
     wc.flush() 
+    wc.close()
     print(rc.readline().decode('utf8').strip())
