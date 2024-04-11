@@ -1,0 +1,4 @@
+Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar make. 
+Actualmente, para el caso de la aplicación 1, nada más funciona el código de cliente_servidor_descriptores.py, que se puede ejecutar de manera individual con make ap1_descriptores.
+
+El código se ha comprobado en un macOS 13.6.2
