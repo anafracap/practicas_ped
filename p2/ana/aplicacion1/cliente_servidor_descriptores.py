@@ -10,28 +10,22 @@ if pid:                   # padre - servidor
     os.close(rdC)
     os.close(wdC) 
     print (pid)
-    data = ""
-    while True:
-        byte = os.read(rdS, 10).decode('utf8').strip()
-        if not byte:
-            break
-        data = data + byte
+    data = os.read(rdS, 100).decode('utf8').strip()
 
     fileD = os.open(data, os.O_RDONLY) 
     
-    offset = 0
     while True:
-        bytes_sent = os.sendfile(wdS, fileD, offset, 100)
-        offset = offset + 100 
-        if not bytes_sent:
+        line = os.read(fileD, 100)
+        if not line:
             os.close(fileD)
             break
+        os.write(wdS, line)
 
 else:                     # hijo - cliente
     os.close(rdS)
     os.close(wdS) 
     print(pid)
-    message = "/Users/anafraile/Clases/uni-clases/23-24/sem2/ped/practicas/p2/ana/aplicacion1/ejemplo.txt"
+    message = "./ejemplo.txt"
     #message = "/etc/services"
     os.write(wdC, message.encode('utf8'))
     #wc.close()
