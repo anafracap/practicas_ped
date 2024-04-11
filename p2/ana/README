@@ -6,6 +6,8 @@ Su funcionamiento es el siguiente:
 El cliente se conectará al servidor mediante una tubería (pipe) y le enviará el path completo de un fichero. El servidor responderá con los contenidos de dicho fichero, o un mensaje de error si no pudiera proporcionárselos (todavía no está implementado el mensaje de error). El cliente mostrará la respuesta recibida por el servidor en su salida standard.
 
 APLICACION 2
+Esta aplicación conecta 2 procesos (cli2 y serv2) generados por un mismo ejecutable (cliserv2). 
+Su funcionamiento es el siguiente:
 El cliente se conectará al servidor mediante una tubería (pipe), momento en el cual el servidor le contestará con una cadena de caracteres que represente la fecha y la hora (con precisión mínima de 1 segundo) en el formato standard internacional asociado a la localización geográfica (país y zona horaria) del sistema en el que se ejecuta el servidor. El cliente mostrará la respuesta recibida por el servidor en su salida standard.
 
 
