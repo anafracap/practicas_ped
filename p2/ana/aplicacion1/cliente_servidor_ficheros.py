@@ -14,8 +14,12 @@ if pid:                   # padre - servidor
     data = rs.read()  # recibe el path completo
     file = open(data.decode('utf8').strip(), 'r')
     print (file)
-    content = file.read()
-    ws.write(content.encode('utf8')) 
+    content = ""
+    while True:
+        line = file.readline()
+        if not line:
+            break
+        ws.write(line.encode('utf8'))
     ws.flush()
     file.close()
 
@@ -27,5 +31,5 @@ else:                     # hijo - cliente
     #message = "/etc/services"
     wc.write(message.encode('utf8')) 
     wc.flush() 
-    wc.close()
+    #wc.close()
     print(rc.readline().decode('utf8').strip())
