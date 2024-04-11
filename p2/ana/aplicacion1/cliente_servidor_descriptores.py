@@ -1,5 +1,7 @@
 import os, sys
 
+sys.argv[0] = "cliserv2"
+
 rdS,wdC = os.pipe()         # son file descriptors, no file objects - de cliente a servidor
 
 rdC,wdS = os.pipe()         # son file descriptors, no file objects - de servidor a cliente
@@ -7,6 +9,7 @@ rdC,wdS = os.pipe()         # son file descriptors, no file objects - de servido
 pid = os.fork() 
 
 if pid:                   # padre - servidor
+    sys.argv[0] = "serv2"
     os.close(rdC)
     os.close(wdC) 
     print (pid)
@@ -22,11 +25,12 @@ if pid:                   # padre - servidor
         os.write(wdS, line)
 
 else:                     # hijo - cliente
+    sys.argv[0] = "cli2"
     os.close(rdS)
     os.close(wdS) 
     print(pid)
-    message = "./ejemplo.txt"
-    #message = "/etc/services"
+    #message = "./ejemplo.txt"
+    message = "/etc/services"
     os.write(wdC, message.encode('utf8'))
     #wc.close()
     while True:
