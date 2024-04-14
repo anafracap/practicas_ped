@@ -15,21 +15,20 @@ if pid:                   # padre - servidor
     rc.close()
     data = os.read(rdS, 100).decode('utf8').strip()
 
-    fileO = open(data, 'rb') 
-    
-    while True:
-        content = fileO.read()
-        if not content:
-            fileO.close()
-            break
-        ws.write(content)
+    with open(data, 'rb') as fileO:  
+        while True:
+            content = fileO.read()
+            if not content:
+                fileO.close()
+                break
+            ws.write(content)
 
 else:                     # hijo - cliente
     sys.argv[0] = "cli2"
     os.close(rdS)
     ws.close() 
-    #message = "./ejemplo.txt"
-    message = "/etc/services"
+    message = "./ejemplo.txt"
+    #message = "/etc/services"
     #message = "/bin/sh"
     os.write(wdC, message.encode('utf8'))
     #wc.close()
@@ -38,4 +37,6 @@ else:                     # hijo - cliente
         if not byteLine:
             os.close(rdC)
             break
-        print(byteLine)
+        if byteLine.startswith(b'\xca'):
+            print(byteLine)
+        else: print(byteLine.decode())
