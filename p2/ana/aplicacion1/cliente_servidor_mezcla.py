@@ -15,14 +15,14 @@ if pid:                   # padre - servidor
     rc.close()
     data = os.read(rdS, 100).decode('utf8').strip()
 
-    fileO = open(data, 'r') 
+    fileO = open(data, 'rb') 
     
     while True:
         content = fileO.read()
         if not content:
             fileO.close()
             break
-        ws.write(content.encode('ASCII'))
+        ws.write(content)
 
 else:                     # hijo - cliente
     sys.argv[0] = "cli2"
@@ -30,6 +30,7 @@ else:                     # hijo - cliente
     ws.close() 
     #message = "./ejemplo.txt"
     message = "/etc/services"
+    #message = "/bin/sh"
     os.write(wdC, message.encode('utf8'))
     #wc.close()
     while True:
@@ -37,5 +38,4 @@ else:                     # hijo - cliente
         if not byteLine:
             os.close(rdC)
             break
-        line = byteLine.decode('ASCII').strip()
-        print(line)
+        print(byteLine)
