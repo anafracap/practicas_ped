@@ -5,36 +5,37 @@ sys.argv[0] = "cliserv2"
 rdS,wdC = os.pipe()         # son file descriptors, no file objects - de cliente a servidor
 
 rdC,wdS = os.pipe()         # son file descriptors, no file objects - de servidor a cliente
+rc, ws  = os.fdopen(rdC,'rb',0), os.fdopen(wdS,'wb',0) # file objects  - de servidor a cliente
 
 pid = os.fork() 
 
 if pid:                   # padre - servidor
     sys.argv[0] = "serv2"
-    os.close(rdC)
     os.close(wdC) 
-    print (pid)
+    rc.close()
     data = os.read(rdS, 100).decode('utf8').strip()
 
-    fileD = os.open(data, os.O_RDONLY) 
+    fileO = open(data, 'r') 
     
     while True:
-        line = os.read(fileD, 100)
-        if not line:
-            os.close(fileD)
+        content = fileO.read()
+        if not content:
+            fileO.close()
             break
-        os.write(wdS, line)
+        ws.write(content.encode('ASCII'))
 
 else:                     # hijo - cliente
     sys.argv[0] = "cli2"
     os.close(rdS)
-    os.close(wdS) 
-    print(pid)
+    ws.close() 
     #message = "./ejemplo.txt"
     message = "/etc/services"
     os.write(wdC, message.encode('utf8'))
     #wc.close()
     while True:
-        byteLine = os.read(rdC, 100).decode('utf8').strip()
+        byteLine = rc.read()
         if not byteLine:
+            os.close(rdC)
             break
-        print(byteLine)
+        line = byteLine.decode('ASCII').strip()
+        print(line)
