@@ -11,9 +11,9 @@ if pid:                   # padre - servidor
     os.close(rdC)
     print (pid)
 
-    date = datetime.datetime.now().strftime('%c')
-    
-    os.write(wdS, date.encode('utf8'))
+    while True:
+        date = datetime.datetime.now().strftime('%c')
+        os.write(wdS, date.encode('utf8'))
 
 else:                     # hijo - cliente
     sys.argv[0] = "cli2"
