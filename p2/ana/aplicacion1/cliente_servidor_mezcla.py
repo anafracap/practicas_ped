@@ -28,8 +28,9 @@ else:                     # hijo - cliente
     os.close(rdS)
     ws.close() 
     #message = "./ejemplo.txt"
-    message = "/etc/services"
+    #message = "/etc/services"
     #message = "/bin/sh"
+    message = sys.argv[1]
     os.write(wdC, message.encode('utf8'))
     #wc.close()
     while True:
