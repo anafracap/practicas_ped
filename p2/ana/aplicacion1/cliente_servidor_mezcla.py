@@ -27,8 +27,8 @@ else:                     # hijo - cliente
     sys.argv[0] = "cli2"
     os.close(rdS)
     ws.close() 
-    message = "./ejemplo.txt"
-    #message = "/etc/services"
+    #message = "./ejemplo.txt"
+    message = "/etc/services"
     #message = "/bin/sh"
     os.write(wdC, message.encode('utf8'))
     #wc.close()
@@ -37,6 +37,4 @@ else:                     # hijo - cliente
         if not byteLine:
             os.close(rdC)
             break
-        if byteLine.startswith(b'\xca'):
-            print(byteLine)
-        else: print(byteLine.decode())
+        sys.stdout.buffer.write(byteLine)
