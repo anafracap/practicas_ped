@@ -1,11 +1,12 @@
 
 
-all: ap1_descriptores
+all: ap1_servidor ap1_cliente
 	@echo "Compilación y ejecución de la práctica"
 
 clean:
 	@echo "Limpiando..."
 
-ap1_descriptores:
-	python3 servidor_descriptores.py
-	python3 cliente_descriptores.py
+ap1_servidor:
+	python3 servidor_ap1.py
+ap1_cliente:
+	python3 cliente_ap1.py
