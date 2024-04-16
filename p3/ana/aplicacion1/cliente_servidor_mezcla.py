@@ -26,6 +26,8 @@ if pid:                   # padre - servidor
                 break
             with open(serverWrites, "wb") as ws:
                 ws.write(content)
+    os.unlink(clientWrites)
+    os.unlink(serverWrites)
 
 else:                     # hijo - cliente
     sys.argv[0] = "cli2"
