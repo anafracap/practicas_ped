@@ -1,1 +1,11 @@
 Manual de instalación, administración y configuración.
+all: cli2 serv2
+
+cli2: cli2.c
+    gcc -o cli2 cli2.c
+
+serv2: serv2.c
+    gcc -o serv2 serv2.c
+
+clean:
+    rm -f cli2 serv2
