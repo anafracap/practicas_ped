@@ -58,3 +58,24 @@ class TestClass(unittest.TestCase):
             juego.jugar_ronda('Pepe', 1, 0)
             juego.jugar_ronda('Paco', 0, 0)
         self.assertEqual(juego.ver_contador('Paco'), [0])
+
+    def test_manterner_el_orden_de_jugadas (self):
+        jugadores = ['Pepe', 'Paco']
+        juego = Juego(jugadores)
+        with pytest.raises(Exception, match='NoEsTuTurno'):
+            juego.jugar_ronda('Paco', 0, 0)
+
+    def test_manterner_el_orden_de_jugadas_en_medio_de_la_partida (self):
+        jugadores = ['Pepe', 'Paco']
+        juego = Juego(jugadores)
+        for i in range(5):
+            juego.jugar_ronda('Pepe', 1, 0)
+            juego.jugar_ronda('Paco', 0, 0)
+        with pytest.raises(Exception, match='NoEsTuTurno'):
+            juego.jugar_ronda('Paco', 0, 0)
+        
+    def test_jugador_no_en_partida (self):
+        jugadores = ['Pepe', 'Paco']
+        juego = Juego(jugadores)
+        with pytest.raises(Exception, match='NoEstasEnLaPartida'):
+            juego.jugar_ronda('Pedro', 0, 0)
