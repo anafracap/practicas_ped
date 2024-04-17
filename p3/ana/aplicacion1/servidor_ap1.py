@@ -10,15 +10,15 @@ if not os.path.exists(clientWrites):
 
 if not os.path.exists(serverWrites):
     os.mkfifo(serverWrites)
+while True:
+    with open(clientWrites, "rb") as rs:
+        path = rs.read().decode('utf8').strip()
 
-with open(clientWrites, "rb") as rs:
-    path = rs.read().decode('utf8').strip()
-
-with open(path, 'rb') as fileO:  
-    while True:
-        content = fileO.read()
-        if not content:
-            fileO.close()
-            break
-        with open(serverWrites, "wb") as ws:
-            ws.write(content)
+    with open(path, 'rb') as fileO:  
+        while True:
+            content = fileO.read()
+            if not content:
+                fileO.close()
+                break
+            with open(serverWrites, "wb") as ws:
+                ws.write(content)
