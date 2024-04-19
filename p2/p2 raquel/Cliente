@@ -15,7 +15,7 @@ int main() {
     }
 
     // Solicitamos al usuario el path del fichero 
-    printf("Ingrese el path del archivo: ");
+    printf("Ingresa el path del fichero aquí: ");
     scanf("%s", path);
 
     // Enviamos el path que nos han dado al servidor

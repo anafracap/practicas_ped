@@ -11,7 +11,7 @@ int main() {
 
     // Aquí se crea la tubería
     if (pipe(fd) == -1) {
-        perror("Error al crear la tuberia");
+        perror("Error en la creación de la tuberia");
         exit(EXIT_FAILURE);
     }
 
