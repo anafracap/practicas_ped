@@ -1,10 +1,12 @@
 
-all: ap2
+all: servidor cliente
 	@echo "Compilación y ejecución de la práctica"
 
 clean:
 	@echo "Limpiando..."
 
-ap2:
+servidor:
 	python3 servidor_hora.py
+
+cliene:
 	python3 cliente_hora.py
