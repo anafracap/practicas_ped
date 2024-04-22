@@ -3,6 +3,7 @@ import os, sys, datetime, socket, select
 sys.argv[0] = "serv2"
 
 server_address = "/tmp/ped4_p4_ap2_server.sock"
+server_address = sys.argv[1]
 
 if os.path.exists(server_address):
     os.remove(server_address)

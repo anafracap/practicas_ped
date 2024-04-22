@@ -3,6 +3,7 @@ import os, sys, socket
 sys.argv[0] = "cli2"
 
 server_address = "/tmp/ped4_p4_ap2_server.sock"
+server_address = sys.argv[2]
 
 pid = str(os.getpid())
 
