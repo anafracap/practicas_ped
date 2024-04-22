@@ -15,13 +15,6 @@ server_socket.listen() #cambiar para varias conexiones al tiempo
 
 try: 
     while True:
-        # Check if input is available on stdin
-        if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
-            input_data = sys.stdin.readline().strip()
-            if input_data.lower() == "exit":
-                print("Exiting server.")
-                break
-            break
         connection, client_address = server_socket.accept()
 
         pid = connection.recv(1024).decode()
@@ -31,7 +24,7 @@ try:
 
         connection.close()
 except KeyboardInterrupt:
-    print("Keyboard interrupt received. Exiting server.")
+    print(2, b"Keyboard interrupt received. Exiting server.")
 
 finally:
     server_socket.close()
