@@ -3,7 +3,7 @@ Esta práctica consta de 2 posibles aplicaciones:
 APLICACION 1
 Esta aplicación conecta 2 procesos (cli2 y serv2). 
 Su funcionamiento es el siguiente:
-El cliente se conectará al servidor mediante una tubería (pipe) y le enviará el path completo de un fichero. El servidor responderá con los contenidos de dicho fichero, o un mensaje de error si no pudiera proporcionárselos (todavía no está implementado el mensaje de error). El cliente mostrará la respuesta recibida por el servidor en su salida standard.
+El cliente se conectará al servidor mediante una named pipe (FIFO) y le enviará el path completo de un fichero. El servidor responderá con los contenidos de dicho fichero, o un mensaje de error si no pudiera proporcionárselos (todavía no está implementado el mensaje de error). El cliente mostrará la respuesta recibida por el servidor en su salida standard.
 
 APLICACION 2
 Esta aplicación conecta 2 procesos (cli2 y serv2). 
