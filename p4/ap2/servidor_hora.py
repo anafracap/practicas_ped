@@ -24,7 +24,7 @@ try:
 
         connection.close()
 except KeyboardInterrupt:
-    print(2, b"Keyboard interrupt received. Exiting server.")
+    os.write(2, b"Keyboard interrupt received. Exiting server.")
 
 finally:
     server_socket.close()

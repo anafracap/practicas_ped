@@ -16,7 +16,7 @@ try:
         date = datetime.datetime.now().strftime('%c') + '\n'
         server_socket.sendto(date.encode(), client_address)
 except KeyboardInterrupt:
-    print(2, b"Keyboard interrupt received. Exiting server.")
+    os.write(2, b"Keyboard interrupt received. Exiting server.")
 
 finally:
     server_socket.close()
