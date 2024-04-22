@@ -8,5 +8,5 @@ clean:
 servidor:
 	python3 servidor_hora.py
 
-cliene:
+cliente:
 	python3 cliente_hora.py

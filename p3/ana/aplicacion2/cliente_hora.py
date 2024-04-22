@@ -17,3 +17,5 @@ for i in range(10):
     with open(path_time, 'rb') as fifo_file:
         data = fifo_file.readline()
         os.write(1, data)
+
+os.unlink(path_time)
