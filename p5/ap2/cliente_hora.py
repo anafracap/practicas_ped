@@ -2,7 +2,7 @@ import os, sys, socket
 
 sys.argv[0] = "cli2"
 
-server_address = "127.0.0.1"  # Change this to your server's IP address
+server_address = "127.0.0.1" 
 server_port = int(sys.argv[1])
 
 pid = str(os.getpid())
