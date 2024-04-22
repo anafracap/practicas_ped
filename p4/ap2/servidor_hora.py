@@ -1,4 +1,4 @@
-import os, sys, datetime, socket
+import os, sys, datetime, socket, select
 
 sys.argv[0] = "serv2"
 
@@ -12,13 +12,27 @@ server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 server_socket.bind(server_address)
 server_socket.listen() #cambiar para varias conexiones al tiempo
 
-while True:
-    connection, client_address = server_socket.accept()
+try: 
+    while True:
+        # Check if input is available on stdin
+        if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+            input_data = sys.stdin.readline().strip()
+            if input_data.lower() == "exit":
+                print("Exiting server.")
+                break
+            break
+        connection, client_address = server_socket.accept()
 
-    pid = connection.recv(1024).decode()
+        pid = connection.recv(1024).decode()
 
-    date = datetime.datetime.now().strftime('%c') + '\n'
-    connection.send(date.encode())
+        date = datetime.datetime.now().strftime('%c') + '\n'
+        connection.send(date.encode())
 
-    connection.close()
+        connection.close()
+except KeyboardInterrupt:
+    print("Keyboard interrupt received. Exiting server.")
+
+finally:
+    server_socket.close()
+    os.unlink(server_address)
 
