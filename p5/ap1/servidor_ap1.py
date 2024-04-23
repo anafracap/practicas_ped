@@ -2,7 +2,7 @@ import os, sys, socket
 
 sys.argv[0] = "serv5"
 
-server_address = "127.0.0.1"
+server_address = "0.0.0.0"
 server_port = int(sys.argv[1])
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

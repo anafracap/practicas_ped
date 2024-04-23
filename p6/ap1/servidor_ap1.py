@@ -17,21 +17,15 @@ def answer_back(connection):
             connection.send(content)
     connection.close()
 
+sys.argv[0] = "serv6"
 
-sys.argv[0] = "serv2"
+server_address = "0.0.0.0"
+server_port = int(sys.argv[1])
 
-server_address = "/tmp/ped4_p4_ap1_server.sock"
-server_address = sys.argv[1]
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind((server_address, server_port))
 
-if os.path.exists(server_address):
-    os.remove(server_address)
-    
-server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-
-server_socket.bind(server_address)
-
-server_socket.listen() #cambiar para varias conexiones al tiempo
-
+server_socket.listen()
 try: 
     while True:
         connection, client_address = server_socket.accept()
@@ -43,10 +37,8 @@ try:
             os._exit(0)
         else:
             connection.close()
-   
 except KeyboardInterrupt:
     os.write(2, b"Keyboard interrupt received. Exiting server.")
 
 finally:
     server_socket.close()
-    os.unlink(server_address)

@@ -1,3 +1,4 @@
+address=192.168.56.29
 port=1234
 
 all: servidor cliente
@@ -10,4 +11,4 @@ servidor:
 	python3 servidor_hora.py $(port)
 
 cliente:
-	python3 cliente_hora.py $(port)
+	python3 cliente_hora.py $(address) $(port)
