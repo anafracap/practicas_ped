@@ -1,6 +1,6 @@
 import os, sys, socket
 
-sys.argv[0] = "cli5"
+sys.argv[0] = "cli6"
 
 server_address = sys.argv[2]
 server_port = int(sys.argv[3])
