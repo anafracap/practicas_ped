@@ -2,8 +2,8 @@ import os, sys, datetime, socket, select
 
 sys.argv[0] = "serv2"
 
-server_address = "127.0.0.1"
-server_port = int(sys.argv[1])
+server_address = sys.argv[1]
+server_port = int(sys.argv[2])
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server_socket.bind((server_address, server_port))
