@@ -8,7 +8,7 @@ clean:
 	@echo "Limpiando..."
 
 servidor:
-	python3 servidor_hora.py $(address) $(port)
+	python3 servidor_hora.py $(port)
 
 cliente:
 	python3 cliente_hora.py $(address) $(port)

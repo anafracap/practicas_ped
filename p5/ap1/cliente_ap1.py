@@ -2,8 +2,8 @@ import os, sys, socket
 
 sys.argv[0] = "cli5"
 
-server_address = "127.0.0.1" 
-server_port = int(sys.argv[2])
+server_address = sys.argv[2]
+server_port = int(sys.argv[3])
 
 message = sys.argv[1]
 
