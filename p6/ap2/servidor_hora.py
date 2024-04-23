@@ -25,5 +25,4 @@ except KeyboardInterrupt:
 
 finally:
     server_socket.close()
-    os.unlink(server_address)
 
