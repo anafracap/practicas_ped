@@ -1,1 +1,23 @@
-Manual de usuario.
+Esta práctica consta de 2 posibles aplicaciones: 
+
+APLICACION 1
+Esta aplicación conecta 2 procesos (cli2 y serv2). 
+Su funcionamiento es el siguiente:
+El cliente se conectará al servidor mediante un socket, y le enviará el path completo de un fichero. El servidor responderá con los contenidos de dicho fichero, o un mensaje de error si no pudiera proporcionárselos (todavía no está implementado el mensaje de error). El cliente mostrará la respuesta recibida por el servidor en su salida standard.
+
+APLICACION 2
+Esta aplicación conecta 2 procesos (cli2 y serv2). 
+Su funcionamiento es el siguiente:
+El cliente se conectará al servidor mediante un socket, momento en el cual el servidor le contestará con una cadena de caracteres que represente la fecha y la hora (con precisión mínima de 1 segundo) en el formato standard internacional asociado a la localización geográfica (país y zona horaria) del sistema en el que se ejecuta el servidor. El cliente mostrará la respuesta recibida por el servidor en su salida standard.
+
+
+---------------------------
+Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar:
+1. make servidor 
+2. make cliente
+
+En ambas aplicaciones, será posible configurar el fichero a recibir con make cliente socket=/path/hasta/socket y make servidor socket=/path/hasta/socket
+En el caso de la aplicación 1, será posible configurar el fichero a recibir con make cliente file=/path/hasta/fichero
+También se podrán modificar ambos paths modificando el makefile
+
+El código se ha comprobado en un macOS 13.6.8
