@@ -1,1 +1,3 @@
-Manual de instalación, administración y configuración.
+Para ejecutar los ficheros deseados se necesita python3, y el comando make. 
+
+El código se ha comprobado en un macOS 13.6.8
