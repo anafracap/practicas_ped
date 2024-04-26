@@ -9,7 +9,7 @@ clean:
 	@echo "Limpiando..."
 
 servidor:
-	python3 servidor_hora.py $(port)
+	python3 servidor_ap1.py $(port)
 
 cliente:
-	python3 cliente_hora.py $(file) $(address) $(port)
+	python3 cliente_ap1.py $(file) $(address) $(port)
