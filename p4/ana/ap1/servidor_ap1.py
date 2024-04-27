@@ -15,7 +15,7 @@ def answer_back(connection):
                 fileO.close()
                 break
             connection.send(content)
-    connection.close()
+    connection.shutdown()
 
 
 sys.argv[0] = "serv2"
