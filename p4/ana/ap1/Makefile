@@ -12,3 +12,6 @@ servidor:
 
 cliente:
 	@python3 cliente_ap1.py $(file) $(socket)
+
+inf:
+	while true; do python3 cliente_ap1.py $(file) $(socket); done
