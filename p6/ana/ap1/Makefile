@@ -13,3 +13,6 @@ servidor:
 
 cliente:
 	@python3 cliente_ap1.py $(file) $(address) $(port)
+
+inf:
+	while true; do python3 cliente_ap1.py $(file) $(address) $(port); done

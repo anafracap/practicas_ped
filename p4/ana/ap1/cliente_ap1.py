@@ -11,7 +11,6 @@ message = sys.argv[1]
 client_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 client_socket.connect(server_address)
 client_socket.send(message.encode())
-time.sleep(10000000)
 client_socket.shutdown(socket.SHUT_WR)
 
 file_size_bytes = client_socket.recv(8)

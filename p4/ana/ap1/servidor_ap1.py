@@ -42,7 +42,7 @@ try:
             if pid == 0:  # Child process
                 server_socket.close()
                 answer_back(connection)
-                os._exit(0)
+                sys.exit(0)
             else:
                 connection.close()
         except BrokenPipeError:
