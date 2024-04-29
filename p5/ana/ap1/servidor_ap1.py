@@ -1,20 +1,5 @@
 import os, sys, socket
 
-def answer_back(data, client_address):
-    path = data.decode().strip()
-
-    file_size = os.path.getsize(path)
-    file_size_bytes = file_size.to_bytes(8, byteorder='big')
-    server_socket.sendto(file_size_bytes, client_address)
-
-    with open(path, 'rb') as fileO:  
-        while True:
-            content = fileO.read(1024)
-            if not content:
-                fileO.close()
-                break
-            server_socket.sendto(content, client_address)
-
 sys.argv[0] = "serv5"
 
 server_address = "0.0.0.0"
@@ -25,19 +10,20 @@ server_socket.bind((server_address, server_port))
 
 try: 
     while True:
-        try:
-            data, client_address = server_socket.recvfrom(1024)
-            pid = os.fork()
+        data, client_address = server_socket.recvfrom(1024)
+        path = data.decode().strip()
 
-            if pid == 0:  # Child process
-                server_socket.close()
-                answer_back(data, client_address)
-                sys.exit(0)
-            else:
-                continue
-        except BrokenPipeError:
-            os.write(2, b"Broken pipe exception occurred. Connection closed unexpectedly.")
-            continue
+        file_size = os.path.getsize(path)
+        file_size_bytes = file_size.to_bytes(8, byteorder='big')
+        server_socket.sendto(file_size_bytes, client_address)
+
+        with open(path, 'rb') as fileO:  
+            while True:
+                content = fileO.read(1024)
+                if not content:
+                    fileO.close()
+                    break
+                server_socket.sendto(content, client_address)
 except KeyboardInterrupt:
     os.write(2, b"Keyboard interrupt received. Exiting server.")
 
