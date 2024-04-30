@@ -13,17 +13,21 @@ try:
         data, client_address = server_socket.recvfrom(1024)
         path = data.decode().strip()
 
-        file_size = os.path.getsize(path)
-        file_size_bytes = file_size.to_bytes(8, byteorder='big')
-        server_socket.sendto(file_size_bytes, client_address)
-
         with open(path, 'rb') as fileO:  
             while True:
                 content = fileO.read(1024)
                 if not content:
-                    fileO.close()
+                    server_socket.sendto(b"", client_address)
                     break
                 server_socket.sendto(content, client_address)
+                server_socket.settimeout(30)
+                try:
+                    ack, _ = server_socket.recvfrom(1024)
+                except socket.timeout:
+                    os.write(2, b"Socket timeout, listening for other clients.")
+                    break 
+                server_socket.settimeout(None)
+
 except KeyboardInterrupt:
     os.write(2, b"Keyboard interrupt received. Exiting server.")
 
