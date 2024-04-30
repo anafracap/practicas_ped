@@ -3,6 +3,7 @@ import os, sys, socket
 
 def verify_nick(cli_sock):
     nick = cli_sock.recv(1024).decode('utf-8')
+    print(nick)
     if nick in clients:
         message = "Your nickname is already in use, unable to log in"
         cli_sock.send(message.encode('utf-8'))
@@ -10,6 +11,7 @@ def verify_nick(cli_sock):
         return False
     else:
         clients[nick] = cli_sock
+        print(list(clients))
         login = "You have successfully logged in"
         cli_sock.send(login.encode('utf-8'))
         return nick
@@ -18,8 +20,7 @@ def continue_conversation(cli_sock):
     while True:
         message = cli_sock.recv(1024).decode('utf-8')
         print(message)
-        for nick in clients:
-            c = clients[nick]
+        for nick, c in clients.copy().items():
             if c != cli_sock:
                 try:
                     c.send(message.encode('utf-8'))
@@ -42,12 +43,12 @@ try:
     while True:
         try:
             client_socket, client_address = server_socket.accept()
+            nick = verify_nick(client_socket)
 
             pid = os.fork()
 
             if pid == 0:  # Child process
                 server_socket.close() #stop listening for new connections
-                nick = verify_nick(client_socket)
                 if nick:
                     continue_conversation(client_socket)
                 sys.exit(0)
