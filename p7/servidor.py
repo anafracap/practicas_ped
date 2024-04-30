@@ -3,7 +3,7 @@ import os, sys, socket
 
 def verify_nick(cli_sock):
     nick = cli_sock.recv(1024).decode('utf-8')
-    print(nick)
+    print(nick, file=sys.stderr)
     if nick in clients:
         message = "Your nickname is already in use, unable to log in"
         cli_sock.send(message.encode('utf-8'))
@@ -11,7 +11,7 @@ def verify_nick(cli_sock):
         return False
     else:
         clients[nick] = cli_sock
-        print(list(clients))
+        print(list(clients), file=sys.stderr)
         login = "You have successfully logged in"
         cli_sock.send(login.encode('utf-8'))
         return nick
@@ -19,8 +19,9 @@ def verify_nick(cli_sock):
 def continue_conversation(cli_sock):
     while True:
         message = cli_sock.recv(1024).decode('utf-8')
-        print(message)
+        print(message, file=sys.stderr)
         for nick, c in clients.copy().items():
+            print(nick, c, file=sys.stderr)
             if c != cli_sock:
                 try:
                     c.send(message.encode('utf-8'))
@@ -35,7 +36,7 @@ server_port = int(sys.argv[1])
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((server_address, server_port))
 server_socket.listen()
-print(server_socket)
+print(server_socket, file=sys.stderr)
 
 clients = {}
 
@@ -55,8 +56,8 @@ try:
             else:
                 client_socket.close()
         except (BrokenPipeError, ConnectionResetError):
-            string = b"Broken pipe exception occurred. Connection closed unexpectedly by: %s" % nick
-            os.write(2, string)
+            string = "Broken pipe exception occurred. Connection closed unexpectedly by: %s" % nick
+            print(string, file=sys.stderr)
             if client_socket in clients.values():
                 del clients[nick]
                 client_socket.close()
