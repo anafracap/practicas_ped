@@ -13,7 +13,7 @@ El cliente se conectará al servidor mediante una tubería (pipe), momento en el
 
 ---------------------------
 Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar make. 
-En el caso de la aplicación 1, será posible configurar el fichero a recibir con make cliente file=/path/hasta/fichero
+En el caso de la aplicación 1, será posible configurar el fichero a recibir con make ficheros file=/path/hasta/fichero
 
 
 El código se ha comprobado en un macOS 13.6.2
