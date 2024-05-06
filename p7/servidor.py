@@ -2,7 +2,6 @@ import os, sys, socket, select
 
 def send_all_clients(message):
     for nick, c in clients.items():
-        print(nick, c, file=sys.stderr)
         try:
             c.send(message.encode('utf-8'))
         except:
@@ -12,7 +11,6 @@ def verify_nick(cli_sock):
     identify = "Please enter your UNIQUE nickname: "
     cli_sock.send(identify.encode('utf-8'))
     nick = cli_sock.recv(1024).decode('utf-8')
-    print(nick, file=sys.stderr)
     if nick in clients:
         message = "Your nickname is already in use, unable to log in \n"
         cli_sock.send(message.encode('utf-8'))
@@ -28,11 +26,12 @@ def verify_nick(cli_sock):
 
 def continue_conversation(cli_sock, nick):
     message = cli_sock.recv(1024).decode('utf-8')
+    text = f"{nick}: {message}"
     if message.lower() == 'exit':
         disconnect(nick)
     else:
-        send_all_clients(f"{nick}: {message}")
-    print(message, file=sys.stderr)
+        send_all_clients(text)
+    print(text, file=sys.stderr)
 
 def disconnect(nick):
     if nick in clients:
