@@ -7,7 +7,7 @@ def read(cli_sock):
 
 def write(cli_sock):
     while True:
-        message = input("Enter your message: ")
+        message = input()
         client_socket.send(message.encode('utf-8'))
 
 server_address = sys.argv[1]
@@ -16,7 +16,7 @@ server_port = int(sys.argv[2])
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((server_address, server_port))
 
-nick = input("Ingrese su nombre: ")
+nick = input(client_socket.recv(1024).decode('utf-8'))
 client_socket.send(nick.encode('utf-8'))
 
 login = client_socket.recv(1024).decode('utf-8')
