@@ -10,6 +10,7 @@ message = sys.argv[1]
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((server_address, server_port))
 client_socket.send(message.encode())
+client_socket.shutdown(socket.SHUT_WR)
 
 file_size_bytes, _ = client_socket.recvfrom(8)
 file_size = int.from_bytes(file_size_bytes, byteorder='big')
@@ -19,4 +20,6 @@ while received_size < file_size:
     data = client_socket.recv(1024)
     received_size += len(data)
     sys.stdout.buffer.write(data)
+
+client_socket.close()
 

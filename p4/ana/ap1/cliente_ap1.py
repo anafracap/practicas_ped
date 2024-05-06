@@ -1,4 +1,4 @@
-import os, sys, socket
+import os, sys, socket, time
 
 sys.argv[0] = "cli2"
 
@@ -11,6 +11,7 @@ message = sys.argv[1]
 client_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 client_socket.connect(server_address)
 client_socket.send(message.encode())
+client_socket.shutdown(socket.SHUT_WR)
 
 file_size_bytes = client_socket.recv(8)
 file_size = int.from_bytes(file_size_bytes, byteorder='big')
@@ -20,3 +21,5 @@ while True:
     if not byteLine:
         break
     sys.stdout.buffer.write(byteLine)
+
+client_socket.close()

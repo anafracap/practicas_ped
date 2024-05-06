@@ -11,12 +11,10 @@ client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 client_socket.sendto(message.encode(), (server_address, server_port))
 
-file_size_bytes, _ = client_socket.recvfrom(8)
-file_size = int.from_bytes(file_size_bytes, byteorder='big')
-
-received_size = 0
-while received_size < file_size:
+while True:
     data, _ = client_socket.recvfrom(1024)
-    received_size += len(data)
+    if not data:
+        break
+    client_socket.sendto("ack".encode(), (server_address, server_port))
     sys.stdout.buffer.write(data)
 

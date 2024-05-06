@@ -15,6 +15,7 @@ def answer_back(connection):
                 fileO.close()
                 break
             connection.send(content)
+    connection.shutdown(socket.SHUT_WR)
     connection.close()
 
 
@@ -34,19 +35,21 @@ server_socket.listen() #cambiar para varias conexiones al tiempo
 
 try: 
     while True:
-        connection, client_address = server_socket.accept()
-        pid = os.fork()
+        try:
+            connection, client_address = server_socket.accept()
+            pid = os.fork()
 
-        if pid == 0:  # Child process
-            server_socket.close()
-            answer_back(connection)
-            os._exit(0)
-        else:
-            connection.close()
-   
+            if pid == 0:  # Child process
+                server_socket.close()
+                answer_back(connection)
+                sys.exit(0)
+            else:
+                connection.close()
+        except BrokenPipeError:
+            os.write(2, b"Broken pipe exception occurred. Connection closed unexpectedly.") # no sale en terminal
+            continue
 except KeyboardInterrupt:
     os.write(2, b"Keyboard interrupt received. Exiting server.")
-
 finally:
     server_socket.close()
     os.unlink(server_address)
