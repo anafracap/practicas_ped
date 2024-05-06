@@ -12,11 +12,11 @@ El cliente se conectará al servidor mediante un socket INET de tipo DATAGRAMA, 
 
 
 ---------------------------
-Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar:
+Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar en orden, en diferentes shells o sesiones:
 1. make servidor 
 2. make cliente
 
-En ambas aplicaciones, será posible configurar el fichero a recibir con make cliente address=ip port=1234 y make servidor port=1234
+En ambas aplicaciones, será posible configurar el socket con make cliente address=ip port=1234 y make servidor port=1234
 En el caso de la aplicación 1, será posible configurar el fichero a recibir con make cliente file=/path/hasta/fichero
 También se podrán modificar las variables modificando el makefile
 

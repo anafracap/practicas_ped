@@ -12,11 +12,11 @@ El cliente se conectará al servidor mediante un socket local de tipo STREAM, mo
 
 
 ---------------------------
-Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar:
+Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar en orden, en diferentes shells o sesiones:
 1. make servidor 
 2. make cliente
 
-En ambas aplicaciones, será posible configurar el fichero a recibir con make cliente socket=/path/hasta/socket y make servidor socket=/path/hasta/socket
+En ambas aplicaciones, será posible configurar el socket con make cliente socket=/path/hasta/socket y make servidor socket=/path/hasta/socket
 En el caso de la aplicación 1, será posible configurar el fichero a recibir con make cliente file=/path/hasta/fichero
 También se podrán modificar ambos paths modificando el makefile
 

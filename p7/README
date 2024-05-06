@@ -1,1 +1,24 @@
-Manual de usuario.
+La aplicación consiste en un sistema de chat on-line, formado por un servidor al 
+cual se conectan los clientes:
+  *  Un cliente se identifica al servidor mediante un nombre único.
+
+  *  Una vez autentificado y conectado un cliente, éste puede enviar mensajes
+     (líneas de texto) al servidor, que al recibirlos los reenviará a todos
+     los clientes conectados en ese momento, precediendo su envío con el
+     identificador del cliente que originó el mensaje.
+
+  *  De esta forma todos los clientes ven todos los mensajes enviados, y cada
+     uno de ellos participa enviando sus propios mensajes.
+
+  *  Por último, el cliente decide desconectarse en un momento dado y abandona
+     la conversación.
+
+---------------------------
+Para ejecutar los ficheros deseados nada más será necesario ejecutar en orden, en diferentes shells o sesiones:
+1. make servidor 
+2. make cliente
+
+En ambas aplicaciones, será posible configurar el servidor y puerto con make cliente address=ip port=1234 y make servidor port=1234
+También se podrán modificar las variables modificando el makefile
+
+El código se ha comprobado en un macOS 13.6.8

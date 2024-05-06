@@ -12,7 +12,7 @@ El cliente se conectará al servidor mediante una named pipe (FIFO), momento en 
 
 
 ---------------------------
-Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar:
+Para ejecutar los ficheros deseados nada más será necesario trasladarse al directorio de la aplicacion1 o aplicacion2 y ejecutar en orden, en diferentes shells o sesionesar:
 1. make servidor 
 2. make cliente
 
