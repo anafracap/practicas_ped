@@ -40,7 +40,7 @@ try:
         else:
             break
 
-        readable, _, _ = select.select(inputs, None, None)
+        readable, _, _ = select.select(inputs, [], [])
 
         for trigger_socket in readable:
             if trigger_socket == sys.stdin:

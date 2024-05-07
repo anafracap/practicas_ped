@@ -29,6 +29,12 @@ def continue_conversation(cli_sock, nick):
     text = f"{nick}: {message}"
     if message.lower() == 'exit':
         disconnect(nick)
+    elif message in clients:
+        chats[nick] = message
+        clients[nick].send(f"You have joined a chat with {message}.\n".encode('utf-8'))
+    elif nick in chats:
+        dest = chats[nick]
+        clients[dest].send(text.encode('utf-8'))
     else:
         send_all_clients(text)
     print(text, file=sys.stderr)
@@ -49,10 +55,11 @@ server_socket.listen()
 print(server_socket, file=sys.stderr)
 
 clients = {}
+chats = {}
 
 try: 
     while True:
-        readable, _, _ = select.select([server_socket] + list(clients.values()).copy(), None, None)
+        readable, _, _ = select.select([server_socket] + list(clients.values()), [], [])
 
         for trigger_socket in readable:
             if trigger_socket == server_socket:
