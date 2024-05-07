@@ -38,7 +38,7 @@ def continue_conversation(cli_sock, nick):
             if chats[nick] in groups:
                 groups[chats[nick]].remove(nick)
             del chats[nick]
-            clients[nick].send(f"You have exited the private chat with {message}.\n".encode('utf-8'))
+            clients[nick].send(f"You have joined the chat with {message}.\n".encode('utf-8'))
         elif chats[nick] in groups:
             for client in groups[chats[nick]]:
                 clients[client].send(text.encode('utf-8'))
