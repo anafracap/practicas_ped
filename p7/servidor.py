@@ -52,7 +52,7 @@ clients = {}
 
 try: 
     while True:
-        readable, _, _ = select.select([server_socket] + list(clients.values()).copy(), [], [])
+        readable, _, _ = select.select([server_socket] + list(clients.values()).copy(), None, None)
 
         for trigger_socket in readable:
             if trigger_socket == server_socket:
