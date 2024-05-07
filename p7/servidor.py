@@ -35,11 +35,22 @@ def continue_conversation(cli_sock, nick):
         clients[message].send(f"{nick} has joined a private chat with you.\n".encode('utf-8'))
     elif nick in chats:
         if message.lower() == 'all':
+            if chats[nick] in groups:
+                groups[chats[nick]].remove(nick)
             del chats[nick]
             clients[nick].send(f"You have exited the private chat with {message}.\n".encode('utf-8'))
+        elif chats[nick] in groups:
+            for client in groups[chats[nick]]:
+                clients[client].send(text.encode('utf-8'))
         else:
             dest = chats[nick]
             clients[dest].send(text.encode('utf-8'))
+    elif message.lower().startswith("group: "):
+        group = message[len("group: "):]
+        chats[nick] = group
+        if not group in groups:
+            groups[group] = set()
+        groups[group].add(nick)
     else:
         send_all_clients(text)
     print(text, file=sys.stderr)
@@ -61,6 +72,7 @@ print(server_socket, file=sys.stderr)
 
 clients = {}
 chats = {}
+groups = {}
 
 try: 
     while True:
