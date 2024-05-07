@@ -31,10 +31,15 @@ def continue_conversation(cli_sock, nick):
         disconnect(nick)
     elif message in clients:
         chats[nick] = message
-        clients[nick].send(f"You have joined a chat with {message}.\n".encode('utf-8'))
+        clients[nick].send(f"You have joined a private chat with {message}.\n".encode('utf-8'))
+        clients[message].send(f"{nick} has joined a private chat with you.\n".encode('utf-8'))
     elif nick in chats:
-        dest = chats[nick]
-        clients[dest].send(text.encode('utf-8'))
+        if message.lower() == 'all':
+            del chats[nick]
+            clients[nick].send(f"You have exited the private chat with {message}.\n".encode('utf-8'))
+        else:
+            dest = chats[nick]
+            clients[dest].send(text.encode('utf-8'))
     else:
         send_all_clients(text)
     print(text, file=sys.stderr)
