@@ -3,10 +3,12 @@ import os, sys, socket, select
 def read(cli_sock):
     message = cli_sock.recv(1024).decode('utf-8')
     if message.lower() == 'exit':
+        print("Server has closed the connection.", file=sys.stderr)
         cli_sock.close()
         return
     elif not message:
-        print("Server has closed the connection.")
+        cli_sock.close()
+        print("Server has closed the connection. 2", file=sys.stderr)
     print(message)
 
 def write(cli_sock):

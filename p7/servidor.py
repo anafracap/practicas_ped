@@ -52,7 +52,7 @@ clients = {}
 
 try: 
     while True:
-        readable, _, _ = select.select([server_socket] + list(clients.values()), [], [])
+        readable, _, _ = select.select([server_socket] + list(clients.values()).copy(), [], [])
 
         for trigger_socket in readable:
             if trigger_socket == server_socket:
@@ -67,7 +67,7 @@ try:
 except KeyboardInterrupt:
     print("Keyboard interrupt received. Exiting server.", file=sys.stderr)
 finally:
-    for nick in clients:
+    for nick in clients.copy():
         disconnect(nick)
     server_socket.close()
 
