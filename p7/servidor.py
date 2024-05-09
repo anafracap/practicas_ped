@@ -12,7 +12,9 @@ def send_to_chat(message, nick):
         for client in groups[chats[nick]]:
             clients[client].send(message.encode('utf-8'))
     else:
-        clients[chats[nick]].send(message.encode('utf-8'))
+        private = chats[nick][len('p'):]
+        if private in clients:
+            clients[private].send(message.encode('utf-8'))
 
 def verify_nick(cli_sock):
     identify = "Please enter your UNIQUE nickname: "
@@ -58,13 +60,12 @@ def continue_conversation(cli_sock, nick):
         private = message[len("private: "):]
         if chats[nick] in groups:
             groups[chats[nick]].remove(nick)
-        chats[nick] = private
+        chats[nick] = 'p' + private
         clients[nick].send(f"You have joined a private chat with {private}.\n".encode('utf-8'))
         text = f"{nick} has joined a private chat with you.\n"
         send_to_chat(text, nick)
     else:
         send_to_chat(text, nick)
-    print(text, file=sys.stderr)
 
 def disconnect(nick):
     if nick in clients:
