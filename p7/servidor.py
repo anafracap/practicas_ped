@@ -7,6 +7,13 @@ def send_all_clients(message):
         except:
             disconnect(nick)
 
+def send_to_chat(message, nick):
+    if chats[nick] in groups:
+        for client in groups[chats[nick]]:
+            clients[client].send(message.encode('utf-8'))
+    else:
+        clients[chats[nick]].send(message.encode('utf-8'))
+
 def verify_nick(cli_sock):
     identify = "Please enter your UNIQUE nickname: "
     cli_sock.send(identify.encode('utf-8'))
@@ -21,7 +28,10 @@ def verify_nick(cli_sock):
         print(list(clients), file=sys.stderr)
         login = "You have successfully logged in! Type 'exit' to leave the chat.\n"
         cli_sock.send(login.encode('utf-8'))
-        send_all_clients(f"{nick} has joined the chat!")
+        chats[nick] = 'all'
+        groups[chats[nick]].add(nick)
+        text = f"{nick} has joined the chat!"
+        send_to_chat(text, nick)
         return nick
 
 def continue_conversation(cli_sock, nick):
@@ -29,38 +39,44 @@ def continue_conversation(cli_sock, nick):
     text = f"{nick}: {message}"
     if message.lower() == 'exit':
         disconnect(nick)
-    elif message in clients:
-        chats[nick] = message
-        clients[nick].send(f"You have joined a private chat with {message}.\n".encode('utf-8'))
-        clients[message].send(f"{nick} has joined a private chat with you.\n".encode('utf-8'))
-    elif nick in chats:
-        if message.lower() == 'all':
-            if chats[nick] in groups:
-                groups[chats[nick]].remove(nick)
-            del chats[nick]
-            clients[nick].send(f"You have joined the chat with {message}.\n".encode('utf-8'))
-        elif chats[nick] in groups:
-            for client in groups[chats[nick]]:
-                clients[client].send(text.encode('utf-8'))
-        else:
-            dest = chats[nick]
-            clients[dest].send(text.encode('utf-8'))
     elif message.lower().startswith("group: "):
+        text = f"{nick} has left the chat!"
+        send_to_chat(text, nick)
         group = message[len("group: "):]
+        if chats[nick] in groups:
+            groups[chats[nick]].remove(nick)
         chats[nick] = group
         if not group in groups:
             groups[group] = set()
         groups[group].add(nick)
+        clients[nick].send(f"You have joined the group {group}.\n".encode('utf-8'))
+        text = f"{nick} has joined the chat!"
+        send_to_chat(text, nick)
+    elif message.lower().startswith("private: "):
+        text = f"{nick} has left the chat!"
+        send_to_chat(text, nick)
+        private = message[len("private: "):]
+        if chats[nick] in groups:
+            groups[chats[nick]].remove(nick)
+        chats[nick] = private
+        clients[nick].send(f"You have joined a private chat with {private}.\n".encode('utf-8'))
+        text = f"{nick} has joined a private chat with you.\n"
+        send_to_chat(text, nick)
     else:
-        send_all_clients(text)
+        send_to_chat(text, nick)
     print(text, file=sys.stderr)
 
 def disconnect(nick):
     if nick in clients:
+        text = f"{nick} has left the chat!"
+        send_to_chat(text, nick)
         clients[nick].send("exit".encode())
         clients[nick].close()
+        if chats[nick] in groups:
+            groups[chats[nick]].remove(nick)
+        del chats[nick]
         del clients[nick]
-        send_all_clients(f"{nick} has left the chat.\n")   
+        
 
 server_address = "0.0.0.0"
 server_port = int(sys.argv[1])
@@ -72,7 +88,7 @@ print(server_socket, file=sys.stderr)
 
 clients = {}
 chats = {}
-groups = {}
+groups = {'all' : set()}
 
 try: 
     while True:
