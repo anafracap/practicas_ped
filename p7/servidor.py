@@ -1,6 +1,6 @@
 import os, sys, socket, select
 
-class Chat_server:
+class ChatServer:
 
     def start(self):
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
