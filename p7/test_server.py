@@ -51,5 +51,17 @@ class TestClass(unittest.TestCase):
                 call('ana has joined a private chat with you!', 'raquel')]
             mock_send_one.assset_has_calls(expected_calls)
 
+    def test_continue_conversation_regular_all(self):
+        message = 'holaaa'
+        nick = 'ana'
+        response = 'ana: holaaa'
+        with patch.object(self.chat_server, 'send_to_one') as mock_send_one:
+            self.chat_server.continue_conversation(message, nick)
+            expected_calls = [
+                call(response, 'ana'),
+                call(response, 'raquel'),
+                call(response, 'ivan')]
+            mock_send_one.assset_has_calls(expected_calls)
+
 if __name__ == '__main__':
     unittest.main()
