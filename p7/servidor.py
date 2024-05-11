@@ -3,18 +3,21 @@ import os, sys, socket, select
 def send_all_clients(message):
     for nick, c in clients.items():
         try:
-            c.send(message.encode('utf-8'))
+            send_to_one(message, c)
         except:
             disconnect(nick)
 
 def send_to_chat(message, nick):
     if chats[nick] in groups:
         for client in groups[chats[nick]]:
-            clients[client].send(message.encode('utf-8'))
+            send_to_one(message, client)
     else:
         private = chats[nick][len('p'):]
         if private in clients:
-            clients[private].send(message.encode('utf-8'))
+            send_to_one(message, private)
+
+def sent_to_one(message, nick):
+    clients[nick].send(message.encode('utf-8'))
 
 def verify_nick(cli_sock):
     identify = "Please enter your UNIQUE nickname: "
@@ -22,22 +25,21 @@ def verify_nick(cli_sock):
     nick = cli_sock.recv(1024).decode('utf-8')
     if nick in clients:
         message = "Your nickname is already in use, unable to log in \n"
-        cli_sock.send(message.encode('utf-8'))
+        sent_to_one(message, nick)
         cli_sock.close()
         return False
     else:
         clients[nick] = cli_sock
         print(list(clients), file=sys.stderr)
         login = "You have successfully logged in! Type 'exit' to leave the chat.\n"
-        cli_sock.send(login.encode('utf-8'))
+        sent_to_one(login, nick)
         chats[nick] = 'all'
         groups[chats[nick]].add(nick)
         text = f"{nick} has joined the chat!"
         send_to_chat(text, nick)
         return nick
 
-def continue_conversation(cli_sock, nick):
-    message = cli_sock.recv(1024).decode('utf-8')
+def continue_conversation(message, nick):
     text = f"{nick}: {message}"
     if message.lower() == 'exit':
         disconnect(nick)
@@ -51,7 +53,8 @@ def continue_conversation(cli_sock, nick):
         if not group in groups:
             groups[group] = set()
         groups[group].add(nick)
-        clients[nick].send(f"You have joined the group {group}.\n".encode('utf-8'))
+        message = f"You have joined the group {group}.\n"
+        send_to_one(message, nick)
         text = f"{nick} has joined the chat!"
         send_to_chat(text, nick)
     elif message.lower().startswith("private: "):
@@ -61,7 +64,8 @@ def continue_conversation(cli_sock, nick):
         if chats[nick] in groups:
             groups[chats[nick]].remove(nick)
         chats[nick] = 'p' + private
-        clients[nick].send(f"You have joined a private chat with {private}.\n".encode('utf-8'))
+        message = f"You have joined a private chat with {private}.\n"
+        send_to_one(message, nick)
         text = f"{nick} has joined a private chat with you.\n"
         send_to_chat(text, nick)
     else:
@@ -71,7 +75,8 @@ def disconnect(nick):
     if nick in clients:
         text = f"{nick} has left the chat!"
         send_to_chat(text, nick)
-        clients[nick].send("exit".encode())
+        message = 'exit'
+        send_to_one(message, nick)
         clients[nick].close()
         if chats[nick] in groups:
             groups[chats[nick]].remove(nick)
@@ -103,7 +108,8 @@ try:
                     print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
             else: # Receive message from existing client
                 nick = [key for key, value in clients.items() if value == trigger_socket][0]
-                continue_conversation(trigger_socket, nick)
+                message = trigger_socket.recv(1024).decode('utf-8')
+                continue_conversation(message, nick)
 
 except KeyboardInterrupt:
     print("Keyboard interrupt received. Exiting server.", file=sys.stderr)
