@@ -15,7 +15,7 @@ def write(cli_sock):
     message = input()
     cli_sock.send(message.encode('utf-8'))
     if message.lower() == 'exit':
-        cli_sock.close()
+        cli_sock.shutdown(socket.SHUT_WR)
         return
 
 server_address = sys.argv[1]
