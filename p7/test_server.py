@@ -93,6 +93,61 @@ class TestClass(unittest.TestCase):
         if expected in result.get(nick, []):
             contain = True
         self.assertTrue(contain)
+    
+    def test_enter_private_changed_group (self):
+        message = 'private: raquel'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        groups = {'all': set()}
+        groups['all'].add('raquel')
+        groups['all'].add('ivan')
+        self.assertEqual(self.chat_server.groups, groups)
+
+    def test_enter_private_changed_chats (self):
+        message = 'private: raquel'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        chats = {
+            'ana': 'praquel',
+            'raquel': 'gall',
+            'ivan': 'gall'
+        }
+        self.assertEqual(self.chat_server.chats, chats)
+
+    def test_enter_private_left_chat(self):
+        message = 'private: raquel'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = f'{nick} has left the chat!\n'
+        contain = []
+        nicks = ['ana', 'raquel', 'ivan']
+        for nick in nicks:
+            if expected in result.get(nick, []):
+                contain.append(True)
+        self.assertEqual(contain, [True, True, True])
+    
+    def test_enter_private_joined_chat(self):
+        message = 'private: raquel'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = 'You have joined a private chat with raquel.\n'
+        contain = False
+        if expected in result.get(nick, []):
+            contain = True
+        self.assertTrue(contain)
+    
+    def test_enter_private_no_joined_chat(self):
+        message = 'private: raquel'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = '{nick} has joined a private chat with you.\n'
+        nicks = ['ana', 'ivan']
+        contain = []
+        for nick in nicks:
+            if expected not in result.get(nick, []):
+                contain.append(True)
+        self.assertEqual(contain, [True, True])
+
 
 if __name__ == '__main__':
     unittest.main()
