@@ -15,17 +15,22 @@ class ChatServer:
                 for trigger_socket in readable:
                     if trigger_socket == self.server_socket:
                         client_socket, client_address = self.server_socket.accept()
-                        nick = self.verify_nick(client_socket)
-                        if nick:
-                            print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
+                        identify = "Please enter your UNIQUE nickname: "
+                        client_socket.send(identify.encode('utf-8'))
                     elif trigger_socket == sys.stdin:
                         message = input()
                         if message.lower() == 'exit':
                             self.shutdown()
                             return
                     else: # Receive message from existing client
-                        nick = [key for key, value in self.clients.items() if value == trigger_socket][0]
+                        nick = [key, value for key, value in self.clients.items() if value == trigger_socket][0]
+                        if not nick:
+                            nick = self.verify_nick(client_socket)
+                            if nick:
+                                print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
                         message = trigger_socket.recv(1024).decode('utf-8')
+                        if message.lower() == 'exit':
+                            self.disconnect(nick)
                         self.continue_conversation(message, nick)
         except KeyboardInterrupt:
             print("Keyboard interrupt received. Exiting server.", file=sys.stderr)
@@ -34,8 +39,6 @@ class ChatServer:
             
 
     def verify_nick(self, cli_sock):
-        identify = "Please enter your UNIQUE nickname: "
-        cli_sock.send(identify.encode('utf-8'))
         nick = cli_sock.recv(1024).decode('utf-8')
         if nick in self.clients:
             message = "Your nickname is already in use, unable to log in \n"
@@ -55,13 +58,12 @@ class ChatServer:
 
     def continue_conversation(self, message, nick):
         text = f"{nick}: {message}"
-        if message.lower() == 'exit':
-            self.disconnect(nick)
-        elif message.lower().startswith("group: "):
+        if message.lower().startswith("group: "):
             text = f"{nick} has left the chat!"
             self.send_to_chat(text, nick)
             group = message[len("group: "):]
             old = self.chats[nick][len('p'):]
+            
             if old in self.groups:
                 self.groups[old].remove(nick)
 
