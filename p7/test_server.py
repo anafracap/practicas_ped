@@ -159,6 +159,34 @@ class TestClass(unittest.TestCase):
             if expected in result.get(nick, []):
                 contain.append(True)
         self.assertEqual(contain, [True, True, True])
+    
+    def test_send_message_group(self):
+        message = 'group: hola'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        message = 'hola'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = f"{nick}: {message}"
+        contain = False
+        if expected in result.get(nick, []):
+            contain = True
+        self.assertTrue(contain)
+    
+    def test_send_message_group_not_others(self):
+        message = 'group: hola'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        message = 'hola'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = f"{nick}: {message}"
+        nicks = ['raquel', 'ivan']
+        contain = []
+        for nick in nicks:
+            if expected not in result.get(nick, []):
+                contain.append(True)
+        self.assertEqual(contain, [True, True])
 
 
 
