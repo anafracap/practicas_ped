@@ -49,6 +49,18 @@ class TestClass(unittest.TestCase):
         }
         self.assertEqual(self.chat_server.chats, chats)
 
+    def test_enter_group_left_chat(self):
+        message = 'group: hola'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = 'ana has left the chat!\n'
+        contain = []
+        nicks = ['ana', 'raquel', 'ivan']
+        for nick in nicks:
+            if expected in result.get(nick, []):
+                contain.append(True)
+        self.assertEqual(contain, [True, True, True])
+
 
 if __name__ == '__main__':
     unittest.main()

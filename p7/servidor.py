@@ -94,19 +94,20 @@ class ChatServer:
             self.send_to_chat(text, nick)
 
     def treat_message(self, message, nick):
+        result = {}
         if message.lower().startswith("group: "):
             group = message[len("group: "):]
             old = self.chats[nick][len('g'):]
-            print(old)
+            left = f"{nick} has left the chat!\n"
+            result.update(self.prepare_for_chat(left, nick))
             if old in self.groups:
                 self.groups[old].remove(nick)
             self.chats[nick] = 'g' + group
             if not group in self.groups:
                 self.groups[group] = set()
             self.groups[group].add(nick)
-            message = f"You have joined the group {group}.\n"
-            result = {}
-            result[nick] = [message]
+            joined = f"You have joined the group {group}.\n"
+            result[nick].append(joined)
             return result
 
 
@@ -131,6 +132,17 @@ class ChatServer:
         elif self.chats[nick].lower().startswith('p'):
             if chat in self.clients:
                 self.send_to_one(message, chat)
+    
+    def prepare_for_chat(self, message, nick):
+        result = {}
+        chat = self.chats[nick][len('p'):]
+        if self.chats[nick].lower().startswith('g'):
+            for client in self.groups[chat]:
+                result[client] = [message]
+        elif self.chats[nick].lower().startswith('p'):
+            if chat in self.clients:
+                result[chat] = [message]
+        return result
 
     def send_to_one(self, message, nick):
         self.clients[nick].send(message.encode('utf-8'))
