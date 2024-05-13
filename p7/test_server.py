@@ -84,6 +84,15 @@ class TestClass(unittest.TestCase):
                 contain.append(True)
         self.assertEqual(contain, [True, True])
 
+    def test_enter_private(self):
+        message = 'private: raquel'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = 'You have joined a private chat with raquel.\n'
+        contain = False
+        if expected in result.get(nick, []):
+            contain = True
+        self.assertTrue(contain)
 
 if __name__ == '__main__':
     unittest.main()

@@ -107,13 +107,24 @@ class ChatServer:
                 self.groups[group] = set()
             self.groups[group].add(nick)
             you_joined = f"You have joined the group {group}.\n"
-            if nick in result:
-                result[nick].append(you_joined)
-            else:
-                result[nick] = [you_joined]
+            result.update(self.add_message_to_dict(result, you_joined, nick))
             joined = f"{nick} has joined the chat!\n"
             result.update(self.prepare_for_chat(result, joined, nick))
             return result
+        elif message.lower().startswith("private: "):
+            private = message[len("private: "):]
+            old = self.chats[nick][len('g'):]
+            left = f"{nick} has left the chat!\n"
+            result.update(self.prepare_for_chat(result, left, nick))
+            if old in self.groups:
+                self.groups[old].remove(nick)
+            self.chats[nick] = 'p' + private
+            you_joined = f"You have joined a private chat with {private}.\n"
+            result.update(self.add_message_to_dict(result, you_joined, nick))
+            joined = f"{nick} has joined a private chat with you.\n"
+            result.update(self.prepare_for_chat(result, joined, nick))
+            return result
+
 
 
     def disconnect(self, nick):
@@ -142,16 +153,17 @@ class ChatServer:
         chat = self.chats[nick][len('p'):]
         if self.chats[nick].lower().startswith('g'):
             for client in self.groups[chat]:
-                if client in result:
-                    result[client].append(message)
-                else:
-                    result[client] = [message]
+                result.update(self.add_message_to_dict(result, message, client))
         elif self.chats[nick].lower().startswith('p'):
             if chat in self.clients:
-                if chat in result:
-                    result[chat].append(message)
-                else:
-                    result[chat] = [message]
+                result.update(self.add_message_to_dict(result, message, chat))
+        return result
+
+    def add_message_to_dict(self, result, message, nick):
+        if nick in result:
+            result[nick].append(message)
+        else:
+            result[nick] = [message]
         return result
 
     def send_to_one(self, message, nick):
