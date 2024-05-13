@@ -148,6 +148,19 @@ class TestClass(unittest.TestCase):
                 contain.append(True)
         self.assertEqual(contain, [True, True])
 
+    def test_send_message_all(self):
+        message = 'hola'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = f"{nick}: {message}"
+        contain = []
+        nicks = ['ana', 'raquel', 'ivan']
+        for nick in nicks:
+            if expected in result.get(nick, []):
+                contain.append(True)
+        self.assertEqual(contain, [True, True, True])
+
+
 
 if __name__ == '__main__':
     unittest.main()

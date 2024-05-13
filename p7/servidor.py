@@ -116,6 +116,13 @@ class ChatServer:
             joined = f"{nick} has joined a private chat with you.\n"
             result.update(self.prepare_for_chat(result, joined, nick))
             return result
+        elif message.lower() == 'exit':
+            self.disconnect(nick)
+        else:
+            text = f"{nick}: {message}"
+            result.update(self.prepare_for_chat(result, text, nick))
+            return result
+
 
     def prepare_for_chat(self, result, message, nick):
         chat = self.chats[nick][len('p'):]
