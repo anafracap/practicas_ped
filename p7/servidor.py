@@ -97,11 +97,7 @@ class ChatServer:
         result = {}
         if message.lower().startswith("group: "):
             group = message[len("group: "):]
-            old = self.chats[nick][len('g'):]
-            left = f"{nick} has left the chat!\n"
-            result.update(self.prepare_for_chat(result, left, nick))
-            if old in self.groups:
-                self.groups[old].remove(nick)
+            result.update(self.leave_old_chat(result, nick))
             self.chats[nick] = 'g' + group
             if not group in self.groups:
                 self.groups[group] = set()
@@ -113,11 +109,7 @@ class ChatServer:
             return result
         elif message.lower().startswith("private: "):
             private = message[len("private: "):]
-            old = self.chats[nick][len('g'):]
-            left = f"{nick} has left the chat!\n"
-            result.update(self.prepare_for_chat(result, left, nick))
-            if old in self.groups:
-                self.groups[old].remove(nick)
+            result.update(self.leave_old_chat(result, nick))
             self.chats[nick] = 'p' + private
             you_joined = f"You have joined a private chat with {private}.\n"
             result.update(self.add_message_to_dict(result, you_joined, nick))
@@ -125,6 +117,30 @@ class ChatServer:
             result.update(self.prepare_for_chat(result, joined, nick))
             return result
 
+    def prepare_for_chat(self, result, message, nick):
+        chat = self.chats[nick][len('p'):]
+        if self.chats[nick].lower().startswith('g'):
+            for client in self.groups[chat]:
+                result.update(self.add_message_to_dict(result, message, client))
+        elif self.chats[nick].lower().startswith('p'):
+            if chat in self.clients:
+                result.update(self.add_message_to_dict(result, message, chat))
+        return result
+    
+    def leave_old_chat(self, result, nick):
+        old = self.chats[nick][len('g'):]
+        left = f"{nick} has left the chat!\n"
+        result.update(self.prepare_for_chat(result, left, nick))
+        if old in self.groups:
+            self.groups[old].remove(nick)
+        return result
+
+    def add_message_to_dict(self, result, message, nick):
+        if nick in result:
+            result[nick].append(message)
+        else:
+            result[nick] = [message]
+        return result
 
 
     def disconnect(self, nick):
@@ -148,23 +164,6 @@ class ChatServer:
         elif self.chats[nick].lower().startswith('p'):
             if chat in self.clients:
                 self.send_to_one(message, chat)
-    
-    def prepare_for_chat(self, result, message, nick):
-        chat = self.chats[nick][len('p'):]
-        if self.chats[nick].lower().startswith('g'):
-            for client in self.groups[chat]:
-                result.update(self.add_message_to_dict(result, message, client))
-        elif self.chats[nick].lower().startswith('p'):
-            if chat in self.clients:
-                result.update(self.add_message_to_dict(result, message, chat))
-        return result
-
-    def add_message_to_dict(self, result, message, nick):
-        if nick in result:
-            result[nick].append(message)
-        else:
-            result[nick] = [message]
-        return result
 
     def send_to_one(self, message, nick):
         self.clients[nick].send(message.encode('utf-8'))
