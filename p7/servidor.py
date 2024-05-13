@@ -99,15 +99,20 @@ class ChatServer:
             group = message[len("group: "):]
             old = self.chats[nick][len('g'):]
             left = f"{nick} has left the chat!\n"
-            result.update(self.prepare_for_chat(left, nick))
+            result.update(self.prepare_for_chat(result, left, nick))
             if old in self.groups:
                 self.groups[old].remove(nick)
             self.chats[nick] = 'g' + group
             if not group in self.groups:
                 self.groups[group] = set()
             self.groups[group].add(nick)
-            joined = f"You have joined the group {group}.\n"
-            result[nick].append(joined)
+            you_joined = f"You have joined the group {group}.\n"
+            if nick in result:
+                result[nick].append(you_joined)
+            else:
+                result[nick] = [you_joined]
+            joined = f"{nick} has joined the chat!\n"
+            result.update(self.prepare_for_chat(result, joined, nick))
             return result
 
 
@@ -133,15 +138,20 @@ class ChatServer:
             if chat in self.clients:
                 self.send_to_one(message, chat)
     
-    def prepare_for_chat(self, message, nick):
-        result = {}
+    def prepare_for_chat(self, result, message, nick):
         chat = self.chats[nick][len('p'):]
         if self.chats[nick].lower().startswith('g'):
             for client in self.groups[chat]:
-                result[client] = [message]
+                if client in result:
+                    result[client].append(message)
+                else:
+                    result[client] = [message]
         elif self.chats[nick].lower().startswith('p'):
             if chat in self.clients:
-                result[chat] = [message]
+                if chat in result:
+                    result[chat].append(message)
+                else:
+                    result[chat] = [message]
         return result
 
     def send_to_one(self, message, nick):

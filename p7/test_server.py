@@ -23,6 +23,7 @@ class TestClass(unittest.TestCase):
         nick = 'ana'
         result = self.chat_server.treat_message(message, nick)
         expected = 'You have joined the group hola.\n'
+        contain = False
         if expected in result.get(nick, []):
             contain = True
         self.assertTrue(contain)
@@ -60,6 +61,17 @@ class TestClass(unittest.TestCase):
             if expected in result.get(nick, []):
                 contain.append(True)
         self.assertEqual(contain, [True, True, True])
+    
+    def test_enter_group_joined_chat(self):
+        message = 'group: hola'
+        nick = 'ana'
+        result = self.chat_server.treat_message(message, nick)
+        expected = 'ana has joined the chat!\n'
+        contain = False
+        if expected in result.get(nick, []):
+            contain = True
+        self.assertTrue(contain)
+
 
 
 if __name__ == '__main__':
