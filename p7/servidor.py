@@ -23,15 +23,13 @@ class ChatServer:
                             self.shutdown()
                             return
                     else: # Receive message from existing client
-                        nick = [key, value for key, value in self.clients.items() if value == trigger_socket][0]
+                        nick = [key for key, value in self.clients.items() if value == trigger_socket][0]
                         if not nick:
                             nick = self.verify_nick(client_socket)
                             if nick:
                                 print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
                         message = trigger_socket.recv(1024).decode('utf-8')
-                        if message.lower() == 'exit':
-                            self.disconnect(nick)
-                        self.continue_conversation(message, nick)
+                        self.treat_message(message, nick)
         except KeyboardInterrupt:
             print("Keyboard interrupt received. Exiting server.", file=sys.stderr)
         finally:
@@ -57,8 +55,9 @@ class ChatServer:
             return nick
 
     def continue_conversation(self, message, nick):
-        text = f"{nick}: {message}"
-        if message.lower().startswith("group: "):
+        if message.lower() == 'exit':
+            self.disconnect(nick)
+        elif message.lower().startswith("group: "):
             text = f"{nick} has left the chat!"
             self.send_to_chat(text, nick)
             group = message[len("group: "):]
@@ -91,7 +90,17 @@ class ChatServer:
             text = f"{nick} has joined a private chat with you.\n"
             self.send_to_chat(text, nick)
         else:
+            text = f"{nick}: {message}"
             self.send_to_chat(text, nick)
+
+    def treat_message(self, message, nick):
+        if message.lower().startswith("group: "):
+            group = message[len("group: "):]
+            message = f"You have joined the group {group}.\n"
+            result = {}
+            result[nick] = [message]
+            return result
+
 
     def disconnect(self, nick):
         if nick in self.clients:
