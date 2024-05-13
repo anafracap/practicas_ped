@@ -38,6 +38,17 @@ class TestClass(unittest.TestCase):
         groups['all'].add('ivan')
         self.assertEqual(self.chat_server.groups, groups)
 
+    def test_enter_group_changed_chats (self):
+        message = 'group: hola'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        chats = {
+            'ana': 'ghola',
+            'raquel': 'gall',
+            'ivan': 'gall'
+        }
+        self.assertEqual(self.chat_server.chats, chats)
+
 
 if __name__ == '__main__':
     unittest.main()
