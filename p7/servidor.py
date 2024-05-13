@@ -96,6 +96,14 @@ class ChatServer:
     def treat_message(self, message, nick):
         if message.lower().startswith("group: "):
             group = message[len("group: "):]
+            old = self.chats[nick][len('g'):]
+            print(old)
+            if old in self.groups:
+                self.groups[old].remove(nick)
+            self.chats[nick] = 'g' + group
+            if not group in self.groups:
+                self.groups[group] = set()
+            self.groups[group].add(nick)
             message = f"You have joined the group {group}.\n"
             result = {}
             result[nick] = [message]

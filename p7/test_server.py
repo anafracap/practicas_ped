@@ -6,9 +6,9 @@ class TestClass(unittest.TestCase):
     def setUp(self):
         self.chat_server = ChatServer("0.0.0.0", 1234)
         self.chat_server.chats = {
-            'ana': 'all',
-            'raquel': 'all',
-            'ivan': 'all'
+            'ana': 'gall',
+            'raquel': 'gall',
+            'ivan': 'gall'
         }
         self.chat_server.groups['all'].add('ana')
         self.chat_server.groups['all'].add('raquel')
@@ -26,6 +26,18 @@ class TestClass(unittest.TestCase):
         if expected in result.get(nick, []):
             contain = True
         self.assertTrue(contain)
+    
+    def test_enter_group_changed_group (self):
+        message = 'group: hola'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        groups = {'all': set(),
+                  'hola': set()}
+        groups['hola'].add('ana')
+        groups['all'].add('raquel')
+        groups['all'].add('ivan')
+        self.assertEqual(self.chat_server.groups, groups)
+
 
 if __name__ == '__main__':
     unittest.main()
