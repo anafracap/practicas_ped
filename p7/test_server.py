@@ -10,6 +10,11 @@ class TestClass(unittest.TestCase):
             'raquel': 'gall',
             'ivan': 'gall'
         }
+        self.chat_server.clients = {
+            'ana': '',
+            'raquel': '',
+            'ivan': ''
+        }
         self.chat_server.groups['all'].add('ana')
         self.chat_server.groups['all'].add('raquel')
         self.chat_server.groups['all'].add('ivan')
@@ -165,7 +170,6 @@ class TestClass(unittest.TestCase):
         nick = 'ana'
         self.chat_server.treat_message(message, nick)
         message = 'hola'
-        nick = 'ana'
         result = self.chat_server.treat_message(message, nick)
         expected = f"{nick}: {message}"
         contain = False
@@ -178,10 +182,35 @@ class TestClass(unittest.TestCase):
         nick = 'ana'
         self.chat_server.treat_message(message, nick)
         message = 'hola'
-        nick = 'ana'
         result = self.chat_server.treat_message(message, nick)
         expected = f"{nick}: {message}"
         nicks = ['raquel', 'ivan']
+        contain = []
+        for nick in nicks:
+            if expected not in result.get(nick, []):
+                contain.append(True)
+        self.assertEqual(contain, [True, True])
+    
+    def test_send_message_private(self):
+        message = 'private: raquel'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        message = 'holi'
+        result = self.chat_server.treat_message(message, nick)
+        expected = f"{nick}: {message}"
+        contain = False
+        if expected in result.get('raquel', []):
+            contain = True
+        self.assertTrue(contain)
+    
+    def test_send_message_private_not_others(self):
+        message = 'private: raquel'
+        nick = 'ana'
+        self.chat_server.treat_message(message, nick)
+        message = 'hola'
+        result = self.chat_server.treat_message(message, nick)
+        expected = f"{nick}: {message}"
+        nicks = ['ana', 'ivan']
         contain = []
         for nick in nicks:
             if expected not in result.get(nick, []):

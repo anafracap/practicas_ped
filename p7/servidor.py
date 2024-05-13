@@ -1,4 +1,4 @@
-import os, sys, socket, select
+import sys, socket, select
 
 class ChatServer:
 
@@ -122,7 +122,6 @@ class ChatServer:
             text = f"{nick}: {message}"
             result.update(self.prepare_for_chat(result, text, nick))
             return result
-
 
     def prepare_for_chat(self, result, message, nick):
         chat = self.chats[nick][len('p'):]
