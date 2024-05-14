@@ -10,13 +10,16 @@ class ChatServer:
 
         try: 
             while True:
-                readable, _, _ = select.select([self.server_socket, sys.stdin] + list(self.clients.values()), [], [])
+                input = [self.server_socket, sys.stdin]
+                input.extend(list(self.clients.values()))
+                readable, _, _ = select.select(input, [], [])
 
                 for trigger_socket in readable:
                     if trigger_socket == self.server_socket:
                         client_socket, client_address = self.server_socket.accept()
-                        identify = "Please enter your UNIQUE nickname: "
-                        client_socket.send(identify.encode('utf-8'))
+                        nick = self.verify_nick(client_socket)
+                        if nick:
+                            print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
                     elif trigger_socket == sys.stdin:
                         message = input()
                         if message.lower() == 'exit':
@@ -24,12 +27,10 @@ class ChatServer:
                             return
                     else: # Receive message from existing client
                         nick = [key for key, value in self.clients.items() if value == trigger_socket][0]
-                        if not nick:
-                            nick = self.verify_nick(client_socket)
-                            if nick:
-                                print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
                         message = trigger_socket.recv(1024).decode('utf-8')
-                        self.treat_message(message, nick)
+                        result = self.treat_message(message, nick)
+                        if result:
+                            self.send_messages(result)
         except KeyboardInterrupt:
             print("Keyboard interrupt received. Exiting server.", file=sys.stderr)
         finally:
@@ -37,6 +38,9 @@ class ChatServer:
             
 
     def verify_nick(self, cli_sock):
+        result = {}
+        identify = "Please enter your UNIQUE nickname: "
+        cli_sock.send(identify.encode('utf-8'))
         nick = cli_sock.recv(1024).decode('utf-8')
         if nick in self.clients:
             message = "Your nickname is already in use, unable to log in \n"
@@ -51,47 +55,8 @@ class ChatServer:
             self.chats[nick] = 'gall'
             self.groups['all'].add(nick)
             text = f"{nick} has joined the chat!"
-            self.send_to_chat(text, nick)
+            self.prepare_for_chat(result, text, nick)
             return nick
-
-    def continue_conversation(self, message, nick):
-        if message.lower() == 'exit':
-            self.disconnect(nick)
-        elif message.lower().startswith("group: "):
-            text = f"{nick} has left the chat!"
-            self.send_to_chat(text, nick)
-            group = message[len("group: "):]
-            old = self.chats[nick][len('p'):]
-            
-            if old in self.groups:
-                self.groups[old].remove(nick)
-
-            self.chats[nick] = 'g' + group
-            if not group in self.groups:
-                self.groups[group] = set()
-            self.groups[group].add(nick)
-            message = f"You have joined the group {group}.\n"
-            self.send_to_one(message, nick)
-            text = f"{nick} has joined the chat!"
-            self.send_to_chat(text, nick)
-
-        elif message.lower().startswith("private: "):
-            text = f"{nick} has left the chat!"
-            self.send_to_chat(text, nick)
-
-            private = message[len("private: "):]
-            old = self.chats[nick][len('g'):]
-            if old in self.groups:
-                self.groups[old].remove(nick)
-
-            self.chats[nick] = 'p' + private
-            message = f"You have joined a private chat with {private}.\n"
-            self.send_to_one(message, nick)
-            text = f"{nick} has joined a private chat with you.\n"
-            self.send_to_chat(text, nick)
-        else:
-            text = f"{nick}: {message}"
-            self.send_to_chat(text, nick)
 
     def treat_message(self, message, nick):
         result = {}
@@ -147,20 +112,28 @@ class ChatServer:
         else:
             result[nick] = [message]
         return result
-
-
+    
     def disconnect(self, nick):
         if nick in self.clients:
             old = self.chats[nick][len('g'):]
             text = f"{nick} has left the chat! \n"
             self.send_to_chat(text, nick)
+            if old in self.groups:
+                self.groups[old].remove(nick)
             message = 'exit'
             self.send_to_one(message, nick)
             self.clients[nick].close()
-            if old in self.groups:
-                self.groups[old].remove(nick)
             del self.chats[nick]
             del self.clients[nick]
+
+    def send_messages(self, result):
+        for nick in result:
+            if nick in self.clients:
+                for message in result.get(nick, []):
+                    self.send_to_one(message, nick)
+
+    def send_to_one(self, message, nick):
+        self.clients[nick].send(message.encode('utf-8'))
 
     def send_to_chat(self, message, nick):
         chat = self.chats[nick][len('p'):]
@@ -170,9 +143,6 @@ class ChatServer:
         elif self.chats[nick].lower().startswith('p'):
             if chat in self.clients:
                 self.send_to_one(message, chat)
-
-    def send_to_one(self, message, nick):
-        self.clients[nick].send(message.encode('utf-8'))
 
     def shutdown(self):
         for nick in self.clients.copy():

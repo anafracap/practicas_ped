@@ -217,7 +217,5 @@ class TestClass(unittest.TestCase):
                 contain.append(True)
         self.assertEqual(contain, [True, True])
 
-
-
 if __name__ == '__main__':
     unittest.main()

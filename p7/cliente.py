@@ -1,4 +1,4 @@
-import os, sys, socket, select
+import sys, socket, select
 
 def read(cli_sock):
     message = cli_sock.recv(1024).decode('utf-8')
@@ -28,7 +28,7 @@ try:
 
     nick = input(client_socket.recv(1024).decode('utf-8'))
     client_socket.send(nick.encode('utf-8'))
-
+    print(nick)
     login = client_socket.recv(1024).decode('utf-8')
     print(login)
 
