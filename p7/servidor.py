@@ -12,19 +12,24 @@ class ChatServer:
             while True:
                 input = [self.server_socket, sys.stdin]
                 input.extend(list(self.clients.values()))
+                input.extend(self.pending)
                 readable, _, _ = select.select(input, [], [])
 
                 for trigger_socket in readable:
                     if trigger_socket == self.server_socket:
                         client_socket, client_address = self.server_socket.accept()
-                        nick = self.verify_nick(client_socket)
-                        if nick:
-                            print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
+                        identify = "Please enter your UNIQUE nickname: "
+                        client_socket.send(identify.encode('utf-8'))
+                        self.pending.append(client_socket)
                     elif trigger_socket == sys.stdin:
                         message = input()
                         if message.lower() == 'exit':
                             self.shutdown()
                             return
+                    elif trigger_socket in self.pending:
+                        nick = self.verify_nick(client_socket)
+                        if nick:
+                            print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
                     else: # Receive message from existing client
                         nick = [key for key, value in self.clients.items() if value == trigger_socket][0]
                         message = trigger_socket.recv(1024).decode('utf-8')
@@ -38,9 +43,8 @@ class ChatServer:
             
 
     def verify_nick(self, cli_sock):
+        self.pending.remove(cli_sock)
         result = {}
-        identify = "Please enter your UNIQUE nickname: "
-        cli_sock.send(identify.encode('utf-8'))
         nick = cli_sock.recv(1024).decode('utf-8')
         if nick in self.clients:
             message = "Your nickname is already in use, unable to log in \n"
@@ -156,6 +160,7 @@ class ChatServer:
         self.clients = {}
         self.chats = {}
         self.groups = {'all': set()}
+        self.pending = []
 
 
 if __name__ == "__main__":
