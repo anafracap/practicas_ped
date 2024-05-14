@@ -10,10 +10,10 @@ class ChatServer:
 
         try: 
             while True:
-                input = [self.server_socket, sys.stdin]
-                input.extend(list(self.clients.values()))
-                input.extend(self.pending)
-                readable, _, _ = select.select(input, [], [])
+                file_inputs = [self.server_socket, sys.stdin]
+                file_inputs.extend(list(self.clients.values()))
+                file_inputs.extend(self.pending)
+                readable, _, _ = select.select(file_inputs, [], [])
 
                 for trigger_socket in readable:
                     if trigger_socket == self.server_socket:
@@ -27,7 +27,9 @@ class ChatServer:
                             self.shutdown()
                             return
                     elif trigger_socket in self.pending:
-                        nick = self.verify_nick(client_socket)
+                        nick, result = self.verify_nick(client_socket)
+                        if result:
+                            self.send_messages(result)
                         if nick:
                             print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
                     else: # Receive message from existing client
@@ -50,17 +52,17 @@ class ChatServer:
             message = "Your nickname is already in use, unable to log in \n"
             cli_sock.send(message.encode('utf-8'))
             cli_sock.close()
-            return False
+            return False, False
         else:
             self.clients[nick] = cli_sock
             print(list(self.clients), file=sys.stderr)
             login = "You have successfully logged in! Type 'exit' to leave the chat.\n"
-            self.send_to_one(login, nick)
+            result.update(self.add_message_to_dict(result, login, nick))
             self.chats[nick] = 'gall'
             self.groups['all'].add(nick)
             text = f"{nick} has joined the chat!"
             self.prepare_for_chat(result, text, nick)
-            return nick
+            return nick, result
 
     def treat_message(self, message, nick):
         result = {}
