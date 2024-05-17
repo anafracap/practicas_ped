@@ -22,6 +22,12 @@ class Partida():
             elif turno1 == 'X' and isinstance(turno2, int):
                 raise Exception('BolosExtraviados')
         self._tirar_ronda(turno1)
+        self._procesar_turno_2(turno1, turno2)
+        self._procesar_turno_3(turno2, turno3)
+        
+        self._num_ronda = ronda + 1
+       
+    def _procesar_turno_2(self, turno1, turno2):
         if turno2 != None:
             if turno2 == '/':
                 if turno1 == 'X':
@@ -40,6 +46,8 @@ class Partida():
                 raise Exception('NomenclaturaIncorrecta')
             else:
                 self._tirar_ronda(turno2)
+
+    def _procesar_turno_3(self, turno2, turno3):
         if turno3 != None:
             if turno2 == None:
                 raise Exception('NomenclaturaIncorrecta')
@@ -55,8 +63,6 @@ class Partida():
             elif turno3 > 9:
                 raise Exception('NomenclaturaIncorrecta')
             else: self._tirar_ronda(turno3)
-        self._num_ronda = ronda + 1
-       
 
     def _tirar_ronda(self, turno):
         if self._tiradas_a_sumar > 0 or self._tirada_bonus_2 > 0:
