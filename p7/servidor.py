@@ -35,7 +35,7 @@ class ChatServer:
                     else: # Receive message from existing client
                         nick = [key for key, value in self.clients.items() if value == trigger_socket][0]
                         message = trigger_socket.recv(1024).decode('utf-8')
-                        result = self.treat_message(message, nick)
+                        result = self.process_chat_message(message, nick)
                         if result:
                             self.send_messages(result)
         except KeyboardInterrupt:
@@ -64,7 +64,7 @@ class ChatServer:
             self.prepare_for_chat(result, text, nick)
             return nick, result
 
-    def treat_message(self, message, nick):
+    def process_chat_message(self, message, nick):
         result = {}
         if message.lower().startswith("group: "):
             group = message[len("group: "):]

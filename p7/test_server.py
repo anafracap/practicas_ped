@@ -26,7 +26,7 @@ class TestClass(unittest.TestCase):
     def test_enter_group(self):
         message = 'group: hola'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = 'You have joined the group hola.\n'
         contain = False
         if expected in result.get(nick, []):
@@ -36,7 +36,7 @@ class TestClass(unittest.TestCase):
     def test_enter_group_changed_group (self):
         message = 'group: hola'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         groups = {'all': set(),
                   'hola': set()}
         groups['hola'].add('ana')
@@ -47,7 +47,7 @@ class TestClass(unittest.TestCase):
     def test_enter_group_changed_chats (self):
         message = 'group: hola'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         chats = {
             'ana': 'ghola',
             'raquel': 'gall',
@@ -58,7 +58,7 @@ class TestClass(unittest.TestCase):
     def test_enter_group_left_chat(self):
         message = 'group: hola'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = 'ana has left the chat!\n'
         contain = []
         nicks = ['ana', 'raquel', 'ivan']
@@ -70,7 +70,7 @@ class TestClass(unittest.TestCase):
     def test_enter_group_joined_chat(self):
         message = 'group: hola'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = 'ana has joined the chat!\n'
         contain = False
         if expected in result.get(nick, []):
@@ -80,7 +80,7 @@ class TestClass(unittest.TestCase):
     def test_enter_group_no_joined_chat(self):
         message = 'group: hola'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = 'ana has joined the chat!\n'
         nicks = ['raquel', 'ivan']
         contain = []
@@ -92,7 +92,7 @@ class TestClass(unittest.TestCase):
     def test_enter_private(self):
         message = 'private: raquel'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = 'You have joined a private chat with raquel.\n'
         contain = False
         if expected in result.get(nick, []):
@@ -102,7 +102,7 @@ class TestClass(unittest.TestCase):
     def test_enter_private_changed_group (self):
         message = 'private: raquel'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         groups = {'all': set()}
         groups['all'].add('raquel')
         groups['all'].add('ivan')
@@ -111,7 +111,7 @@ class TestClass(unittest.TestCase):
     def test_enter_private_changed_chats (self):
         message = 'private: raquel'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         chats = {
             'ana': 'praquel',
             'raquel': 'gall',
@@ -122,7 +122,7 @@ class TestClass(unittest.TestCase):
     def test_enter_private_left_chat(self):
         message = 'private: raquel'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = f'{nick} has left the chat!\n'
         contain = []
         nicks = ['ana', 'raquel', 'ivan']
@@ -134,7 +134,7 @@ class TestClass(unittest.TestCase):
     def test_enter_private_joined_chat(self):
         message = 'private: raquel'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = 'You have joined a private chat with raquel.\n'
         contain = False
         if expected in result.get(nick, []):
@@ -144,7 +144,7 @@ class TestClass(unittest.TestCase):
     def test_enter_private_no_joined_chat(self):
         message = 'private: raquel'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = '{nick} has joined a private chat with you.\n'
         nicks = ['ana', 'ivan']
         contain = []
@@ -156,7 +156,7 @@ class TestClass(unittest.TestCase):
     def test_send_message_all(self):
         message = 'hola'
         nick = 'ana'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = f"{nick}: {message}"
         contain = []
         nicks = ['ana', 'raquel', 'ivan']
@@ -168,9 +168,9 @@ class TestClass(unittest.TestCase):
     def test_send_message_group(self):
         message = 'group: hola'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         message = 'hola'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = f"{nick}: {message}"
         contain = False
         if expected in result.get(nick, []):
@@ -180,9 +180,9 @@ class TestClass(unittest.TestCase):
     def test_send_message_group_not_others(self):
         message = 'group: hola'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         message = 'hola'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = f"{nick}: {message}"
         nicks = ['raquel', 'ivan']
         contain = []
@@ -194,9 +194,9 @@ class TestClass(unittest.TestCase):
     def test_send_message_private(self):
         message = 'private: raquel'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         message = 'holi'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = f"{nick}: {message}"
         contain = False
         if expected in result.get('raquel', []):
@@ -206,9 +206,9 @@ class TestClass(unittest.TestCase):
     def test_send_message_private_not_others(self):
         message = 'private: raquel'
         nick = 'ana'
-        self.chat_server.treat_message(message, nick)
+        self.chat_server.process_chat_message(message, nick)
         message = 'hola'
-        result = self.chat_server.treat_message(message, nick)
+        result = self.chat_server.process_chat_message(message, nick)
         expected = f"{nick}: {message}"
         nicks = ['ana', 'ivan']
         contain = []
