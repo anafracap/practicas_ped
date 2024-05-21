@@ -19,8 +19,11 @@ class ChatServer:
                     if trigger_socket == self.server_socket:
                         client_socket, client_address = self.server_socket.accept()
                         identify = "Please enter your UNIQUE nickname: "
-                        client_socket.send(identify.encode('utf-8'))
-                        self.pending.append(client_socket)
+                        try:
+                            client_socket.send(identify.encode('utf-8'))
+                            self.pending.append(client_socket)
+                        except BrokenPipeError:
+                            client_socket.close()
                     elif trigger_socket == sys.stdin:
                         message = input()
                         if message.lower() == 'exit':
@@ -34,10 +37,16 @@ class ChatServer:
                             print(f"[*] Accepted connection from {client_address[0]}:{client_address[1]}", file=sys.stderr)
                     else: # Receive message from existing client
                         nick = [key for key, value in self.clients.items() if value == trigger_socket][0]
-                        message = trigger_socket.recv(1024).decode('utf-8')
-                        result = self.process_chat_message(message, nick)
-                        if result:
-                            self.send_messages(result)
+                        try:
+                            message = trigger_socket.recv(1024).decode('utf-8')
+                            if message:
+                                result = self.process_chat_message(message, nick)
+                                if result:
+                                    self.send_messages(result)
+                            else:  # Client disconnected
+                                self.disconnect(nick)
+                        except (ConnectionResetError, BrokenPipeError):
+                            self.disconnect(nick)
         except KeyboardInterrupt:
             print("Keyboard interrupt received. Exiting server.", file=sys.stderr)
         finally:
@@ -139,7 +148,8 @@ class ChatServer:
                     self.send_to_one(message, nick)
 
     def send_to_one(self, message, nick):
-        self.clients[nick].send(message.encode('utf-8'))
+        if nick in self.clients:
+            self.clients[nick].send(message.encode('utf-8'))
 
     def send_to_chat(self, message, nick):
         chat = self.chats[nick][len('p'):]
