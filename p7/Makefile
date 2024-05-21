@@ -12,3 +12,6 @@ servidor:
 
 cliente:
 	@python3 cliente.py $(address) $(port)
+
+test:
+	@python3 test_server.py
