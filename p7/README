@@ -18,6 +18,8 @@ Para ejecutar los ficheros deseados nada más será necesario ejecutar en orden,
 1. make servidor 
 2. make cliente
 
+Además es posible comprobar el funcionamiento del procesamiento de mensajes por parte del servidor ejecutando make test
+
 En ambas aplicaciones, será posible configurar el servidor y puerto con make cliente address=ip port=1234 y make servidor port=1234
 También se podrán modificar las variables modificando el makefile
 
