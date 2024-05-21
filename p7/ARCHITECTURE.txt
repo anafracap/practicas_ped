@@ -1,0 +1,95 @@
+### Manual de Arquitectura de la Aplicación de Chat
+
+### 1. Descripción a Alto Nivel
+La aplicación de chat consta de un servidor y múltiples clientes. El servidor maneja las conexiones de los clientes, enruta los mensajes a los clientes o grupos apropiados, y gestiona los chats grupales y privados. Los clientes se conectan al servidor, envían y reciben mensajes, y pueden unirse a chats grupales o privados.
+
+### 2. Descripción de los Componentes
+
+#### Servidor
+
+**Propósito:**  
+El servidor maneja las conexiones de los clientes, verifica los apodos, enruta los mensajes a los destinatarios adecuados y gestiona los grupos de chat.
+
+**Principios de Diseño:**  
+- Modularidad: El servidor está dividido en métodos distintos que manejan diferentes funcionalidades.
+- Escalabilidad: El servidor puede manejar múltiples conexiones de clientes.
+- Robustez: El servidor incluye manejo de errores para gestionar desconexiones de clientes y entradas inválidas.
+
+**Métodos y Funciones Clave:**
+
+- `start`: Inicializa el socket del servidor, escucha conexiones y maneja mensajes entrantes.
+- `verify_nick`: Verifica la unicidad de los apodos de los clientes.
+- `process_chat_message`: Procesa mensajes de chat entrantes y los enruta a los destinatarios apropiados.
+- `prepare_for_chat`: Prepara mensajes para ser enviados a los clientes según su contexto de chat (grupo o privado).
+- `send_messages`: Envía mensajes preparados a los clientes.
+- `disconnect`: Maneja la desconexión de clientes.
+- `shutdown`: Cierra el servidor de manera ordenada.
+
+#### Cliente
+
+**Propósito:**  
+El cliente se conecta al servidor, envía y recibe mensajes, y puede unirse a chats grupales o privados.
+
+**Principios de Diseño:**  
+- Usabilidad: El cliente proporciona una interfaz interactiva para que los usuarios envíen y reciban mensajes.
+- Simplicidad: El código del cliente es sencillo, enfocándose en la gestión de conexiones y manejo de mensajes.
+
+**Métodos y Funciones Clave:**
+
+- `read`: Recibe y muestra mensajes del servidor.
+- `write`: Envía mensajes de entrada del usuario al servidor.
+- Bucle Principal: Gestiona operaciones de entrada/salida usando la función `select` para manejar tanto mensajes del servidor como entradas de usuario.
+
+#### Servidor de Pruebas
+
+**Propósito:**  
+El servidor de pruebas utiliza pruebas unitarias con unnitest para verificar la funcionalidad del componente del servidor.
+
+**Principios de Diseño:**  
+- Cobertura de Pruebas: Asegura que varios aspectos de la funcionalidad del servidor sean probados.
+- Automatización: Utiliza pruebas automatizadas para verificar el comportamiento del servidor.
+
+**Casos de Prueba Clave:**
+
+- `test_enter_group`: Verifica que un cliente puede unirse a un chat grupal.
+- `test_enter_private`: Verifica que un cliente puede iniciar un chat privado.
+- `test_send_message_all`: Verifica que los mensajes se envían a todos los clientes en un grupo.
+- `test_send_message_private`: Verifica que los mensajes privados se enrutan correctamente.
+
+### 4. Patrones de Diseño y Principios
+
+**Patrones de Diseño Aplicados:**
+
+- Patrón Observador: El servidor notifica a los clientes sobre nuevos mensajes o eventos.
+- Patrón Singleton: El socket del servidor es una instancia única que escucha todas las conexiones.
+
+**Principios Arquitectónicos:**
+
+- Separación de Preocupaciones: Diferentes funcionalidades (por ejemplo, procesamiento de mensajes, gestión de clientes) son manejadas por métodos separados.
+- Manejo Robusto de Errores: El servidor maneja varios escenarios de error de manera ordenada, asegurando la estabilidad.
+
+### 5. Especificaciones Técnicas
+
+**Requisitos de Hardware:**
+
+- La implementación funciona en un MacOS 16.6.6
+
+**Requisitos de Software:**
+
+- Python 3.x
+- Módulos `sys`, `socket`, `select` y `unittest`
+
+**Requisitos de Red:**
+
+- Conexión TCP/IP estable entre el servidor y los clientes.
+
+### 6. Flujo de Datos e Integración
+
+**Puntos de Integración:**
+
+- Los clientes se conectan al servidor mediante sockets TCP.
+- Los mensajes se intercambian utilizando comunicación estándar de sockets.
+
+**APIs y Formatos de Intercambio de Datos:**
+
+- Los mensajes se intercambian como cadenas codificadas en UTF-8.

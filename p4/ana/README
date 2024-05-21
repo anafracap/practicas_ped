@@ -20,4 +20,4 @@ En ambas aplicaciones, será posible configurar el socket con make cliente socke
 En el caso de la aplicación 1, será posible configurar el fichero a recibir con make cliente file=/path/hasta/fichero
 También se podrán modificar ambos paths modificando el makefile
 
-El código se ha comprobado en un macOS 13.6.8
+El código se ha comprobado en un macOS 13.6.6

@@ -19,4 +19,4 @@ Para ejecutar los ficheros deseados nada más será necesario trasladarse al dir
 En el caso de la aplicación 1, será posible configurar el fichero a recibir con make cliente file=/path/hasta/fichero
 
 
-El código se ha comprobado en un macOS 13.6.2
+El código se ha comprobado en un macOS 13.6.6
