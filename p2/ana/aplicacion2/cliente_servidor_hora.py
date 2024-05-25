@@ -1,27 +1,34 @@
 import os, sys, datetime
 
-sys.argv[0] = "cliserv2"
+class Hora:
+    def __init__(self):
+        self.rdC, self.wdS = os.pipe()  # Server to client pipe
 
-rdC,wdS = os.pipe()         # son file descriptors, no file objects - de servidor a cliente
+    def start(self, number_of_iteration):
+        pid = os.fork()
 
-pid = os.fork() 
+        if pid:  # Parent - server
+            self.run_server(number_of_iteration)
+        else:  # Child - client
+            self.run_client()
 
-if pid:                   # padre - servidor
-    sys.argv[0] = "serv2"
-    os.close(rdC)
-    print (pid)
+    def run_server(self, number_of_iteration):
+        os.close(self.rdC)
 
-    while True:
-        date = datetime.datetime.now().strftime('%c')
-        os.write(wdS, date.encode('utf8'))
+        for i in range(number_of_iteration):
+            date = datetime.datetime.now().strftime('%c')
+            os.write(self.wdS, date.encode('utf8'))
 
-else:                     # hijo - cliente
-    sys.argv[0] = "cli2"
-    os.close(wdS) 
-    print(pid)
+    def run_client(self):
+        os.close(self.wdS) 
 
-    while True:
-        line = os.read(rdC, 100).decode('utf8').strip()
-        if not line:
-            break
-        print(line)
+        while True:
+            line = os.read(self.rdC, 100).decode('utf8').strip()
+            if not line:
+                break
+            print(line)
+
+if __name__ == "__main__":
+    hora = Hora()
+    number_of_iteration = int(sys.argv[1])
+    hora.start(number_of_iteration)
