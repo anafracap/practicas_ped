@@ -1,21 +1,32 @@
-import os, sys, datetime
+import os, sys
 
-sys.argv[0] = "cli2"
+class Client:
+    def __init__(self, ask_server, get_from_server):
+        self.ask_server = ask_server
+        self.get_from_server = get_from_server
+        self._create_fifo()
+    
+    def _create_fifo(self):
+        if not os.path.exists(self.get_from_server):
+            os.mkfifo(self.get_from_server)
 
-path_ask = "/tmp/fifo_ped4_ana_p3_aplicacion2_ask_server"
+    def start(self, number_of_iterations):
+        for i in range(number_of_iterations):
+            with open(self.ask_server, 'wb') as w: 
+                w.write(str(os.getpid()).encode('utf-8'))
 
-pid = str(os.getpid())
-path_time = "/tmp/fifo_ped4_ana_p3_aplicacion2_%s" % pid
+            with open(self.get_from_server, 'rb') as fifo_file:
+                data = fifo_file.readline()
+                os.write(1, data)
 
-if not os.path.exists(path_time):
-    os.mkfifo(path_time)
+        os.unlink(self.get_from_server)
 
-for i in range(10):
-    with open(path_ask, 'wb') as w: 
-        w.write(pid.encode())
+if __name__ == "__main__":
+    path_ask = "/tmp/fifo_ped4_ana_p3_aplicacion2_ask_server"
+    pid = str(os.getpid())
+    path_time = "/tmp/fifo_ped4_ana_p3_aplicacion2_%s" % pid
 
-    with open(path_time, 'rb') as fifo_file:
-        data = fifo_file.readline()
-        os.write(1, data)
+    number_of_iterations = int(sys.argv[1])
 
-os.unlink(path_time)
+    client = Client(path_ask, path_time)
+    client.start(number_of_iterations)
