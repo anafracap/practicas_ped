@@ -1,10 +1,10 @@
 
 
-all: ap2_descriptores
+all: hora
 	@echo "Compilación y ejecución de la práctica"
 
 clean:
 	@echo "Limpiando..."
 
-ap2_descriptores:
+hora:
 	python3 cliente_servidor_hora.py
