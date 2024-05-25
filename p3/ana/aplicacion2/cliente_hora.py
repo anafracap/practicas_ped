@@ -18,7 +18,6 @@ class Client:
             with open(self.get_from_server, 'rb') as fifo_file:
                 data = fifo_file.readline()
                 os.write(1, data)
-
         os.unlink(self.get_from_server)
 
 if __name__ == "__main__":

@@ -11,14 +11,22 @@ class Server:
             os.mkfifo(self.ask_server)
 
     def start(self):
-        while True:
-            with open(self.ask_server, 'rb') as fifo_ask:
-                pid = fifo_ask.readline()
-                self.path_write = "/tmp/fifo_ped4_ana_p3_aplicacion2_%s" % pid.decode('utf-8')
+        try:
+            while True:
+                with open(self.ask_server, 'rb') as fifo_ask:
+                    pid = fifo_ask.readline()
+                    self.path_write = "/tmp/fifo_ped4_ana_p3_aplicacion2_%s" % pid.decode('utf-8')
 
-            with open(self.path_write, 'wb') as w: 
-                date = datetime.datetime.now().strftime('%c') + '\n'
-                w.write(date.encode())
+                with open(self.path_write, 'wb') as w: 
+                    date = datetime.datetime.now().strftime('%c') + '\n'
+                    w.write(date.encode())
+        except KeyboardInterrupt:
+            os.write(2, b"Keyboard interrupt received. Exiting server.")
+        finally:
+            if os.path.exists(self.ask_server):
+                os.unlink(self.ask_server)
+            if self.path_write and os.path.exists(self.path_write):
+                os.unlink(self.path_write)
 
 if __name__ == "__main__":
     path_ask = "/tmp/fifo_ped4_ana_p3_aplicacion2_ask_server"
