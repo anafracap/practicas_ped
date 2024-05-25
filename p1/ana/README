@@ -1,0 +1,34 @@
+La aplicación consiste en un 'running counter' de una partida de bolos, donde 
+los puntos y las rondas funcionan de la siguiente manera.
+  *  Una partida de bolos dura diez rondas, en cada una de las cuales
+     el jugador tiene uno o dos intentos para tirar diez bolos colocados
+	 formando un triángulo.
+
+  *  Si el jugador tira los diez bolos en el primer intento (esta jugada
+	 se denomina "strike"), se anota diez bolos más el número de bolos
+	 que tire en sus siguientes dos bolas.
+
+  *  Si el jugador tira los diez bolos en el segundo intento (esta jugada
+	 se denomina "spare"), se anota diez bolos más el número de bolos
+	 que tire en su próxima bola.
+
+  *  Si el jugador no tira los diez bolos (esta jugada se llama "ronda
+	 abierta" u "open frame") se anota el número de bolos que haya tirado.
+
+  *  El marcador se va acumulando en las diez rondas.
+
+  *  Tras la última ronda, si es necesario, se lanzan una o dos bolas
+	 extra para anotar el bonus final.
+
+Además de llevar el cómputo de puntos de cada partida, se ha desarrollado una
+funcionalidad adicional que permite crear un 'juego' con varios jugadores, todos
+ellos con un nombre único. 
+---------------------------
+La partida se ha desarrollado siguiendo la metodología de TDD, utilizando unittest y pytest.
+Para ejecutar los tests asociados nada más será necesario ejecutar:
+1. make tests
+
+Si que quieren ejecutar unos tests de una de las clases, es necesario ejecutar:
+1. make test_partida
+2. make test_jugadores
+
