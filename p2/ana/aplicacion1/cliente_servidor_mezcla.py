@@ -1,37 +1,46 @@
 import os, sys
 
-sys.argv[0] = "cliserv2"
+class Ficheros:
+    def __init__(self, message):
+        self.message = message
+        self.rdS, self.wdC = os.pipe()  # Client to server pipe
+        self.rdC, self.wdS = os.pipe()  # Server to client pipe
+        self.rc = os.fdopen(self.rdC, 'rb', 0)  # File object for server to client pipe
+        self.ws = os.fdopen(self.wdS, 'wb', 0)  # File object for server to client pipe
 
-rdS,wdC = os.pipe()         # son file descriptors, no file objects - de cliente a servidor
+    def start(self):
+        pid = os.fork()
 
-rdC,wdS = os.pipe()         # son file descriptors, no file objects - de servidor a cliente
-rc, ws  = os.fdopen(rdC,'rb',0), os.fdopen(wdS,'wb',0) # file objects  - de servidor a cliente
+        if pid:  # Parent - server
+            self.run_server()
+        else:  # Child - client
+            self.run_client()
 
-pid = os.fork() 
+    def run_server(self):
+        os.close(self.wdC) 
+        self.rc.close()
+        data = os.read(self.rdS, 100).decode('utf8').strip()
+        with open(data, 'rb') as fileO:  
+            while True:
+                content = fileO.read()
+                if not content:
+                    fileO.close()
+                    break
+                self.ws.write(content)
 
-if pid:                   # padre - servidor
-    sys.argv[0] = "serv2"
-    os.close(wdC) 
-    rc.close()
-    data = os.read(rdS, 100).decode('utf8').strip()
-
-    with open(data, 'rb') as fileO:  
+    def run_client(self):
+        os.close(self.rdS)
+        self.ws.close() 
+        message = sys.argv[1]
+        os.write(self.wdC, message.encode('utf8'))
         while True:
-            content = fileO.read()
-            if not content:
-                fileO.close()
+            byteLine = self.rc.read()
+            if not byteLine:
+                os.close(self.rdC)
                 break
-            ws.write(content)
+            sys.stdout.buffer.write(byteLine)
 
-else:                     # hijo - cliente
-    sys.argv[0] = "cli2"
-    os.close(rdS)
-    ws.close() 
+if __name__ == "__main__":
     message = sys.argv[1]
-    os.write(wdC, message.encode('utf8'))
-    while True:
-        byteLine = rc.read()
-        if not byteLine:
-            os.close(rdC)
-            break
-        sys.stdout.buffer.write(byteLine)
+    ficheros = Ficheros(message)
+    ficheros.start()
