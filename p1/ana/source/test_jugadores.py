@@ -1,7 +1,7 @@
 import unittest, pytest
 from bolos import Juego
 
-class TestClass(unittest.TestCase):
+class TestClassJugadores(unittest.TestCase):
     def test_partida_un_jugador (self):
         jugadores = ['Pepe']
         juego = Juego(jugadores)

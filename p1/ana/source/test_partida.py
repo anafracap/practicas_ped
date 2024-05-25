@@ -1,7 +1,7 @@
 import unittest, pytest
 from bolos import Partida
 
-class TestClass(unittest.TestCase):
+class TestClassPartida(unittest.TestCase):
     def test_hay_10_rondas(self):
         partida = Partida()
         for i in range(10):
@@ -320,5 +320,4 @@ class TestClass(unittest.TestCase):
         with pytest.raises(Exception, match='NomenclaturaIncorrecta'):
             partida.jugar_ronda('X', None, 'X')
     
-    #TEST PARA OTRO ARCHIVO:    def test_partida_varios_jugadores
     
