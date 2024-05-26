@@ -1,32 +1,38 @@
 import os, sys, datetime, socket
 
-sys.argv[0] = "serv2"
+class Server:
+    def __init__(self, server_address):
+        self.server_address = server_address
+        self.path_write = None
+        self._clear_previous_address()
 
-server_address = "/tmp/ped4_p4_ap2_server.sock"
-server_address = sys.argv[1]
-
-if os.path.exists(server_address):
-    os.remove(server_address)
+    def _clear_previous_address(self):
+        if os.path.exists(self.server_address):
+            os.remove(self.server_address)
     
-server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    def start (self):
+        self.server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.server_socket.bind(self.server_address)
+        self.server_socket.listen() #cambiar para varias conexiones al tiempo
 
-server_socket.bind(server_address)
-server_socket.listen() #cambiar para varias conexiones al tiempo
+        try: 
+            while True:
+                connection, client_address = self.server_socket.accept()
 
-try: 
-    while True:
-        connection, client_address = server_socket.accept()
+                pid = connection.recv(1024).decode('utf-8')
 
-        pid = connection.recv(1024).decode()
+                date = datetime.datetime.now().strftime('%c') + '\n'
+                connection.send(date.encode('utf-8'))
 
-        date = datetime.datetime.now().strftime('%c') + '\n'
-        connection.send(date.encode())
+                connection.close()
+        except KeyboardInterrupt:
+            os.write(2, b"Keyboard interrupt received. Exiting server.")
 
-        connection.close()
-except KeyboardInterrupt:
-    os.write(2, b"Keyboard interrupt received. Exiting server.")
+        finally:
+            self.server_socket.close()
+            os.unlink(self.server_address)
 
-finally:
-    server_socket.close()
-    os.unlink(server_address)
-
+if __name__ == "__main__":
+    server_address = sys.argv[1]
+    server = Server(server_address)
+    server.start()

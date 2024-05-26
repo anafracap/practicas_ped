@@ -1,5 +1,5 @@
 file=ejemplo.txt
-socket=/tmp/ped4_p4_ap1_server
+socket=/tmp/ped4_p4_ana_ap1_server
 
 servidor:
 	@python3 servidor_ap1.py $(socket)
