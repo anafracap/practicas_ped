@@ -1,23 +1,26 @@
-import os, sys, socket
+import sys, socket
 
-server_address = "/tmp/ped4_p4_ap1_server.sock"
-server_address = sys.argv[2]
+class Client:
+    def __init__(self, server_address):
+        self.server_address = server_address
+        self.client_socket = None
 
-message = "./ejemplo.txt"
-message = sys.argv[1]
+    def start(self, file_path):
+        self.client_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.client_socket.connect(server_address)
+        self.client_socket.send(file_path.encode('utf-8'))
+        self.client_socket.shutdown(socket.SHUT_WR)
+        
+        while True:
+            byteLine = self.client_socket.recv(1024)
+            if not byteLine:
+                break
+            sys.stdout.buffer.write(byteLine)
 
-client_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-client_socket.connect(server_address)
-client_socket.send(message.encode())
-client_socket.shutdown(socket.SHUT_WR)
+        self.client_socket.close()
 
-file_size_bytes = client_socket.recv(8)
-file_size = int.from_bytes(file_size_bytes, byteorder='big')
-
-while True:
-    byteLine = client_socket.recv(file_size)
-    if not byteLine:
-        break
-    sys.stdout.buffer.write(byteLine)
-
-client_socket.close()
+if __name__ == "__main__":
+    file_path = sys.argv[1]
+    server_address = sys.argv[2]
+    client = Client(server_address)
+    client.start(file_path)
