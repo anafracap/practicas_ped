@@ -23,4 +23,6 @@ Además es posible comprobar el funcionamiento del procesamiento de mensajes por
 En ambas aplicaciones, será posible configurar el servidor y puerto con make cliente address=ip port=1234 y make servidor port=1234
 También se podrán modificar las variables modificando el makefile
 
+Para apagar el servidor se puede ejecutar ^C en la shell correspondiente.
+
 El código se ha comprobado en un macOS 13.6.6

@@ -19,5 +19,8 @@ Para ejecutar los ficheros deseados nada más será necesario trasladarse al dir
 En ambas aplicaciones, será posible configurar el socket con make cliente socket=/path/hasta/socket y make servidor socket=/path/hasta/socket
 En el caso de la aplicación 1, será posible configurar el fichero a recibir con make cliente file=/path/hasta/fichero
 También se podrán modificar ambos paths modificando el makefile
+En el caso de la aplicación 2, será posible configurar el número de iteraciones de envío de la hora con make hora number=2. 
+
+Para apagar el servidor se puede ejecutar ^C en la shell correspondiente.
 
 El código se ha comprobado en un macOS 13.6.6
