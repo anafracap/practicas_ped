@@ -1,49 +1,52 @@
 import os, sys, socket
 
-def answer_back(connection):
-    path_bytes = connection.recv(1024)
-    path = path_bytes.decode().strip()
+class Server:
+    def __init__(self, server_port):
+        self.server_address = "0.0.0.0"
+        self.server_port = server_port
+        self.server_socket = None
 
-    file_size = os.path.getsize(path)
-    file_size_bytes = file_size.to_bytes(8, byteorder='big')
-    connection.send(file_size_bytes)
+    def start(self):
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.bind((self.server_address, self.server_port))
 
-    with open(path, 'rb') as fileO:  
-        while True:
-            content = fileO.read()
-            if not content:
-                fileO.close()
-                break
-            connection.send(content)
-    connection.shutdown(socket.SHUT_WR)
-    connection.close()
+        self.server_socket.listen()
+        try: 
+            while True:
+                try:
+                    connection, client_address = self.server_socket.accept()
+                    pid = os.fork()
 
-sys.argv[0] = "serv6"
+                    if pid == 0:  # Child process
+                        self.server_socket.close()
+                        self.answer_back(connection)
+                        sys.exit(0)
+                    else:
+                        connection.close()
+                except BrokenPipeError:
+                    os.write(2, b"Broken pipe exception occurred. Connection closed unexpectedly.") # no sale en terminal
+                    continue
+        except KeyboardInterrupt:
+            os.write(2, b"Keyboard interrupt received. Exiting server.")
 
-server_address = "0.0.0.0"
-server_port = int(sys.argv[1])
+        finally:
+            self.server_socket.close()
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((server_address, server_port))
+    def answer_back(self, connection):
+        path_bytes = connection.recv(1024)
+        path = path_bytes.decode('utf-8').strip()
 
-server_socket.listen()
-try: 
-    while True:
-        try:
-            connection, client_address = server_socket.accept()
-            pid = os.fork()
+        with open(path, 'rb') as fileO:  
+            while True:
+                content = fileO.read()
+                if not content:
+                    fileO.close()
+                    break
+                connection.send(content)
+        connection.shutdown(socket.SHUT_WR)
+        connection.close()
 
-            if pid == 0:  # Child process
-                server_socket.close()
-                answer_back(connection)
-                sys.exit(0)
-            else:
-                connection.close()
-        except BrokenPipeError:
-            os.write(2, b"Broken pipe exception occurred. Connection closed unexpectedly.") # no sale en terminal
-            continue
-except KeyboardInterrupt:
-    os.write(2, b"Keyboard interrupt received. Exiting server.")
-
-finally:
-    server_socket.close()
+if __name__ == "__main__":
+    server_port = int(sys.argv[1])
+    server = Server(server_port)
+    server.start()    

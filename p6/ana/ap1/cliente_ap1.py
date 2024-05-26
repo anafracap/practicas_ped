@@ -1,25 +1,27 @@
-import os, sys, socket
+import sys, socket
 
-sys.argv[0] = "cli6"
+class Client:
+    def __init__(self, server_address, server_port):
+        self.server_location = (server_address, server_port)
+        self.client_socket = None
 
-server_address = sys.argv[2]
-server_port = int(sys.argv[3])
+    def start(self, file_path):
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.client_socket.connect((server_address, server_port))
+        self.client_socket.send(file_path.encode('utf-8'))
+        self.client_socket.shutdown(socket.SHUT_WR)
 
-message = sys.argv[1]
+        while True:
+            data = self.client_socket.recv(1024)
+            if not data:
+                break
+            sys.stdout.buffer.write(data)
+            
+        self.client_socket.close()
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect((server_address, server_port))
-client_socket.send(message.encode())
-client_socket.shutdown(socket.SHUT_WR)
-
-file_size_bytes, _ = client_socket.recvfrom(8)
-file_size = int.from_bytes(file_size_bytes, byteorder='big')
-
-received_size = 0
-while received_size < file_size:
-    data = client_socket.recv(1024)
-    received_size += len(data)
-    sys.stdout.buffer.write(data)
-
-client_socket.close()
-
+if __name__ == "__main__":
+    file_path = sys.argv[1]
+    server_address = sys.argv[2]
+    server_port = int(sys.argv[3])
+    client = Client(server_address, server_port)
+    client.start(file_path)
