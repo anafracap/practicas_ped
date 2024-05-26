@@ -1,28 +1,34 @@
-import os, sys, datetime, socket, select
+import os, sys, datetime, socket
 
-sys.argv[0] = "serv6"
+class Server:
+    def __init__(self, server_port):
+        self.server_address = "0.0.0.0"
+        self.server_port = server_port
+        self.server_socket = None
 
-server_address = "0.0.0.0"
-server_port = int(sys.argv[1])
-    
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((server_address, server_port))
+    def start(self):
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server_socket.bind((self.server_address, self.server_port))
 
-server_socket.listen()
+        self.server_socket.listen()
 
-try: 
-    while True:
-        connection, client_address = server_socket.accept()
+        try: 
+            while True:
+                connection, client_address = self.server_socket.accept()
 
-        pid = connection.recv(1024).decode()
+                pid = connection.recv(1024).decode('utf-8')
 
-        date = datetime.datetime.now().strftime('%c') + '\n'
-        connection.send(date.encode())
+                date = datetime.datetime.now().strftime('%c') + '\n'
+                connection.send(date.encode('utf-8'))
 
-        connection.close()
-except KeyboardInterrupt:
-    os.write(2, b"Keyboard interrupt received. Exiting server.")
+                connection.close()
+        except KeyboardInterrupt:
+            os.write(2, b"Keyboard interrupt received. Exiting server.")
 
-finally:
-    server_socket.close()
+        finally:
+            self.server_socket.close()
 
+if __name__ == "__main__":
+    server_port = int(sys.argv[1])
+    server = Server(server_port)
+    server.start()    
