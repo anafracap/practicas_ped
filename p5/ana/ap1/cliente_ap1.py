@@ -1,20 +1,25 @@
-import os, sys, socket
+import sys, socket
 
-sys.argv[0] = "cli5"
+class Client:
+    def __init__(self, server_address, server_port):
+        self.server_location = (server_address, server_port)
+        self.client_socket = None
 
-server_address = sys.argv[2]
-server_port = int(sys.argv[3])
+    def start(self, file_path):
+        self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-message = sys.argv[1]
+        self.client_socket.sendto(file_path.encode('utf-8'), self.server_location)
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        while True:
+            data, _ = self.client_socket.recvfrom(1024)
+            if not data:
+                break
+            self.client_socket.sendto("ack".encode('utf-8'), self.server_location)
+            sys.stdout.buffer.write(data)
 
-client_socket.sendto(message.encode(), (server_address, server_port))
-
-while True:
-    data, _ = client_socket.recvfrom(1024)
-    if not data:
-        break
-    client_socket.sendto("ack".encode(), (server_address, server_port))
-    sys.stdout.buffer.write(data)
-
+if __name__ == "__main__":
+    file_path = sys.argv[1]
+    server_address = sys.argv[2]
+    server_port = int(sys.argv[3])
+    client = Client(server_address, server_port)
+    client.start(file_path)
