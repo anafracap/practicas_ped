@@ -1,6 +1,4 @@
-import os, sys, socket, time
-
-sys.argv[0] = "cli2"
+import os, sys, socket
 
 server_address = "/tmp/ped4_p4_ap1_server.sock"
 server_address = sys.argv[2]

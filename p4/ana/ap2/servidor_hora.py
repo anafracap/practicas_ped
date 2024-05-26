@@ -1,4 +1,4 @@
-import os, sys, datetime, socket, select
+import os, sys, datetime, socket
 
 sys.argv[0] = "serv2"
 

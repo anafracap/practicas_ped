@@ -18,10 +18,6 @@ def answer_back(connection):
     connection.shutdown(socket.SHUT_WR)
     connection.close()
 
-
-sys.argv[0] = "serv2"
-
-server_address = "/tmp/ped4_p4_ap1_server.sock"
 server_address = sys.argv[1]
 
 if os.path.exists(server_address):
@@ -30,6 +26,7 @@ if os.path.exists(server_address):
 server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
 server_socket.bind(server_address)
+print(server_socket)
 
 server_socket.listen() #cambiar para varias conexiones al tiempo
 
@@ -37,14 +34,9 @@ try:
     while True:
         try:
             connection, client_address = server_socket.accept()
-            pid = os.fork()
-
-            if pid == 0:  # Child process
-                server_socket.close()
-                answer_back(connection)
-                sys.exit(0)
-            else:
-                connection.close()
+            print(connection)
+            answer_back(connection)
+            connection.close()
         except BrokenPipeError:
             os.write(2, b"Broken pipe exception occurred. Connection closed unexpectedly.") # no sale en terminal
             continue
