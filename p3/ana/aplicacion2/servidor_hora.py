@@ -19,7 +19,7 @@ class Server:
 
                 with open(self.path_write, 'wb') as w: 
                     date = datetime.datetime.now().strftime('%c') + '\n'
-                    w.write(date.encode())
+                    w.write(date.encode('utf-8'))
         except KeyboardInterrupt:
             os.write(2, b"Keyboard interrupt received. Exiting server.")
         finally:
